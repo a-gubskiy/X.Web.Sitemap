@@ -5,6 +5,7 @@ using System.Text;
 
 namespace X.Web.Sitemap
 {
+    [Serializable]
     public class Sitemap : List<Url>
     {
         public const string MimeType = "text/xml";
@@ -27,7 +28,7 @@ namespace X.Web.Sitemap
 
             count = position + count > this.Count ? this.Count : position + count;
 
-            for (int i = position; i < count; i++)
+            for (var i = position; i < count; i++)
             {
                 var url = this[i];
                 sb.AppendLine(GetXml(url));
@@ -50,7 +51,6 @@ namespace X.Web.Sitemap
             sb.AppendFormat("<priority>{0}</priority>", url.Priority);
             sb.AppendLine("</url>");
             return sb.ToString();
-
         }
 
         private static string ToString(ChangeFrequency changeFrequency)
@@ -139,7 +139,6 @@ namespace X.Web.Sitemap
                 }
 
                 return true;
-
             }
             catch
             {
