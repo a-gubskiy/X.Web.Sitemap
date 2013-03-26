@@ -14,9 +14,9 @@ namespace X.Web.Sitemap
         {
         }
 
-        public string Xml
+        public string ToXml()
         {
-            get { return GetXml(0, this.Count); }
+            return GetXml(0, this.Count); 
         }
 
         private string GetXml(int position, int count)
@@ -83,7 +83,7 @@ namespace X.Web.Sitemap
                     }
 
                     var streamWriter = new StreamWriter(path);
-                    streamWriter.Write(Xml);
+                    streamWriter.Write(ToXml());
                     streamWriter.Close();
 
                     return true;
@@ -114,13 +114,13 @@ namespace X.Web.Sitemap
                 int parts;
                 const int lineCount = 1000;
 
-                if (this.Count % lineCount == 0)
+                if (Count % lineCount == 0)
                 {
                     parts = this.Count / lineCount;
                 }
                 else
                 {
-                    parts = (this.Count / lineCount) + 1;
+                    parts = (Count / lineCount) + 1;
                 }
 
                 for (int i = 0; i < parts; i++)
