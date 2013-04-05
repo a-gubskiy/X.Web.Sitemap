@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace X.Web.Sitemap
 {
     [Serializable]
+    [XmlRoot(ElementName = "urlset", Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")]
     public class Sitemap : List<Url>
     {
         public const string MimeType = "text/xml";
+
+        private const int LineCount = 1000;
 
         public Sitemap()
         {
@@ -16,52 +22,10 @@ namespace X.Web.Sitemap
 
         public string ToXml()
         {
-            return GetXml(0, this.Count); 
-        }
-
-        private string GetXml(int position, int count)
-        {
-            var sb = new StringBuilder();
-
-            sb.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            sb.AppendLine("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">");
-
-            count = position + count > this.Count ? this.Count : position + count;
-
-            for (var i = position; i < count; i++)
-            {
-                var url = this[i];
-                sb.AppendLine(GetXml(url));
-            }
-
-            sb.AppendLine("</urlset>");
-
-            var result = sb.ToString().Replace("0,", "0.");
-
-            return result;
-        }
-
-        private static string GetXml(Url url)
-        {
-            var sb = new StringBuilder();
-            sb.AppendLine("<url>");
-            sb.AppendFormat("<loc>{0}</loc>", url.Location);
-            sb.AppendFormat("<lastmod>{0}-{1}-{2}</lastmod>", url.TimeStamp.Year, url.TimeStamp.Month.ToString("00"), url.TimeStamp.Day.ToString("00"));
-            sb.AppendFormat("<changefreq>{0}</changefreq>", ToString(url.ChangeFrequency));
-            sb.AppendFormat("<priority>{0}</priority>", url.Priority);
-            sb.AppendLine("</url>");
-            return sb.ToString();
-        }
-
-        private static string ToString(ChangeFrequency changeFrequency)
-        {
-            switch (changeFrequency)
-            {
-                case ChangeFrequency.Daily: return "daily";
-                case ChangeFrequency.Weekly: return "weekly";
-            }
-
-            throw new Exception();
+            var xmlSerializer = new XmlSerializer(typeof(Sitemap));
+            var textWriter = new StringWriterUtf8();
+            xmlSerializer.Serialize(textWriter, this);
+            return textWriter.ToString();
         }
 
         public bool Save(String path)
@@ -82,9 +46,7 @@ namespace X.Web.Sitemap
                         File.Delete(path);
                     }
 
-                    var streamWriter = new StreamWriter(path);
-                    streamWriter.Write(ToXml());
-                    streamWriter.Close();
+                    File.WriteAllText(path, ToXml());
 
                     return true;
                 }
@@ -111,19 +73,13 @@ namespace X.Web.Sitemap
                     Directory.CreateDirectory(directory);
                 }
 
-                int parts;
-                const int lineCount = 1000;
+                var xml = ToXml();
 
-                if (Count % lineCount == 0)
-                {
-                    parts = this.Count / lineCount;
-                }
-                else
-                {
-                    parts = (Count / lineCount) + 1;
-                }
+                var parts = (Count % LineCount == 0)
+                                ? Count / LineCount
+                                : (Count / LineCount) + 1;
 
-                for (int i = 0; i < parts; i++)
+                for (var i = 0; i < parts; i++)
                 {
                     var fileName = String.Format("sitemap{0}.xml", i);
                     var path = Path.Combine(directory, fileName);
@@ -133,9 +89,26 @@ namespace X.Web.Sitemap
                         File.Delete(path);
                     }
 
-                    var streamWriter = new StreamWriter(path);
-                    streamWriter.Write(GetXml(i * lineCount, lineCount));
-                    streamWriter.Close();
+                    var xmlDocument = new XmlDocument();
+                    xmlDocument.LoadXml(xml);
+
+                    var take = LineCount * i;
+
+                    var all = xmlDocument.ChildNodes[1].ChildNodes.Cast<XmlNode>().ToList();
+
+                    var top = all.Take(take).ToList();
+                    var bottom = all.Skip(take + LineCount).Take(Count - take - LineCount).ToList();
+
+                    var nodes = new List<XmlNode>();
+                    nodes.AddRange(top);
+                    nodes.AddRange(bottom);
+
+                    foreach (var node in nodes)
+                    {
+                        node.ParentNode.RemoveChild(node);
+                    }
+
+                    xmlDocument.Save(path);
                 }
 
                 return true;
@@ -143,6 +116,19 @@ namespace X.Web.Sitemap
             catch
             {
                 return false;
+            }
+        }
+    }
+
+    // Subclass the StringWriter class and override the default encoding.  This 
+    // allows us to produce XML encoded as UTF-8. 
+    public class StringWriterUtf8 : System.IO.StringWriter
+    {
+        public override Encoding Encoding
+        {
+            get
+            {
+                return Encoding.UTF8;
             }
         }
     }
