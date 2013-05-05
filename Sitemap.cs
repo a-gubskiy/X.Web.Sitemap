@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -120,16 +120,15 @@ namespace X.Web.Sitemap
         }
     }
 
-    // Subclass the StringWriter class and override the default encoding.  This 
-    // allows us to produce XML encoded as UTF-8. 
+    /// <summary>
+    /// Subclass the StringWriter class and override the default encoding.  
+    /// This allows us to produce XML encoded as UTF-8. 
+    /// </summary>
     public class StringWriterUtf8 : System.IO.StringWriter
     {
         public override Encoding Encoding
         {
-            get
-            {
-                return Encoding.UTF8;
-            }
+            get { return Encoding.UTF8; }
         }
     }
 }
