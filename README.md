@@ -7,8 +7,9 @@ You can download it from Nuget.org at http://nuget.org/packages/xsitemap/
 
 Sample of use:
 
-class Program
-    {
+
+    class Program
+    {    
         static void Main(string[] args)
         {
             var sitemap = new Sitemap();
@@ -51,3 +52,4 @@ class Program
                 };
         }
     }
+
