@@ -11,8 +11,23 @@ namespace X.Web.Sitemap
         [XmlElement("loc")]
         public String Location { get; set; }
 
-        [XmlElement("lastmod")]
+        [XmlIgnore]
         public DateTime TimeStamp { get; set; }
+
+        /// <summary>
+        /// Please do not use this property change last modification date. 
+        /// Use TimeStamp instead.
+        /// </summary>
+        [XmlElement("lastmod")]
+        public String LastMod
+        {
+            get { return TimeStamp.ToString("yyyy-MM-dd"); }
+            set
+            {
+                TimeStamp = DateTime.Parse(value);
+                //throw new NotSupportedException("Setting the LastMod property is not supported");
+            }
+        }
 
         [XmlElement("changefreq")]
         public ChangeFrequency ChangeFrequency { get; set; }
