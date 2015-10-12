@@ -1,4 +1,4 @@
-###X.Web.Sitemap [![Build status](https://ci.appveyor.com/api/projects/status?id=m7hb7ukxevvarmvd)](https://ci.appveyor.com/project/X.Web.Sitemap)
+###X.Web.Sitemap [![Build status](https://travis-ci.org/ernado-x/X.Web.Sitemap.svg?branch=master)](https://travis-ci.org/ernado-x/X.Web.Sitemap)
 
 
 Simple sitemap generator for .NET
