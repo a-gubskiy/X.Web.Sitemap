@@ -1,2 +1,3 @@
 language: csharp
-solution: solution-name.sln
+solution: X.Web.Sitemap.sln
+sudo: false
