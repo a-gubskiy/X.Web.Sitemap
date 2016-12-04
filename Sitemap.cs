@@ -10,7 +10,7 @@ namespace X.Web.Sitemap
 {
     [Serializable]
     [XmlRoot(ElementName = "urlset", Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")]
-    public class Sitemap : List<Url>
+    public class Sitemap : List<Url>, ISitemap
     {
         public const string MimeType = "text/xml";
 
@@ -20,7 +20,7 @@ namespace X.Web.Sitemap
         {
         }
 
-        public string ToXml()
+        public virtual string ToXml()
         {
             var xmlSerializer = new XmlSerializer(typeof(Sitemap));
             var textWriter = new StringWriterUtf8();
@@ -28,7 +28,7 @@ namespace X.Web.Sitemap
             return textWriter.ToString();
         }
 
-        public bool Save(String path)
+        public virtual bool Save(String path)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace X.Web.Sitemap
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
-        public bool SaveToDirectory(String directory)
+        public virtual bool SaveToDirectory(String directory)
         {
             try
             {
