@@ -70,8 +70,11 @@
   <ItemGroup>
     <Compile Include="ChangeFrequency.cs" />
     <Compile Include="ISitemap.cs" />
+    <Compile Include="ISitemapGenerator.cs" />
+    <Compile Include="ISitemapIndexGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sitemap.cs" />
+    <Compile Include="SitemapInfo.cs" />
     <Compile Include="Url.cs" />
   </ItemGroup>
   <ItemGroup>
