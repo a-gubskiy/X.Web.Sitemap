@@ -74,6 +74,7 @@
     <Compile Include="ISitemapIndexGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sitemap.cs" />
+    <Compile Include="SitemapIndexGenerator.cs" />
     <Compile Include="SitemapInfo.cs" />
     <Compile Include="Url.cs" />
   </ItemGroup>
