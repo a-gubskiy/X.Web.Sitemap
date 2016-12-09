@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeFrequency.cs" />
+    <Compile Include="FileSystemWrapper.cs" />
     <Compile Include="IFileSystemWrapper.cs" />
     <Compile Include="ISitemap.cs" />
     <Compile Include="ISitemapGenerator.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializedXmlSaver.cs" />
     <Compile Include="Sitemap.cs" />
+    <Compile Include="SitemapGenerator.cs" />
     <Compile Include="SitemapIndex.cs" />
     <Compile Include="SitemapIndexGenerator.cs" />
     <Compile Include="SitemapInfo.cs" />

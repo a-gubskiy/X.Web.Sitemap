@@ -4,6 +4,7 @@ using System.IO;
 using NSubstitute;
 using NSubstituteAutoMocker;
 using NUnit.Framework;
+using Shouldly;
 
 namespace X.Web.Sitemap.Tests.UnitTests.SerializedXmlSaver
 {
@@ -53,6 +54,27 @@ namespace X.Web.Sitemap.Tests.UnitTests.SerializedXmlSaver
                 Arg.Is<string>(x => x.Contains("<sitemapindex")), 
                 Arg.Is<DirectoryInfo>(x => x == directory), 
                 Arg.Is<string>(x => x == fileName));
+        }
+
+        [Test]
+        public void It_Returns_A_File_Info_For_The_File_That_Was_Created()
+        {
+            //--arrange
+            var expectedFileInfo = new FileInfo("x");
+            _autoMocker.Get<IFileSystemWrapper>().WriteFile(
+                    Arg.Any<string>(),
+                    Arg.Any<DirectoryInfo>(),
+                    Arg.Any<string>())
+                .Returns(expectedFileInfo);
+
+            //--act
+            var result = _autoMocker.ClassUnderTest.SerializeAndSave(
+                new SitemapIndex(new List<SitemapInfo>()), 
+                new DirectoryInfo("c:\\something\\"), 
+                "file.xml");
+
+            //--assert
+            result.ShouldBeSameAs(expectedFileInfo);
         }
 
     }

@@ -7,7 +7,12 @@ namespace X.Web.Sitemap
     {
         private readonly ISerializedXmlSaver<SitemapIndex> _serializedXmlSaver;
 
-        public SitemapIndexGenerator(ISerializedXmlSaver<SitemapIndex> serializedXmlSaver)
+        public SitemapIndexGenerator()
+        {
+            _serializedXmlSaver = new SerializedXmlSaver<SitemapIndex>(new FileSystemWrapper());
+        }
+
+        internal SitemapIndexGenerator(ISerializedXmlSaver<SitemapIndex> serializedXmlSaver)
         {
             _serializedXmlSaver = serializedXmlSaver;
         }

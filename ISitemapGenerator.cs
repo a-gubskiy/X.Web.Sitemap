@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace X.Web.Sitemap
 {
     public interface ISitemapGenerator
     {
-        void GenerateSitemaps(List<Url> urls);
+        List<FileInfo> GenerateSitemaps(List<Url> urls, DirectoryInfo targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap");
     }
 }

@@ -10,12 +10,14 @@ namespace X.Web.Sitemap.Tests.UnitTests.SitemapIndexGeneratorTests
     [TestFixture]
     public class GenerateSitemapIndexTests
     {
-        private NSubstituteAutoMocker<SitemapIndexGenerator> _autoMocker;
-            
+        private SitemapIndexGenerator _sitemapIndexGenerator;
+        private ISerializedXmlSaver<SitemapIndex> _sitemapIndexSerializerMock;
+
         [SetUp]
         public void SetUp()
         {
-            _autoMocker = new NSubstituteAutoMocker<SitemapIndexGenerator>();
+            _sitemapIndexSerializerMock = Substitute.For<ISerializedXmlSaver<SitemapIndex>>();
+            _sitemapIndexGenerator = new SitemapIndexGenerator(_sitemapIndexSerializerMock);
         }
 
         [Test]
@@ -31,13 +33,15 @@ namespace X.Web.Sitemap.Tests.UnitTests.SitemapIndexGeneratorTests
             var expectedFilename = "testSitemapIndex1.xml";
 
             //--act
-            _autoMocker.ClassUnderTest.GenerateSitemapIndex(sitemaps, expectedDirectory, expectedFilename);
+            _sitemapIndexGenerator.GenerateSitemapIndex(sitemaps, expectedDirectory, expectedFilename);
 
             //--assert
-            _autoMocker.Get<ISerializedXmlSaver<SitemapIndex>>().Received().SerializeAndSave(
-                Arg.Is<SitemapIndex>(x => AssertCorrectSitemapIndexWasSerialized(sitemaps, x)),
-                Arg.Is<DirectoryInfo>(x => x == expectedDirectory),
-                Arg.Is<string>(x => x == expectedFilename));
+            _sitemapIndexSerializerMock
+                .Received()
+                .SerializeAndSave(
+                    Arg.Is<SitemapIndex>(x => AssertCorrectSitemapIndexWasSerialized(sitemaps, x)),
+                    Arg.Is<DirectoryInfo>(x => x == expectedDirectory),
+                    Arg.Is<string>(x => x == expectedFilename));
         }
 
         private bool AssertCorrectSitemapIndexWasSerialized(IEnumerable<SitemapInfo> expectedSitemaps, SitemapIndex actualSitemapIndex)
