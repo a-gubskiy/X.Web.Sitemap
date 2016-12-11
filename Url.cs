@@ -15,7 +15,7 @@ namespace X.Web.Sitemap
         public DateTime TimeStamp { get; set; }
 
         /// <summary>
-        /// Please do not use this property change last modification date. 
+        /// Please do not use this property to change last modification date. 
         /// Use TimeStamp instead.
         /// </summary>
         [XmlElement("lastmod")]
