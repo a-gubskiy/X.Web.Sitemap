@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegrationTests\SitemapGeneratorIntegrationTests\GenerateSitemapsIntegrationTests.cs" />
+    <Compile Include="IntegrationTests\SitemapIndexGeneratorIntegrationTests\GenerateSitemapIndexIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\SerializedXmlSaver\SerializeAndSaveTests.cs" />
     <Compile Include="UnitTests\SitemapGeneratorTests\GenerateSitemapsTests.cs" />
