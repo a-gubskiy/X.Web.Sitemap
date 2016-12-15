@@ -7,7 +7,7 @@ You can download it from Nuget.org at http://nuget.org/packages/xsitemap/
 
 Below is an example of basic usage in a non-testable manner
 
-
+```cs
     class Program
     {    
         static void Main(string[] args)
@@ -52,9 +52,11 @@ Below is an example of basic usage in a non-testable manner
                 };
         }
     }
-	
+```
+
 Below is a more comprehensive example that demonstrates how to create many sitemaps and how to add them to a sitemap index file in a unit-testable fashion.
-	
+
+```cs
 	public class SitemapGenerationWithSitemapIndexExample
     {
         private readonly ISitemapGenerator _sitemapGenerator;
@@ -148,7 +150,7 @@ Below is a more comprehensive example that demonstrates how to create many sitem
             List<string> GetMiscellaneousLowPriorityUrls();
         }
     }
-
+```
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ernado-x/x.web.sitemap/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
