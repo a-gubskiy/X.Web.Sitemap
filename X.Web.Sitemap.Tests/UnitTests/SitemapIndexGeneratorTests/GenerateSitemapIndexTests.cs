@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using NSubstitute;
-using NSubstituteAutoMocker;
 using NUnit.Framework;
 
 namespace X.Web.Sitemap.Tests.UnitTests.SitemapIndexGeneratorTests

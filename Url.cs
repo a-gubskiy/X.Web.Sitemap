@@ -9,7 +9,7 @@ namespace X.Web.Sitemap
     public class Url
     {
         [XmlElement("loc")]
-        public String Location { get; set; }
+        public string Location { get; set; }
 
         [XmlIgnore]
         public DateTime TimeStamp { get; set; }
@@ -19,13 +19,12 @@ namespace X.Web.Sitemap
         /// Use TimeStamp instead.
         /// </summary>
         [XmlElement("lastmod")]
-        public String LastMod
+        internal string LastMod
         {
             get { return TimeStamp.ToString("yyyy-MM-dd"); }
             set
             {
                 TimeStamp = DateTime.Parse(value);
-                //throw new NotSupportedException("Setting the LastMod property is not supported");
             }
         }
 
