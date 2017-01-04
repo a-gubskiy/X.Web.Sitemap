@@ -65,16 +65,15 @@
     <Compile Include="UnitTests\SitemapIndexGeneratorTests\GenerateSitemapIndexTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\X.Web.Sitemap.csproj">
-      <Project>{1f291039-c319-4f03-966f-3bf947b7e5d2}</Project>
-      <Name>X.Web.Sitemap</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\X.Web.Sitemap\X.Web.Sitemap.csproj">
+      <Project>{1F291039-C319-4F03-966F-3BF947B7E5D2}</Project>
+      <Name>X.Web.Sitemap</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

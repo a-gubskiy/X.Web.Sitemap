@@ -53,7 +53,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\X.Web.Sitemap.csproj">
+    <ProjectReference Include="..\X.Web.Sitemap\X.Web.Sitemap.csproj">
       <Project>{1f291039-c319-4f03-966f-3bf947b7e5d2}</Project>
       <Name>X.Web.Sitemap</Name>
     </ProjectReference>
