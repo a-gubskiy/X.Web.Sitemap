@@ -23,9 +23,11 @@ namespace X.Web.Sitemap
         public virtual string ToXml()
         {
             var xmlSerializer = new XmlSerializer(typeof(Sitemap));
-            var textWriter = new StringWriterUtf8();
-            xmlSerializer.Serialize(textWriter, this);
-            return textWriter.ToString();
+            using (var textWriter = new StringWriterUtf8())
+            {
+                xmlSerializer.Serialize(textWriter, this);
+                return textWriter.ToString();
+            }
         }
 
         public virtual bool Save(String path)
