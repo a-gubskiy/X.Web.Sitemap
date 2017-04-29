@@ -23,6 +23,7 @@ namespace X.Web.Sitemap
         public virtual string ToXml()
         {
             var xmlSerializer = new XmlSerializer(typeof(Sitemap));
+
             using (var textWriter = new StringWriterUtf8())
             {
                 xmlSerializer.Serialize(textWriter, this);
@@ -110,7 +111,10 @@ namespace X.Web.Sitemap
                         node.ParentNode.RemoveChild(node);
                     }
 
-                    xmlDocument.Save(path);
+                    using (var writer = File.CreateText(path))
+                    {
+                        xmlDocument.Save(writer);
+                    }
                 }
 
                 return true;
@@ -121,6 +125,8 @@ namespace X.Web.Sitemap
             }
         }
     }
+
+
 
     /// <summary>
     /// Subclass the StringWriter class and override the default encoding.  
