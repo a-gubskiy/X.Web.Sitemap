@@ -10,7 +10,7 @@ namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapIndexGeneratorIntegrationT
     public class GenerateSitemapIndexIntegrationTests
     {
         private SitemapIndexGenerator _sitemapIndexGenerator;
-        private readonly string sitemapLocation = ConfigurationManager.AppSettings["sitemapTestingDirectory"];
+        private readonly string _sitemapLocation = Path.GetTempPath();
 
         [SetUp]
         public void SetUp()
@@ -27,7 +27,7 @@ namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapIndexGeneratorIntegrationT
                 new SitemapInfo(new Uri("https://example.com"), DateTime.UtcNow),
                 new SitemapInfo(new Uri("https://example2.com"), DateTime.UtcNow.AddDays(-1))
             };
-            var expectedDirectory = new DirectoryInfo(sitemapLocation);
+            var expectedDirectory = new DirectoryInfo(_sitemapLocation);
             var expectedFilename = "testSitemapIndex1.xml";
 
             //--act

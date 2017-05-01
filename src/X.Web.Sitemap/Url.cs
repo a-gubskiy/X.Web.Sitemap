@@ -22,10 +22,7 @@ namespace X.Web.Sitemap
         internal string LastMod
         {
             get { return TimeStamp.ToString("yyyy-MM-dd"); }
-            set
-            {
-                TimeStamp = DateTime.Parse(value);
-            }
+            set { TimeStamp = DateTime.Parse(value); }
         }
 
         [XmlElement("changefreq")]
@@ -46,12 +43,12 @@ namespace X.Web.Sitemap
         public static Url CreateUrl(string url, DateTime timeStamp)
         {
             return new Url
-                       {
-                           Location = url,
-                           ChangeFrequency = ChangeFrequency.Daily,
-                           Priority = 0.5d,
-                           TimeStamp = timeStamp,
-                       };
+            {
+                Location = url,
+                ChangeFrequency = ChangeFrequency.Daily,
+                Priority = 0.5d,
+                TimeStamp = timeStamp,
+            };
         }
     }
 }

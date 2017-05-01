@@ -11,7 +11,7 @@ namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapGeneratorIntegrationTests
     public class GenerateSitemapsIntegrationTests
     {
         private SitemapGenerator _sitemapGenerator;
-        private readonly string sitemapLocation = ConfigurationManager.AppSettings["sitemapTestingDirectory"];
+        private readonly string _sitemapLocation = Path.GetTempPath();
 
         [SetUp]
         public void SetUp()
@@ -32,7 +32,7 @@ namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapGeneratorIntegrationTests
             }
 
             //--act
-            _sitemapGenerator.GenerateSitemaps(urls, new DirectoryInfo(sitemapLocation), "sitemap_from_test_1");
+            _sitemapGenerator.GenerateSitemaps(urls, new DirectoryInfo(_sitemapLocation), "sitemap_from_test_1");
 
             //--assert
             //--go look in the {sitemapLocation} directory!
@@ -51,7 +51,7 @@ namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapGeneratorIntegrationTests
             }
 
             //--act
-            _sitemapGenerator.GenerateSitemaps(urls, new DirectoryInfo(sitemapLocation), "sitemap_from_test_2");
+            _sitemapGenerator.GenerateSitemaps(urls, new DirectoryInfo(_sitemapLocation), "sitemap_from_test_2");
 
             //--assert
             //--go look for 2 sitemaps in the {sitemapLocation} directory!

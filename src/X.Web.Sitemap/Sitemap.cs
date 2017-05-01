@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+
+[assembly: InternalsVisibleTo("X.Web.Sitemap.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace X.Web.Sitemap
 {
@@ -23,6 +27,7 @@ namespace X.Web.Sitemap
         public virtual string ToXml()
         {
             var xmlSerializer = new XmlSerializer(typeof(Sitemap));
+
             using (var textWriter = new StringWriterUtf8())
             {
                 xmlSerializer.Serialize(textWriter, this);
@@ -110,7 +115,10 @@ namespace X.Web.Sitemap
                         node.ParentNode.RemoveChild(node);
                     }
 
-                    xmlDocument.Save(path);
+                    using (var writer = File.CreateText(path))
+                    {
+                        xmlDocument.Save(writer);
+                    }
                 }
 
                 return true;
@@ -121,6 +129,8 @@ namespace X.Web.Sitemap
             }
         }
     }
+
+
 
     /// <summary>
     /// Subclass the StringWriter class and override the default encoding.  

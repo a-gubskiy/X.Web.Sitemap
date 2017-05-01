@@ -1,9 +1,7 @@
-###X.Web.Sitemap [![Build status](https://travis-ci.org/ernado-x/X.Web.Sitemap.svg?branch=master)](https://travis-ci.org/ernado-x/X.Web.Sitemap)
-
+### X.Web.Sitemap [![Build status](https://travis-ci.org/ernado-x/X.Web.Sitemap.svg?branch=master)](https://travis-ci.org/ernado-x/X.Web.Sitemap)
 
 Simple sitemap generator for .NET
 You can download it from Nuget.org at http://nuget.org/packages/xsitemap/
-
 
 Below is an example of basic usage in a non-testable manner
 
@@ -151,7 +149,3 @@ Below is a more comprehensive example that demonstrates how to create many sitem
         }
     }
 ```
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ernado-x/x.web.sitemap/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
