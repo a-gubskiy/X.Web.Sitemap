@@ -1,9 +1,11 @@
-### X.Web.Sitemap 
+# X.Web.Sitemap 
 [![Build status](https://ci.appveyor.com/api/projects/status/m7hb7ukxevvarmvd/branch/master?svg=true)](https://ci.appveyor.com/project/ernado-x/X.Web.Sitemap/branch/master)
 [![NuGet version](https://badge.fury.io/nu/xsitemap.svg)](https://badge.fury.io/nu/xsitemap)
 
 Simple sitemap generator for .NET
 You can download it from Nuget.org at http://nuget.org/packages/xsitemap/
+
+## Usage example
 
 Below is an example of basic usage in a non-testable manner
 
