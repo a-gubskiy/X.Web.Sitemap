@@ -16,13 +16,7 @@ namespace X.Web.Sitemap
     [XmlRoot(ElementName = "urlset", Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")]
     public class Sitemap : List<Url>, ISitemap
     {
-        public const string MimeType = "text/xml";
-
         private const int LineCount = 1000;
-
-        public Sitemap()
-        {
-        }
 
         public virtual string ToXml()
         {
@@ -82,13 +76,13 @@ namespace X.Web.Sitemap
 
                 var xml = ToXml();
 
-                var parts = (Count % LineCount == 0)
-                                ? Count / LineCount
-                                : (Count / LineCount) + 1;
+                var parts = Count % LineCount == 0
+                    ? Count / LineCount
+                    : (Count / LineCount) + 1;
 
                 for (var i = 0; i < parts; i++)
                 {
-                    var fileName = String.Format("sitemap{0}.xml", i);
+                    var fileName = string.Format("sitemap{0}.xml", i);
                     var path = Path.Combine(directory, fileName);
 
                     if (File.Exists(path))
@@ -131,17 +125,12 @@ namespace X.Web.Sitemap
     }
 
 
-
     /// <summary>
     /// Subclass the StringWriter class and override the default encoding.  
     /// This allows us to produce XML encoded as UTF-8. 
     /// </summary>
-    public class StringWriterUtf8 : System.IO.StringWriter
+    public class StringWriterUtf8 : StringWriter
     {
-        public override Encoding Encoding
-        {
-            get { return Encoding.UTF8; }
-        }
+        public override Encoding Encoding => Encoding.UTF8;
     }
 }
-

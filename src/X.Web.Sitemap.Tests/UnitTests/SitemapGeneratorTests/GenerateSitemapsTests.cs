@@ -9,12 +9,12 @@ namespace X.Web.Sitemap.Tests.UnitTests.SitemapGeneratorTests
     public class GenerateSitemapsTests
     {
         private SitemapGenerator _sitemapGenerator;
-        private ISerializedXmlSaver<Sitemap> _sitemapSerializerMock;
+        private ISerializedXmlSaver<List<Url>> _sitemapSerializerMock;
 
         [SetUp]
         public void SetUp()
         {
-            _sitemapSerializerMock = Substitute.For<ISerializedXmlSaver<Sitemap>>();
+            _sitemapSerializerMock = Substitute.For<ISerializedXmlSaver<List<Url>>>();
             _sitemapGenerator = new SitemapGenerator(_sitemapSerializerMock);
         }
 
