@@ -19,10 +19,10 @@ namespace X.Web.Sitemap
         /// Use TimeStamp instead.
         /// </summary>
         [XmlElement("lastmod")]
-        internal string LastMod
+        public string LastMod
         {
-            get { return TimeStamp.ToString("yyyy-MM-dd"); }
-            set { TimeStamp = DateTime.Parse(value); }
+            get => TimeStamp.ToString("yyyy-MM-dd");
+            set => TimeStamp = DateTime.Parse(value);
         }
 
         [XmlElement("changefreq")]
