@@ -10,14 +10,19 @@ namespace X.Web.Sitemap
 
         private SitemapInfo()
         {
-            
         }
 
         /// <summary>
-        /// Creates a SitemapInfo object which serializes to the "sitemap" element of a sitemap index file: https://www.sitemaps.org/protocol.html#index 
+        /// Creates a SitemapInfo object which serializes to the "sitemap" element of a sitemap index
+        /// file: https://www.sitemaps.org/protocol.html#index 
         /// </summary>
-        /// <param name="absolutePathToSitemap">The full path to the sitemap (e.g. https://www.somewebsite.com/sitemaps/sitemap1.xml). Serializes to the "loc" element.</param>
-        /// <param name="dateSitemapLastModified">The date the sitemap was last modified/created. Serializes to the "lostmod" element.</param>
+        /// <param name="absolutePathToSitemap">
+        /// The full path to the sitemap (e.g. https://www.somewebsite.com/sitemaps/sitemap1.xml). Serializes
+        /// to the "loc" element.
+        /// </param>
+        /// <param name="dateSitemapLastModified">
+        /// The date the sitemap was last modified/created. Serializes to the "lostmod" element.
+        /// </param>
         public SitemapInfo(Uri absolutePathToSitemap, DateTime? dateSitemapLastModified = null)
         {
             AbsolutePathToSitemap = absolutePathToSitemap.ToString();
@@ -25,7 +30,8 @@ namespace X.Web.Sitemap
         }
 
         /// <summary>
-        /// The full path to the sitemap (e.g. https://www.somewebsite.com/sitemaps/sitemap1.xml). Serializes to the "loc" element.
+        /// The full path to the sitemap (e.g. https://www.somewebsite.com/sitemaps/sitemap1.xml).
+        /// Serializes to the "loc" element.
         /// </summary>
         [XmlElement("loc")]
         public string AbsolutePathToSitemap { get; set; }
@@ -36,10 +42,7 @@ namespace X.Web.Sitemap
         [XmlElement("lastmod")]
         public string DateLastModified
         {
-            get
-            {
-                return _dateLastModified?.ToString("yyyy-MM-dd");
-            }
+            get => _dateLastModified?.ToString("yyyy-MM-dd");
             set { }
         }
     }

@@ -18,6 +18,7 @@ namespace X.Web.Sitemap
             ValidateArgumentNotNull(objectToSerialize);
 
             var xmlSerializer = new XmlSerializer(typeof(T));
+            
             using (var textWriter = new StringWriterUtf8())
             {
                 xmlSerializer.Serialize(textWriter, objectToSerialize);
