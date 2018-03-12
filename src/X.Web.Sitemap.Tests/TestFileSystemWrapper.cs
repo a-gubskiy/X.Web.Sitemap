@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace X.Web.Sitemap.Tests
 {
@@ -13,6 +15,6 @@ namespace X.Web.Sitemap.Tests
 		{
 			var file = new FileInfo(Path.Combine(targetDirectory.FullName, targetFileName));		
 			return file;
-		}
+		}		
 	}
 }

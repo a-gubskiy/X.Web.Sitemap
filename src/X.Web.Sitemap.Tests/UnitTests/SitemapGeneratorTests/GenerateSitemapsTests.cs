@@ -1,7 +1,7 @@
-﻿using NSubstitute;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace X.Web.Sitemap.Tests.UnitTests.SitemapGeneratorTests
 {
@@ -13,7 +13,7 @@ namespace X.Web.Sitemap.Tests.UnitTests.SitemapGeneratorTests
 
 		[SetUp]
 		public void SetUp()
-		{			
+		{
 			_sitemapSerializer = new SerializedXmlSaver<List<Url>>(new TestFileSystemWrapper());
 			_sitemapGenerator = new SitemapGenerator(_sitemapSerializer);
 		}
@@ -41,24 +41,23 @@ namespace X.Web.Sitemap.Tests.UnitTests.SitemapGeneratorTests
 			//--arrange
 			var enoughForTwoSitemaps = SitemapGenerator.MaxNumberOfUrlsPerSitemap + 1;
 			var urls = new List<Url>(enoughForTwoSitemaps);
+			var filesCount = 2;
+
 			for (var i = 0; i < enoughForTwoSitemaps; i++)
 			{
 				urls.Add(new Url());
 			}
+
 			var fileName = "file";
 			var directory = new DirectoryInfo("x");
 
 			//--act
-			_sitemapGenerator.GenerateSitemaps(urls, directory, fileName);
+			var result = _sitemapGenerator.GenerateSitemaps(urls, directory, fileName);
 
-			//--assert
-			_sitemapSerializer
-				.Received(1)
-				.SerializeAndSave(Arg.Is<Sitemap>(x => x.Count == SitemapGenerator.MaxNumberOfUrlsPerSitemap), Arg.Is<DirectoryInfo>(x => x == directory), Arg.Is<string>(x => x == "file-001.xml"));
-
-			_sitemapSerializer
-				 .Received(1)
-				.SerializeAndSave(Arg.Is<Sitemap>(x => x.Count == 1), Arg.Is<DirectoryInfo>(x => x == directory), Arg.Is<string>(x => x == "file-002.xml"));
+			Assert.AreEqual(filesCount, result.Count);
+			Assert.True(result.All(o => o.Directory.Name == directory.Name));
+			Assert.True(result.Any(o => o.Name == "file-001.xml"));
+			Assert.True(result.Any(o => o.Name == "file-002.xml"));
 		}
 	}
 }

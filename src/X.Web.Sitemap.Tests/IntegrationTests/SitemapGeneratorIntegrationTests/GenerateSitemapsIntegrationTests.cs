@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapGeneratorIntegrationTests
