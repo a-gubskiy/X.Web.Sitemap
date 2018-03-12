@@ -2,9 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net461</TargetFrameworks>
-    <Version>2.0.0</Version>
-    <Description>X.Web.Sitemap is a part of X-Framework library.
-This library allows you quickly and easily generate a Google-compatible sitemap files.</Description>
+    <Version>2.0.5</Version>
+    <Description>
+        X.Web.Sitemap is a part of X-Framework library.
+        This library allows you quickly and easily generate a Google-compatible sitemap files.
+    </Description>
     <Copyright>Andrew Gubskiy</Copyright>
     <PackageLicenseUrl>https://github.com/ernado-x/X.Web.Sitemap/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ernado-x/X.Web.Sitemap</PackageProjectUrl>
@@ -13,7 +15,7 @@ This library allows you quickly and easily generate a Google-compatible sitemap 
     <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>xsitemap</PackageId>
-    <Authors>Andrew Gubskiu</Authors>
+    <Authors>Andrew Gubskiy</Authors>
     <Company>.NET Core Ukrainian User Group</Company>
   </PropertyGroup>
 
