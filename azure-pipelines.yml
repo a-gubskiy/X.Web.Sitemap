@@ -13,4 +13,4 @@ steps:
 - script: |
   cd src
   dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+displayName: 'dotnet build $(buildConfiguration)'
