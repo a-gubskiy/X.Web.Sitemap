@@ -1,3 +1,0 @@
-language: csharp
-solution: src/X.Web.Sitemap.sln
-sudo: false
