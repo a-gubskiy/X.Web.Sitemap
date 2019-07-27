@@ -14,4 +14,9 @@
   <ItemGroup>
     <Reference Include="System.Configuration" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Data\example.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
