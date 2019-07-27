@@ -17,9 +17,11 @@ This library allows you quickly and easily generate a Google-compatible sitemap 
     <Company>.NET Core Ukrainian User Group</Company>
     <PackageReleaseNotes>Update serialization</PackageReleaseNotes>
     <PackageTags>sitemap, web, asp.net, sitemap.xml</PackageTags>
+    <PackageVersion>2.0.7</PackageVersion>
+    <Title>X.Sitemap</Title>
   </PropertyGroup>
 
-  <ItemGroup>   
+  <ItemGroup>
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
   </ItemGroup>
