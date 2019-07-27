@@ -29,7 +29,7 @@ namespace X.Web.Sitemap
             }
         }
 
-        public virtual bool Save(String path)
+        public virtual bool Save(string path)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace X.Web.Sitemap
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
-        public virtual bool SaveToDirectory(String directory)
+        public virtual bool SaveToDirectory(string directory)
         {
             try
             {
@@ -119,6 +119,30 @@ namespace X.Web.Sitemap
             }
             catch
             {
+                return false;
+            }
+        }
+        
+        public static Sitemap Parse(string xml)
+        {
+            using(TextReader textReader = new StringReader(xml))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Sitemap));
+                var sitemap = serializer.Deserialize(textReader);
+                return sitemap as Sitemap;
+            }
+        }
+        
+        public static bool TryParse(string xml, out Sitemap sitemap)
+        {
+            try
+            {
+                sitemap = Parse(xml);
+                return true;
+            }
+            catch
+            {
+                sitemap = null;
                 return false;
             }
         }

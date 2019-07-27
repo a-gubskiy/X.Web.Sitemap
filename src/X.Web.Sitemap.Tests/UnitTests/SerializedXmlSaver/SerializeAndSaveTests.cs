@@ -57,12 +57,12 @@ namespace X.Web.Sitemap.Tests.UnitTests.SerializedXmlSaver
 		public void It_Returns_A_File_Info_For_The_File_That_Was_Created()
 		{
 			//--arrange
-			var expectedFileInfo = new FileInfo("c:\\something\\file.xml");
+			var expectedFileInfo = new FileInfo("something/file.xml");
 
 			//--act
 			var result = _serializer.SerializeAndSave(
 				new SitemapIndex(new List<SitemapInfo>()),
-				new DirectoryInfo("c:\\something\\"),
+				new DirectoryInfo("something"),
 				"file.xml");
 
 
