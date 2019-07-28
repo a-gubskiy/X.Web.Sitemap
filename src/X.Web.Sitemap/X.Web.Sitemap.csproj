@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net461</TargetFrameworks>
-    <Version>2.0.5</Version>
+    <Version>2.0.7</Version>
     <Description>X.Web.Sitemap is a part of X-Framework library.
 This library allows you quickly and easily generate a Google-compatible sitemap files.</Description>
     <Copyright>Andrew Gubskiy</Copyright>
-    <PackageLicenseUrl>https://github.com/ernado-x/X.Web.Sitemap/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ernado-x/X.Web.Sitemap</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/ernado-x/X.Web.Sitemap</RepositoryUrl>
@@ -15,15 +15,25 @@ This library allows you quickly and easily generate a Google-compatible sitemap 
     <PackageId>xsitemap</PackageId>
     <Authors>Andrew Gubskiy</Authors>
     <Company>.NET Core Ukrainian User Group</Company>
-    <PackageReleaseNotes>Update serialization</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <PackageTags>sitemap, web, asp.net, sitemap.xml</PackageTags>
     <PackageVersion>2.0.7</PackageVersion>
     <Title>X.Sitemap</Title>
+    <AssemblyVersion>2.0.7.0</AssemblyVersion>
+    <FileVersion>2.0.7.0</FileVersion>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
