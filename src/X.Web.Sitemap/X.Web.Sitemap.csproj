@@ -6,7 +6,6 @@
     <Description>X.Web.Sitemap is a part of X-Framework library.
 This library allows you quickly and easily generate a Google-compatible sitemap files.</Description>
     <Copyright>Andrew Gubskiy</Copyright>
-    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ernado-x/X.Web.Sitemap</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/ernado-x/X.Web.Sitemap</RepositoryUrl>
@@ -32,7 +31,6 @@ This library allows you quickly and easily generate a Google-compatible sitemap 
   <ItemGroup>
     <None Include="..\..\LICENSE.md">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 

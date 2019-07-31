@@ -1,18 +1,22 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace X.Web.Sitemap.Tests
 {
 	public class TestFileSystemWrapper : IFileSystemWrapper
 	{
-		public bool DirectoryExists(string pathToDirectory)
+		public FileInfo WriteFile(string xml, string path)
 		{
-			return true;
+			return new FileInfo(path);
 		}
 
-		public FileInfo WriteFile(string xmlString, DirectoryInfo targetDirectory, string targetFileName)
+		public Task<FileInfo> WriteFileAsync(string xml, string path)
 		{
-			var file = new FileInfo(Path.Combine(targetDirectory.FullName, targetFileName));		
-			return file;
-		}		
+			return Task.FromResult(WriteFile(xml, path));
+		}
+
+		public void EnsureDirectoryCreated(string directory)
+		{
+		}
 	}
 }

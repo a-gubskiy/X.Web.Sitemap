@@ -21,7 +21,7 @@ namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapGeneratorIntegrationTests
         public void It_Only_Saves_One_Sitemap_If_There_Are_Less_Than_50001_Urls()
         {
             //--arrange
-            var maxNumberOfUrlsForOneSitemap = SitemapGenerator.MaxNumberOfUrlsPerSitemap;
+            var maxNumberOfUrlsForOneSitemap = Sitemap.MaxNumberOfUrlsPerSitemap;
             var urls = new List<Url>(maxNumberOfUrlsForOneSitemap);
             var now = DateTime.UtcNow;
             for (var i = 0; i < maxNumberOfUrlsForOneSitemap; i++)
@@ -40,7 +40,7 @@ namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapGeneratorIntegrationTests
         public void It_Saves_Two_Sitemaps_If_There_Are_More_Than_50000_Urls_But_Less_Than_100001_And_It_Names_The_Files_With_A_Three_Digit_Suffix_Incrementing_For_Each_One()
         {
             //--arrange
-            var enoughUrlsForTwoSitemaps = SitemapGenerator.MaxNumberOfUrlsPerSitemap + 1;
+            var enoughUrlsForTwoSitemaps = Sitemap.MaxNumberOfUrlsPerSitemap + 1;
             var urls = new List<Url>(enoughUrlsForTwoSitemaps);
             var now = DateTime.UtcNow;
             for (var i = 0; i < enoughUrlsForTwoSitemaps; i++)

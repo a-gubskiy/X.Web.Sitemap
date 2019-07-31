@@ -1,10 +1,12 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace X.Web.Sitemap
 {
     internal interface IFileSystemWrapper
     {
-        bool DirectoryExists(string pathToDirectory);
-        FileInfo WriteFile(string xmlString, DirectoryInfo targetDirectory, string targetFileName);
+        FileInfo WriteFile(string xml, string path);
+        
+        Task<FileInfo> WriteFileAsync(string xml, string path);
     }
 }

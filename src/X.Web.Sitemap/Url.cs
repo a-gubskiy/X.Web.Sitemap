@@ -35,20 +35,15 @@ namespace X.Web.Sitemap
         {
         }
 
-        public static Url CreateUrl(string location)
-        {
-            return CreateUrl(location, DateTime.Now);
-        }
+        public static Url CreateUrl(string location) => CreateUrl(location, DateTime.Now);
 
-        public static Url CreateUrl(string url, DateTime timeStamp)
-        {
-            return new Url
+        public static Url CreateUrl(string url, DateTime timeStamp) =>
+            new Url
             {
                 Location = url,
                 ChangeFrequency = ChangeFrequency.Daily,
                 Priority = 0.5d,
                 TimeStamp = timeStamp,
             };
-        }
     }
 }

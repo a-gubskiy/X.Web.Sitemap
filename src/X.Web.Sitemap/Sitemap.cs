@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -7,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using X.Web.Sitemap.Extensions;
 
 [assembly: InternalsVisibleTo("X.Web.Sitemap.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
@@ -17,38 +17,31 @@ namespace X.Web.Sitemap
     [XmlRoot(ElementName = "urlset", Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")]
     public class Sitemap : List<Url>, ISitemap
     {
-        private const int LineCount = 1000;
+        private readonly IFileSystemWrapper _fileSystemWrapper;
+
+        public Sitemap()
+        {
+            _fileSystemWrapper = new FileSystemWrapper();
+        }
+
+        public const int MaxNumberOfUrlsPerSitemap = 5000;
 
         public virtual string ToXml()
         {
-            var xmlSerializer = new XmlSerializer(typeof(Sitemap));
+            var serializer = new XmlSerializer(typeof(Sitemap));
 
-            using (var textWriter = new StringWriterUtf8())
+            using (var writer = new StringWriterUtf8())
             {
-                xmlSerializer.Serialize(textWriter, this);
-                return textWriter.ToString();
+                serializer.Serialize(writer, this);
+                return writer.ToString();
             }
         }
 
         public virtual async Task<bool> SaveAsync(string path)
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            var directory = Path.GetDirectoryName(path);
-            EnsureDirectoryCreated(directory);
-
             try
             {
-                using (var file = new FileStream(path, FileMode.Create))
-                using (var writer = new StreamWriter(file))
-                {
-                    await writer.WriteAsync(ToXml());
-                }
-
-                return true;
+                return await _fileSystemWrapper.WriteFileAsync(ToXml(), path) != null;
             }
             catch
             {
@@ -60,23 +53,7 @@ namespace X.Web.Sitemap
         {
             try
             {
-                var directory = Path.GetDirectoryName(path);
-
-                if (directory != null)
-                {
-                    EnsureDirectoryCreated(directory);
-
-                    if (File.Exists(path))
-                    {
-                        File.Delete(path);
-                    }
-
-                    File.WriteAllText(path, ToXml());
-
-                    return true;
-                }
-
-                return false;
+                return _fileSystemWrapper.WriteFile(ToXml(), path) != null;
             }
             catch
             {
@@ -93,38 +70,24 @@ namespace X.Web.Sitemap
         {
             try
             {
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
-                var xml = ToXml();
-
-                var parts = Count % LineCount == 0
-                    ? Count / LineCount
-                    : (Count / LineCount) + 1;
+                var parts = Count % MaxNumberOfUrlsPerSitemap == 0
+                    ? Count / MaxNumberOfUrlsPerSitemap
+                    : (Count / MaxNumberOfUrlsPerSitemap) + 1;
+                
+                var xmlDocument = new XmlDocument();
+                
+                xmlDocument.LoadXml(ToXml());
+                    
+                var all = xmlDocument.ChildNodes[1].ChildNodes.Cast<XmlNode>().ToList();
 
                 for (var i = 0; i < parts; i++)
                 {
-                    var fileName = string.Format("sitemap{0}.xml", i);
-                    var path = Path.Combine(directory, fileName);
-
-                    if (File.Exists(path))
-                    {
-                        File.Delete(path);
-                    }
-
-                    var xmlDocument = new XmlDocument();
-                    xmlDocument.LoadXml(xml);
-
-                    var take = LineCount * i;
-
-                    var all = xmlDocument.ChildNodes[1].ChildNodes.Cast<XmlNode>().ToList();
-
+                    var take = MaxNumberOfUrlsPerSitemap * i;
                     var top = all.Take(take).ToList();
-                    var bottom = all.Skip(take + LineCount).Take(Count - take - LineCount).ToList();
+                    var bottom = all.Skip(take + MaxNumberOfUrlsPerSitemap).Take(Count - take - MaxNumberOfUrlsPerSitemap).ToList();
 
                     var nodes = new List<XmlNode>();
+                    
                     nodes.AddRange(top);
                     nodes.AddRange(bottom);
 
@@ -133,10 +96,7 @@ namespace X.Web.Sitemap
                         node.ParentNode.RemoveChild(node);
                     }
 
-                    using (var writer = File.CreateText(path))
-                    {
-                        xmlDocument.Save(writer);
-                    }
+                    _fileSystemWrapper.WriteFile(xmlDocument.ToXmlString(), Path.Combine(directory, $"sitemap{i}.xml"));
                 }
 
                 return true;
@@ -151,9 +111,8 @@ namespace X.Web.Sitemap
         {
             using (TextReader textReader = new StringReader(xml))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Sitemap));
-                var sitemap = serializer.Deserialize(textReader);
-                return sitemap as Sitemap;
+                var serializer = new XmlSerializer(typeof(Sitemap));
+                return serializer.Deserialize(textReader) as Sitemap;
             }
         }
 
@@ -168,14 +127,6 @@ namespace X.Web.Sitemap
             {
                 sitemap = null;
                 return false;
-            }
-        }
-
-        private void EnsureDirectoryCreated(string directory)
-        {
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
             }
         }
     }

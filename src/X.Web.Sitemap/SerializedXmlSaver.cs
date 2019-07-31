@@ -23,7 +23,9 @@ namespace X.Web.Sitemap
             {
                 xmlSerializer.Serialize(textWriter, objectToSerialize);
                 var xmlString = textWriter.ToString();
-                return _fileSystemWrapper.WriteFile(xmlString, targetDirectory, targetFileName);
+                var path = Path.Combine(targetDirectory.FullName, targetFileName);
+                
+                return _fileSystemWrapper.WriteFile(xmlString, path);
             }
         }
 

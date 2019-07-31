@@ -1,29 +1,47 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace X.Web.Sitemap
 {
     internal class FileSystemWrapper : IFileSystemWrapper
     {
-        public bool DirectoryExists(string pathToDirectory)
+        public FileInfo WriteFile(string xml, string path)
         {
-            return new DirectoryInfo(pathToDirectory).Exists;
+            var directory = Path.GetDirectoryName(path);
+            
+            EnsureDirectoryCreated(directory);
+            
+            using (var file = new FileStream(path, FileMode.Create))
+            using (var writer = new StreamWriter(file))
+            {
+                writer.Write(xml);
+            }
+            
+            return new FileInfo(path);
         }
 
-        public FileInfo WriteFile(string xmlString, DirectoryInfo targetDirectory, string targetFileName)
+        public async Task<FileInfo> WriteFileAsync(string xml, string path)
         {
-            if (!targetDirectory.Exists)
+            var directory = Path.GetDirectoryName(path);
+            
+            EnsureDirectoryCreated(directory);
+            
+            using (var file = new FileStream(path, FileMode.Create))
+            using (var writer = new StreamWriter(file))
             {
-                targetDirectory.Create();
+                await writer.WriteAsync(xml);
             }
+            
+            return new FileInfo(path);
+        }
 
-            var fullPath = Path.Combine(targetDirectory.FullName, targetFileName);
-            if (File.Exists(fullPath))
+        private static void EnsureDirectoryCreated(string directory)
+        {
+            if (!Directory.Exists(directory))
             {
-                File.Delete(fullPath);
+                Directory.CreateDirectory(directory);
             }
-
-            File.WriteAllText(fullPath, xmlString);
-            return new FileInfo(fullPath);
         }
     }
 }
