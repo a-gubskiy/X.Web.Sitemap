@@ -32,6 +32,11 @@ namespace X.Web.Sitemap
 
         public virtual async Task<bool> SaveAsync(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
             var directory = Path.GetDirectoryName(path);
             EnsureDirectoryCreated(directory);
 
@@ -144,7 +149,7 @@ namespace X.Web.Sitemap
 
         public static Sitemap Parse(string xml)
         {
-            using(TextReader textReader = new StringReader(xml))
+            using (TextReader textReader = new StringReader(xml))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Sitemap));
                 var sitemap = serializer.Deserialize(textReader);
