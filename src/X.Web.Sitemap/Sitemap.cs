@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -29,6 +30,32 @@ namespace X.Web.Sitemap
             }
         }
 
+        public virtual async Task<bool> SaveAsync(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
+            var directory = Path.GetDirectoryName(path);
+            EnsureDirectoryCreated(directory);
+
+            try
+            {
+                using (var file = new FileStream(path, FileMode.Create))
+                using (var writer = new StreamWriter(file))
+                {
+                    await writer.WriteAsync(ToXml());
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public virtual bool Save(string path)
         {
             try
@@ -37,10 +64,7 @@ namespace X.Web.Sitemap
 
                 if (directory != null)
                 {
-                    if (!Directory.Exists(directory))
-                    {
-                        Directory.CreateDirectory(directory);
-                    }
+                    EnsureDirectoryCreated(directory);
 
                     if (File.Exists(path))
                     {
@@ -122,17 +146,17 @@ namespace X.Web.Sitemap
                 return false;
             }
         }
-        
+
         public static Sitemap Parse(string xml)
         {
-            using(TextReader textReader = new StringReader(xml))
+            using (TextReader textReader = new StringReader(xml))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Sitemap));
                 var sitemap = serializer.Deserialize(textReader);
                 return sitemap as Sitemap;
             }
         }
-        
+
         public static bool TryParse(string xml, out Sitemap sitemap)
         {
             try
@@ -146,8 +170,15 @@ namespace X.Web.Sitemap
                 return false;
             }
         }
-    }
 
+        private void EnsureDirectoryCreated(string directory)
+        {
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+        }
+    }
 
     /// <summary>
     /// Subclass the StringWriter class and override the default encoding.  
