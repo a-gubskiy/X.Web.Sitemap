@@ -18,13 +18,13 @@ namespace X.Web.Sitemap
     public class Sitemap : List<Url>, ISitemap
     {
         private readonly IFileSystemWrapper _fileSystemWrapper;
+        public int MaxNumberOfUrlsPerSitemap { get; set; }
 
         public Sitemap()
         {
             _fileSystemWrapper = new FileSystemWrapper();
+            MaxNumberOfUrlsPerSitemap = 5000;
         }
-
-        public const int MaxNumberOfUrlsPerSitemap = 5000;
 
         public virtual string ToXml()
         {
