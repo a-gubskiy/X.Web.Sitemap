@@ -21,7 +21,7 @@ namespace X.Web.Sitemap
         [XmlElement("lastmod")]
         public string LastMod
         {
-            get => TimeStamp.ToString("yyyy-MM-dd");
+            get => TimeStamp.ToString("yyyy-MM-ddTHH:mm:sszzz");
             set => TimeStamp = DateTime.Parse(value);
         }
 
