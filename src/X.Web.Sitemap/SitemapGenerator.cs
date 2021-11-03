@@ -34,7 +34,7 @@ namespace X.Web.Sitemap
             
             for (var i = 0; i < numberOfUrls; i++)
             {
-                if (i % Sitemap.MaxNumberOfUrlsPerSitemap == 0)
+                if (i % Sitemap.DefaultMaxNumberOfUrlsPerSitemap == 0)
                 {
                     sitemap = new Sitemap();
                     sitemaps.Add(sitemap);

@@ -8,9 +8,7 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
     <PackageReference Include="Shouldly" Version="3.0.2" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\X.Web.Sitemap\X.Web.Sitemap.csproj" />
-  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="System.Configuration" />
   </ItemGroup>
@@ -18,5 +16,8 @@
     <None Update="Data\example.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\X.Web.Sitemap\X.Web.Sitemap.csproj" />
   </ItemGroup>
 </Project>
