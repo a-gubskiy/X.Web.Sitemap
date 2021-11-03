@@ -1,7 +1,9 @@
 ﻿using System.Xml.Serialization;
+using JetBrains.Annotations;
 
 namespace X.Web.Sitemap
 {
+    [PublicAPI]
     [Serializable]
     public enum ChangeFrequency
     {

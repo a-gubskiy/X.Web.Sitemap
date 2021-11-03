@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using JetBrains.Annotations;
 
 namespace X.Web.Sitemap
 {
+    [PublicAPI]
     public interface ISitemapGenerator
     {
         /// <summary>

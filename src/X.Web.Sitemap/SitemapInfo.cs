@@ -6,7 +6,7 @@ namespace X.Web.Sitemap
     [Serializable]
     public class SitemapInfo
     {
-        private DateTime? _dateLastModified;
+        private readonly DateTime? _dateLastModified;
 
         private SitemapInfo()
         {

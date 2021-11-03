@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 using X.Web.Sitemap.Extensions;
 
 [assembly: InternalsVisibleTo("X.Web.Sitemap.Tests")]
@@ -13,6 +14,7 @@ using X.Web.Sitemap.Extensions;
 
 namespace X.Web.Sitemap
 {
+    [PublicAPI]
     [Serializable]
     [XmlRoot(ElementName = "urlset", Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")]
     public class Sitemap : List<Url>, ISitemap

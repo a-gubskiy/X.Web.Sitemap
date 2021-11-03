@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 
 namespace X.Web.Sitemap
 {
+    [PublicAPI]
     [Serializable]
     [XmlRoot("url")]
     [XmlType("url")]
