@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net461</TargetFrameworks>
     <Version>2.0.7</Version>
     <Description>X.Web.Sitemap is a part of X-Framework library.
 This library allows you quickly and easily generate a Google-compatible sitemap files.</Description>
@@ -20,6 +19,8 @@ This library allows you quickly and easily generate a Google-compatible sitemap 
     <Title>X.Sitemap</Title>
     <AssemblyVersion>2.0.7.0</AssemblyVersion>
     <FileVersion>2.0.7.0</FileVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -14,9 +14,5 @@ namespace X.Web.Sitemap.Tests
 		{
 			return Task.FromResult(WriteFile(xml, path));
 		}
-
-		public void EnsureDirectoryCreated(string directory)
-		{
-		}
 	}
 }
