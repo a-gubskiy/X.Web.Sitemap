@@ -24,9 +24,10 @@ namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapGeneratorIntegrationTests
             var maxNumberOfUrlsForOneSitemap = Sitemap.DefaultMaxNumberOfUrlsPerSitemap;
             var urls = new List<Url>(maxNumberOfUrlsForOneSitemap);
             var now = DateTime.UtcNow;
+            
             for (var i = 0; i < maxNumberOfUrlsForOneSitemap; i++)
             {
-                urls.Add(Url.CreateUrl("https://example.com/" + i, now));
+                urls.Add(Url.CreateUrl("https://example.com/" + i, now, "de"));
             }
 
             //--act
@@ -45,7 +46,7 @@ namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapGeneratorIntegrationTests
             var now = DateTime.UtcNow;
             for (var i = 0; i < enoughUrlsForTwoSitemaps; i++)
             {
-                urls.Add(Url.CreateUrl("https://example.com/" + i, now));
+                urls.Add(Url.CreateUrl("https://example.com/" + i, now, "en"));
             }
 
             //--act

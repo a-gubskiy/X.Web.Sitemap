@@ -45,7 +45,8 @@ namespace X.Web.Sitemap.Examples
                 TimeStamp = DateTime.UtcNow,
                 //--set this to between 0 and 1. This should only be used as a relative ranking of other pages in your site so that search engines know which result to prioritize
                 //  in SERPS if multiple pages look pertinent from your site. Since product pages are really important to us, we'll make them a .9
-                Priority = .9
+                Priority = .9,
+                Language = "de"
             }).ToList();
 
             var miscellaneousLowPriorityUrlStrings = _websiteUrlRetriever.GetMiscellaneousLowPriorityUrls();
@@ -57,7 +58,8 @@ namespace X.Web.Sitemap.Examples
                 //--let's pretend this content was changed a year ago
                 TimeStamp = DateTime.UtcNow.AddYears(-1),
                 //--these pages are super low priority
-                Priority = .1
+                Priority = .1,
+                Language = "en"
             }).ToList();
 
             //--combine the urls into one big list. These could of course bet kept seperate and two different sitemap index files could be generated if we wanted
@@ -88,7 +90,6 @@ namespace X.Web.Sitemap.Examples
             //  "Sitemap: https://www.mywebsite.com/sitemaps/sitemap-index.xml"
             //  You could do this manually (since this may never change) or if you are ultra-fancy, you could dynamically update your robots.txt with the names of the sitemap index
             //  file(s) you generated
-
         }
 
 

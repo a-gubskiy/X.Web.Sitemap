@@ -32,6 +32,9 @@ namespace X.Web.Sitemap
 
         [XmlElement("priority")]
         public double Priority { get; set; }
+        
+        [XmlElement("hreflang")]
+        public string Language { get; set; }
 
         public Url()
         {
@@ -39,13 +42,14 @@ namespace X.Web.Sitemap
 
         public static Url CreateUrl(string location) => CreateUrl(location, DateTime.Now);
 
-        public static Url CreateUrl(string url, DateTime timeStamp) =>
+        public static Url CreateUrl(string url, DateTime timeStamp, string language = "") =>
             new Url
             {
                 Location = url,
                 ChangeFrequency = ChangeFrequency.Daily,
                 Priority = 0.5d,
                 TimeStamp = timeStamp,
+                Language = language
             };
     }
 }
