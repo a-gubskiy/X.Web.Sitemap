@@ -12,6 +12,10 @@
     <PackageId>xsitemap</PackageId>
     <Authors>Andrew Gubskiy</Authors>
     <PackageTags>sitemap, web, asp.net, sitemap.xml</PackageTags>
+    <PackageVersion>2.5.0</PackageVersion>
+    <Title>X.Sitemap</Title>
+    <AssemblyVersion>2.5.0.0</AssemblyVersion>
+    <FileVersion>2.5.0.0</FileVersion>
     <PackageVersion>2.1.1</PackageVersion>
     <Title>X.Sitemap</Title>
     <AssemblyVersion>2.1.1.0</AssemblyVersion>

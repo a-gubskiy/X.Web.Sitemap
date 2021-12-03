@@ -13,7 +13,16 @@ public class DeserializeTests
 	{
 		var xml = File.ReadAllText("Data/example.xml");
 		var sitemap = Sitemap.Parse(xml);
-			
+
+		Assert.NotNull(sitemap);
+	}
+
+	[Test]
+	public void Check_That_XmlFile_HashSitemap_Deserialized()
+	{
+		var xml = File.ReadAllText("Data/example.xml");
+		var sitemap = HashSitemap.Parse(xml);
+
 		Assert.NotNull(sitemap);
 	}
 }

@@ -1,52 +1,62 @@
-﻿using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using JetBrains.Annotations;
 using X.Web.Sitemap.Extensions;
-
-[assembly: InternalsVisibleTo("X.Web.Sitemap.Tests")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace X.Web.Sitemap;
 
-[PublicAPI]
-[Serializable]
-[XmlRoot(ElementName = "urlset", Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")]
-public class Sitemap : List<Url>, ISitemap
+public interface ISitemapSerializer
+{
+    int MaxNumberOfUrlsPerSitemap { get; set; }
+    string ToXml(ISitemapBase sitemap);
+    Task<bool> SaveAsync(string path, ISitemapBase sitemap);
+    bool Save(string path, ISitemapBase sitemap);
+
+    /// <summary>
+    /// Generate multiple sitemap files
+    /// </summary>
+    /// <param name="directory"></param>
+    /// <param name="sitemap"></param>
+    /// <returns></returns>
+    bool SaveToDirectory(string directory, ISitemapBase sitemap);
+}
+
+public class SitemapSerializer : ISitemapSerializer
 {
     private readonly IFileSystemWrapper _fileSystemWrapper;
 
     public static int DefaultMaxNumberOfUrlsPerSitemap = 5000;
-        
+
     public int MaxNumberOfUrlsPerSitemap { get; set; }
 
-    public Sitemap()
+    public SitemapSerializer()
     {
         _fileSystemWrapper = new FileSystemWrapper();
+
         MaxNumberOfUrlsPerSitemap = DefaultMaxNumberOfUrlsPerSitemap;
     }
 
-    public virtual string ToXml()
+
+    public virtual string ToXml(ISitemapBase sitemap)
     {
         var serializer = new XmlSerializer(typeof(Sitemap));
 
         using (var writer = new StringWriterUtf8())
         {
-            serializer.Serialize(writer, this);
+            serializer.Serialize(writer, sitemap);
             return writer.ToString();
         }
     }
 
-    public virtual async Task<bool> SaveAsync(string path)
+    public virtual async Task<bool> SaveAsync(string path, ISitemapBase sitemap)
     {
         try
         {
-            return await _fileSystemWrapper.WriteFileAsync(ToXml(), path) != null;
+            return await _fileSystemWrapper.WriteFileAsync(ToXml(sitemap), path) != null;
         }
         catch
         {
@@ -54,11 +64,11 @@ public class Sitemap : List<Url>, ISitemap
         }
     }
 
-    public virtual bool Save(string path)
+    public virtual bool Save(string path, ISitemapBase sitemap)
     {
         try
         {
-            return _fileSystemWrapper.WriteFile(ToXml(), path) != null;
+            return _fileSystemWrapper.WriteFile(ToXml(sitemap), path) != null;
         }
         catch
         {
@@ -70,29 +80,31 @@ public class Sitemap : List<Url>, ISitemap
     /// Generate multiple sitemap files
     /// </summary>
     /// <param name="directory"></param>
+    /// <param name="sitemap"></param>
     /// <returns></returns>
-    public virtual bool SaveToDirectory(string directory)
+    public virtual bool SaveToDirectory(string directory, ISitemapBase sitemap)
     {
         try
         {
-            var parts = Count % MaxNumberOfUrlsPerSitemap == 0
-                ? Count / MaxNumberOfUrlsPerSitemap
-                : (Count / MaxNumberOfUrlsPerSitemap) + 1;
-                
+            var parts = sitemap.Count() % MaxNumberOfUrlsPerSitemap == 0
+                ? sitemap.Count() / MaxNumberOfUrlsPerSitemap
+                : (sitemap.Count() / MaxNumberOfUrlsPerSitemap) + 1;
+
             var xmlDocument = new XmlDocument();
-                
-            xmlDocument.LoadXml(ToXml());
-                    
+
+            xmlDocument.LoadXml(ToXml(sitemap));
+
             var all = xmlDocument.ChildNodes[1].ChildNodes.Cast<XmlNode>().ToList();
 
             for (var i = 0; i < parts; i++)
             {
                 var take = MaxNumberOfUrlsPerSitemap * i;
                 var top = all.Take(take).ToList();
-                var bottom = all.Skip(take + MaxNumberOfUrlsPerSitemap).Take(Count - take - MaxNumberOfUrlsPerSitemap).ToList();
+                var bottom = all.Skip(take + MaxNumberOfUrlsPerSitemap)
+                    .Take(sitemap.Count() - take - MaxNumberOfUrlsPerSitemap).ToList();
 
                 var nodes = new List<XmlNode>();
-                    
+
                 nodes.AddRange(top);
                 nodes.AddRange(bottom);
 
@@ -112,20 +124,20 @@ public class Sitemap : List<Url>, ISitemap
         }
     }
 
-    public static Sitemap Parse(string xml)
+    public static T Parse<T>(string xml) where T : class, ISitemapBase
     {
         using (TextReader textReader = new StringReader(xml))
         {
-            var serializer = new XmlSerializer(typeof(Sitemap));
-            return serializer.Deserialize(textReader) as Sitemap;
+            var serializer = new XmlSerializer(typeof(T));
+            return serializer.Deserialize(textReader) as T;
         }
     }
 
-    public static bool TryParse(string xml, out Sitemap sitemap)
+    public static bool TryParse<T>(string xml, out T sitemap) where T : class, ISitemapBase
     {
         try
         {
-            sitemap = Parse(xml);
+            sitemap = Parse<T>(xml);
             return true;
         }
         catch
@@ -134,13 +146,4 @@ public class Sitemap : List<Url>, ISitemap
             return false;
         }
     }
-}
-
-/// <summary>
-/// Subclass the StringWriter class and override the default encoding.  
-/// This allows us to produce XML encoded as UTF-8. 
-/// </summary>
-public class StringWriterUtf8 : StringWriter
-{
-    public override Encoding Encoding => Encoding.UTF8;
 }
