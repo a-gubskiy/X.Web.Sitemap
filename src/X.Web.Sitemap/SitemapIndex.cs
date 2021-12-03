@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace X.Web.Sitemap;
@@ -17,9 +16,9 @@ public class SitemapIndex
     /// Creates a sitemap index which serializes to a sitemapindex element of a sitemap index file: https://www.sitemaps.org/protocol.html#index 
     /// </summary>
     /// <param name="sitemaps">A list of sitemap metadata to include in the sitemap index.</param>
-    public SitemapIndex(List<SitemapInfo> sitemaps)
+    public SitemapIndex(IEnumerable<SitemapInfo> sitemaps)
     {
-        Sitemaps = sitemaps;
+        Sitemaps = new List<SitemapInfo>(sitemaps);
     }
 
     [XmlElement("sitemap")]
