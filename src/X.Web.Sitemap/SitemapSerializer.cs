@@ -1,28 +1,42 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 using X.Web.Sitemap.Extensions;
 
 namespace X.Web.Sitemap;
 
+[PublicAPI]
 public interface ISitemapSerializer
 {
     int MaxNumberOfUrlsPerSitemap { get; set; }
-    string ToXml(ISitemapBase sitemap);
-    Task<bool> SaveAsync(string path, ISitemapBase sitemap);
-    bool Save(string path, ISitemapBase sitemap);
+
+    string ToXml<T>(T sitemap) where T : class, ISitemapBase;
+
+    Task<bool> SaveAsync<T>(string path, T sitemap) where T : class, ISitemapBase;
+
+    bool Save<T>(string path, T sitemap) where T : class, ISitemapBase;
 
     /// <summary>
     /// Generate multiple sitemap files
     /// </summary>
     /// <param name="directory"></param>
     /// <param name="sitemap"></param>
+    /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    bool SaveToDirectory(string directory, ISitemapBase sitemap);
+    bool SaveToDirectory<T>(string directory, T sitemap) where T : class, ISitemapBase;
+
+    // /// <summary>
+    // /// Generate multiple sitemap files
+    // /// </summary>
+    // /// <param name="directory"></param>
+    // /// <param name="sitemap"></param>
+    // /// <typeparam name="T"></typeparam>
+    // /// <returns></returns>
+    // Task<bool> SaveToDirectoryAsync<T>(string directory, T sitemap) where T : class, ISitemapBase;
 }
 
 public class SitemapSerializer : ISitemapSerializer
@@ -40,10 +54,9 @@ public class SitemapSerializer : ISitemapSerializer
         MaxNumberOfUrlsPerSitemap = DefaultMaxNumberOfUrlsPerSitemap;
     }
 
-
-    public virtual string ToXml(ISitemapBase sitemap)
+    public virtual string ToXml<T>(T sitemap) where T : class, ISitemapBase
     {
-        var serializer = new XmlSerializer(typeof(Sitemap));
+        var serializer = new XmlSerializer(typeof(T));
 
         using (var writer = new StringWriterUtf8())
         {
@@ -52,7 +65,7 @@ public class SitemapSerializer : ISitemapSerializer
         }
     }
 
-    public virtual async Task<bool> SaveAsync(string path, ISitemapBase sitemap)
+    public virtual async Task<bool> SaveAsync<T>(string path, T sitemap) where T : class, ISitemapBase
     {
         try
         {
@@ -64,7 +77,7 @@ public class SitemapSerializer : ISitemapSerializer
         }
     }
 
-    public virtual bool Save(string path, ISitemapBase sitemap)
+    public virtual bool Save<T>(string path, T sitemap) where T : class, ISitemapBase
     {
         try
         {
@@ -82,7 +95,7 @@ public class SitemapSerializer : ISitemapSerializer
     /// <param name="directory"></param>
     /// <param name="sitemap"></param>
     /// <returns></returns>
-    public virtual bool SaveToDirectory(string directory, ISitemapBase sitemap)
+    public virtual bool SaveToDirectory<T>(string directory, T sitemap) where T : class, ISitemapBase
     {
         try
         {
@@ -90,14 +103,14 @@ public class SitemapSerializer : ISitemapSerializer
                 ? sitemap.Count() / MaxNumberOfUrlsPerSitemap
                 : (sitemap.Count() / MaxNumberOfUrlsPerSitemap) + 1;
 
-            var xmlDocument = new XmlDocument();
-
-            xmlDocument.LoadXml(ToXml(sitemap));
-
-            var all = xmlDocument.ChildNodes[1].ChildNodes.Cast<XmlNode>().ToList();
-
+            var documentXml = ToXml(sitemap);
+            
             for (var i = 0; i < parts; i++)
             {
+                var xmlDocument = new XmlDocument();
+                xmlDocument.LoadXml(documentXml);
+                
+                var all = xmlDocument.ChildNodes[1].ChildNodes.Cast<XmlNode>().ToList();
                 var take = MaxNumberOfUrlsPerSitemap * i;
                 var top = all.Take(take).ToList();
                 var bottom = all.Skip(take + MaxNumberOfUrlsPerSitemap)
@@ -113,7 +126,8 @@ public class SitemapSerializer : ISitemapSerializer
                     node.ParentNode?.RemoveChild(node);
                 }
 
-                _fileSystemWrapper.WriteFile(xmlDocument.ToXmlString(), Path.Combine(directory, $"sitemap{i}.xml"));
+                var xml = xmlDocument.ToXmlString();
+                _fileSystemWrapper.WriteFile(xml, Path.Combine(directory, $"sitemap{i}.xml"));
             }
 
             return true;
