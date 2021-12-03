@@ -40,10 +40,6 @@ namespace X.Web.Sitemap
         /// The date the sitemap was last modified/created. Serializes to the "lostmod" element.
         /// </summary>
         [XmlElement("lastmod")]
-        public string DateLastModified
-        {
-            get => _dateLastModified?.ToString("yyyy-MM-dd");
-            set { }
-        }
+        public string DateLastModified => _dateLastModified?.ToString("yyyy-MM-dd");
     }
 }

@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 namespace X.Web.Sitemap
 {
     [PublicAPI]
-    public interface ISitemap : IList<Url>
+    public interface ISitemapBase : IEnumerable<Url>
     {
         bool Save(string path);
 
@@ -14,5 +14,10 @@ namespace X.Web.Sitemap
         bool SaveToDirectory(string directory);
         
         string ToXml();
+    }
+
+    [PublicAPI]
+    public interface ISitemap : IList<Url>, ISitemapBase
+    {
     }
 }
