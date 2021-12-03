@@ -29,14 +29,14 @@ public interface ISitemapSerializer
     /// <returns></returns>
     bool SaveToDirectory<T>(string directory, T sitemap) where T : class, ISitemapBase;
 
-    // /// <summary>
-    // /// Generate multiple sitemap files
-    // /// </summary>
-    // /// <param name="directory"></param>
-    // /// <param name="sitemap"></param>
-    // /// <typeparam name="T"></typeparam>
-    // /// <returns></returns>
-    // Task<bool> SaveToDirectoryAsync<T>(string directory, T sitemap) where T : class, ISitemapBase;
+    /// <summary>
+    /// Generate multiple sitemap files
+    /// </summary>
+    /// <param name="directory"></param>
+    /// <param name="sitemap"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    Task SaveToDirectoryAsync<T>(string directory, T sitemap) where T : class, ISitemapBase;
 }
 
 public class SitemapSerializer : ISitemapSerializer
@@ -99,43 +99,75 @@ public class SitemapSerializer : ISitemapSerializer
     {
         try
         {
-            var parts = sitemap.Count() % MaxNumberOfUrlsPerSitemap == 0
-                ? sitemap.Count() / MaxNumberOfUrlsPerSitemap
-                : (sitemap.Count() / MaxNumberOfUrlsPerSitemap) + 1;
-
+            var parts = CalculateParts(sitemap);
             var documentXml = ToXml(sitemap);
             
             for (var i = 0; i < parts; i++)
             {
-                var xmlDocument = new XmlDocument();
-                xmlDocument.LoadXml(documentXml);
-                
-                var all = xmlDocument.ChildNodes[1].ChildNodes.Cast<XmlNode>().ToList();
-                var take = MaxNumberOfUrlsPerSitemap * i;
-                var top = all.Take(take).ToList();
-                var bottom = all.Skip(take + MaxNumberOfUrlsPerSitemap)
-                    .Take(sitemap.Count() - take - MaxNumberOfUrlsPerSitemap).ToList();
-
-                var nodes = new List<XmlNode>();
-
-                nodes.AddRange(top);
-                nodes.AddRange(bottom);
-
-                foreach (var node in nodes)
-                {
-                    node.ParentNode?.RemoveChild(node);
-                }
-
-                var xml = xmlDocument.ToXmlString();
+                var xml = GeneratePartialDocumentXml(sitemap, documentXml, i);
                 _fileSystemWrapper.WriteFile(xml, Path.Combine(directory, $"sitemap{i}.xml"));
             }
-
-            return true;
         }
         catch
         {
             return false;
         }
+        
+
+        return true;
+    }
+
+    /// <summary>
+    /// Generate multiple sitemap files
+    /// </summary>
+    /// <param name="directory"></param>
+    /// <param name="sitemap"></param>
+    /// <returns></returns>
+    public virtual async Task SaveToDirectoryAsync<T>(string directory, T sitemap) where T : class, ISitemapBase
+    {
+        var parts = CalculateParts(sitemap);
+        var documentXml = ToXml(sitemap);
+            
+        for (var i = 0; i < parts; i++)
+        {
+            var xml = GeneratePartialDocumentXml(sitemap, documentXml, i);
+            await _fileSystemWrapper.WriteFileAsync(xml, Path.Combine(directory, $"sitemap{i}.xml"));
+        }
+    }
+
+    private string GeneratePartialDocumentXml<T>(T sitemap, string documentXml, int i) where T : class, ISitemapBase
+    {
+        var xmlDocument = new XmlDocument();
+        xmlDocument.LoadXml(documentXml);
+        
+        var all = xmlDocument.ChildNodes[1].ChildNodes.Cast<XmlNode>().ToList();
+        var take = MaxNumberOfUrlsPerSitemap * i;
+        var top = all.Take(take).ToList();
+        var bottom = all
+            .Skip(take + MaxNumberOfUrlsPerSitemap)
+            .Take(sitemap.Count() - take - MaxNumberOfUrlsPerSitemap)
+            .ToList();
+
+        var nodes = new List<XmlNode>();
+
+        nodes.AddRange(top);
+        nodes.AddRange(bottom);
+
+        foreach (var node in nodes)
+        {
+            node.ParentNode?.RemoveChild(node);
+        }
+
+        return xmlDocument.ToXmlString();
+    }
+
+    private int CalculateParts<T>(T sitemap) where T : class, ISitemapBase
+    {
+        var parts = sitemap.Count() % MaxNumberOfUrlsPerSitemap == 0
+            ? sitemap.Count() / MaxNumberOfUrlsPerSitemap
+            : (sitemap.Count() / MaxNumberOfUrlsPerSitemap) + 1;
+        
+        return parts;
     }
 
     public static T Parse<T>(string xml) where T : class, ISitemapBase
@@ -152,12 +184,13 @@ public class SitemapSerializer : ISitemapSerializer
         try
         {
             sitemap = Parse<T>(xml);
-            return true;
         }
         catch
         {
             sitemap = null;
             return false;
         }
+        
+        return true;
     }
 }
