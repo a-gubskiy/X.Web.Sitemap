@@ -16,10 +16,10 @@
     <Title>X.Sitemap</Title>
     <AssemblyVersion>2.5.0.0</AssemblyVersion>
     <FileVersion>2.5.0.0</FileVersion>
-    <PackageVersion>2.5.0</PackageVersion>
+    <PackageVersion>2.5.1-preview</PackageVersion>
     <Title>X.Sitemap</Title>
-    <AssemblyVersion>2.5.0.0</AssemblyVersion>
-    <FileVersion>2.5.0.0</FileVersion>
+    <AssemblyVersion>2.5.1.0</AssemblyVersion>
+    <FileVersion>2.5.1.0</FileVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>default</LangVersion>
   </PropertyGroup>
