@@ -1,6 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace X.Web.Sitemap.Tests.UnitTests.SerializedXmlSaver;

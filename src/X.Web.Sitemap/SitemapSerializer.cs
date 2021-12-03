@@ -110,7 +110,7 @@ public class SitemapSerializer : ISitemapSerializer
 
                 foreach (var node in nodes)
                 {
-                    node.ParentNode.RemoveChild(node);
+                    node.ParentNode?.RemoveChild(node);
                 }
 
                 _fileSystemWrapper.WriteFile(xmlDocument.ToXmlString(), Path.Combine(directory, $"sitemap{i}.xml"));
