@@ -8,7 +8,6 @@
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
-    <PackageReference Include="Shouldly" Version="4.0.3" />
   </ItemGroup>
   
   <ItemGroup>

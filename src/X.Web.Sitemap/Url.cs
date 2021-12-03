@@ -8,7 +8,7 @@ namespace X.Web.Sitemap;
 [Serializable]
 [XmlRoot("url")]
 [XmlType("url")]
-public class Url
+public record Url
 {
     [XmlElement("loc")]
     public string Location { get; set; }
@@ -44,15 +44,15 @@ public class Url
     {
     }
 
-    public static Url CreateUrl(string location) => CreateUrl(location, DateTime.Now);
+    public static Url CreateUrl(string location, string language = "") => CreateUrl(location, DateTime.Now, language);
 
     public static Url CreateUrl(string url, DateTime timeStamp, string language = "") =>
-        new Url
+        new()
         {
             Location = url,
             ChangeFrequency = ChangeFrequency.Daily,
             Priority = 0.5d,
             TimeStamp = timeStamp,
-            Language = language
+            Language = string.IsNullOrWhiteSpace(language) ? null : language
         };
 }
