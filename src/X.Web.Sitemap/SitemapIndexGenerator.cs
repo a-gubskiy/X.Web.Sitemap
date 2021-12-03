@@ -37,13 +37,6 @@ public class SitemapIndexGenerator : ISitemapIndexGenerator
 	{
 		var sitemapIndex = new SitemapIndex(sitemaps);
 		_serializedXmlSaver.SerializeAndSave(sitemapIndex, targetDirectory, targetSitemapFileName);
-			
-		return sitemapIndex;
-	}
-	public SitemapIndex GenerateSitemapIndex(List<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapFileName)
-	{
-		var sitemapIndex = new SitemapIndex(sitemaps);
-		_serializedXmlSaver.SerializeAndSave(sitemapIndex, targetDirectory, targetSitemapFileName);
 		return sitemapIndex;
 	}
 }
