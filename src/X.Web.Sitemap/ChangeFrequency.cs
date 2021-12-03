@@ -1,31 +1,30 @@
 ﻿using System.Xml.Serialization;
 using JetBrains.Annotations;
 
-namespace X.Web.Sitemap
+namespace X.Web.Sitemap;
+
+[PublicAPI]
+[Serializable]
+public enum ChangeFrequency
 {
-    [PublicAPI]
-    [Serializable]
-    public enum ChangeFrequency
-    {
-        [XmlEnum(Name = "always")]
-        Always,
+    [XmlEnum(Name = "always")]
+    Always,
 
-        [XmlEnum(Name = "hourly")]
-        Hourly,
+    [XmlEnum(Name = "hourly")]
+    Hourly,
 
-        [XmlEnum(Name = "daily")]
-        Daily,
+    [XmlEnum(Name = "daily")]
+    Daily,
 
-        [XmlEnum(Name = "weekly")]
-        Weekly,
+    [XmlEnum(Name = "weekly")]
+    Weekly,
 
-        [XmlEnum(Name = "monthly")]
-        Monthly,
+    [XmlEnum(Name = "monthly")]
+    Monthly,
 
-        [XmlEnum(Name = "yearly")]
-        Yearly,
+    [XmlEnum(Name = "yearly")]
+    Yearly,
 
-        [XmlEnum(Name = "never")]
-        Never
-    }
+    [XmlEnum(Name = "never")]
+    Never
 }
