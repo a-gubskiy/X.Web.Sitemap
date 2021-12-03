@@ -33,6 +33,10 @@ namespace X.Web.Sitemap
         [XmlElement("priority")]
         public double Priority { get; set; }
         
+        /// <summary>
+        /// Information about page localization
+        /// More info at: https://developers.google.com/search/docs/advanced/crawling/localized-versions
+        /// </summary>
         [XmlElement("hreflang")]
         public string Language { get; set; }
 
