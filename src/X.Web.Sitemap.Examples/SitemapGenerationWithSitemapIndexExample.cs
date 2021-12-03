@@ -54,7 +54,8 @@ public class SitemapGenerationWithSitemapIndexExample
             // Set this to between 0 and 1. This should only be used as a relative ranking of other pages in
             // your site so that search engines know which result to prioritize in SERPS if multiple pages
             // look pertinent from your site. Since product pages are really important to us, we'll make them a .9
-            Priority = .9
+            Priority = .9,
+            Language = "de"
         }).ToList();
 
         var miscellaneousLowPriorityUrlStrings = _websiteUrlRetriever.GetMiscellaneousLowPriorityUrls();
@@ -66,7 +67,8 @@ public class SitemapGenerationWithSitemapIndexExample
             //--let's pretend this content was changed a year ago
             TimeStamp = DateTime.UtcNow.AddYears(-1),
             //--these pages are super low priority
-            Priority = .1
+            Priority = .1,
+            Language = "en"
         }).ToList();
 
         // Combine the urls into one big list. These could of course bet kept seperate and two different
