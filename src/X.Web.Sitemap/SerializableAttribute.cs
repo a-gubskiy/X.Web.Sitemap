@@ -1,8 +1,7 @@
 ﻿using System;
 
-namespace X.Web.Sitemap
+namespace X.Web.Sitemap;
+
+public class SerializableAttribute : Attribute
 {
-    public class SerializableAttribute : Attribute
-    {
-    }
 }

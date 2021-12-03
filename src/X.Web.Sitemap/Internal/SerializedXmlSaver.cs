@@ -3,45 +3,44 @@ using System.IO;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
 
-namespace X.Web.Sitemap
+namespace X.Web.Sitemap;
+
+[PublicAPI]
+internal interface ISerializedXmlSaver<in T>
 {
-    [PublicAPI]
-    internal interface ISerializedXmlSaver<in T>
+    FileInfo SerializeAndSave(T objectToSerialize, DirectoryInfo targetDirectory, string targetFileName);
+}
+
+internal class SerializedXmlSaver<T> : ISerializedXmlSaver<T>
+{
+    private readonly IFileSystemWrapper _fileSystemWrapper;
+
+    public SerializedXmlSaver(IFileSystemWrapper fileSystemWrapper)
     {
-        FileInfo SerializeAndSave(T objectToSerialize, DirectoryInfo targetDirectory, string targetFileName);
+        _fileSystemWrapper = fileSystemWrapper;
     }
-    
-    internal class SerializedXmlSaver<T> : ISerializedXmlSaver<T>
+
+    public FileInfo SerializeAndSave(T objectToSerialize, DirectoryInfo targetDirectory, string targetFileName)
     {
-        private readonly IFileSystemWrapper _fileSystemWrapper;
+        ValidateArgumentNotNull(objectToSerialize);
 
-        public SerializedXmlSaver(IFileSystemWrapper fileSystemWrapper)
+        var xmlSerializer = new XmlSerializer(typeof(T));
+
+        using (var textWriter = new StringWriterUtf8())
         {
-            _fileSystemWrapper = fileSystemWrapper;
+            xmlSerializer.Serialize(textWriter, objectToSerialize);
+            var xmlString = textWriter.ToString();
+            var path = Path.Combine(targetDirectory.FullName, targetFileName);
+
+            return _fileSystemWrapper.WriteFile(xmlString, path);
         }
+    }
 
-        public FileInfo SerializeAndSave(T objectToSerialize, DirectoryInfo targetDirectory, string targetFileName)
+    private static void ValidateArgumentNotNull(T objectToSerialize)
+    {
+        if (objectToSerialize == null)
         {
-            ValidateArgumentNotNull(objectToSerialize);
-
-            var xmlSerializer = new XmlSerializer(typeof(T));
-            
-            using (var textWriter = new StringWriterUtf8())
-            {
-                xmlSerializer.Serialize(textWriter, objectToSerialize);
-                var xmlString = textWriter.ToString();
-                var path = Path.Combine(targetDirectory.FullName, targetFileName);
-                
-                return _fileSystemWrapper.WriteFile(xmlString, path);
-            }
-        }
-
-        private static void ValidateArgumentNotNull(T objectToSerialize)
-        {
-            if (objectToSerialize == null)
-            {
-                throw new ArgumentNullException(nameof(objectToSerialize));
-            }
+            throw new ArgumentNullException(nameof(objectToSerialize));
         }
     }
 }

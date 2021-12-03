@@ -2,43 +2,48 @@
 using System.IO;
 using JetBrains.Annotations;
 
-namespace X.Web.Sitemap
+namespace X.Web.Sitemap;
+
+[PublicAPI]
+public interface ISitemapIndexGenerator
 {
-	[PublicAPI]
-	public interface ISitemapIndexGenerator
-	{
-		/// <summary>
-		/// Creates a sitemap index file for the specified sitemaps.
-		/// </summary>
-		/// <param name="sitemaps">The sitemaps in include in the sitemap index.</param>
-		/// <param name="targetDirectory">
-		/// The path to the directory where you'd like the sitemap index file to be
-		/// written. (e.g. "C:\sitemaps\" or "\\myserver\sitemaplocation\".
-		/// </param>
-		/// <param name="targetSitemapIndexFileName">The name of the sitemap to be generated (e.g. "sitemapindex.xml")</param>
-		SitemapIndex GenerateSitemapIndex(List<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapIndexFileName);
-	}
+	/// <summary>
+	/// Creates a sitemap index file for the specified sitemaps.
+	/// </summary>
+	/// <param name="sitemaps">The sitemaps in include in the sitemap index.</param>
+	/// <param name="targetDirectory">
+	/// The path to the directory where you'd like the sitemap index file to be
+	/// written. (e.g. "C:\sitemaps\" or "\\myserver\sitemaplocation\".
+	/// </param>
+	/// <param name="targetSitemapIndexFileName">The name of the sitemap to be generated (e.g. "sitemapindex.xml")</param>
+	SitemapIndex GenerateSitemapIndex(List<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapIndexFileName);
+}
 	
-	public class SitemapIndexGenerator : ISitemapIndexGenerator
+public class SitemapIndexGenerator : ISitemapIndexGenerator
+{
+	private readonly ISerializedXmlSaver<SitemapIndex> _serializedXmlSaver;
+
+	public SitemapIndexGenerator()
 	{
-		private readonly ISerializedXmlSaver<SitemapIndex> _serializedXmlSaver;
+		_serializedXmlSaver = new SerializedXmlSaver<SitemapIndex>(new FileSystemWrapper());
+	}
 
-		public SitemapIndexGenerator()
-		{
-			_serializedXmlSaver = new SerializedXmlSaver<SitemapIndex>(new FileSystemWrapper());
-		}
+	internal SitemapIndexGenerator(ISerializedXmlSaver<SitemapIndex> serializedXmlSaver)
+	{
+		_serializedXmlSaver = serializedXmlSaver;
+	}
 
-		internal SitemapIndexGenerator(ISerializedXmlSaver<SitemapIndex> serializedXmlSaver)
-		{
-			_serializedXmlSaver = serializedXmlSaver;
-		}
-
-		public SitemapIndex GenerateSitemapIndex(List<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapFileName)
-		{
-			var sitemapIndex = new SitemapIndex(sitemaps);
-			_serializedXmlSaver.SerializeAndSave(sitemapIndex, targetDirectory, targetSitemapFileName);
+	public SitemapIndex GenerateSitemapIndex(List<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapFileName)
+	{
+		var sitemapIndex = new SitemapIndex(sitemaps);
+		_serializedXmlSaver.SerializeAndSave(sitemapIndex, targetDirectory, targetSitemapFileName);
 			
-			return sitemapIndex;
-		}
+		return sitemapIndex;
+	}
+	public SitemapIndex GenerateSitemapIndex(List<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapFileName)
+	{
+		var sitemapIndex = new SitemapIndex(sitemaps);
+		_serializedXmlSaver.SerializeAndSave(sitemapIndex, targetDirectory, targetSitemapFileName);
+		return sitemapIndex;
 	}
 }

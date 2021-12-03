@@ -1,55 +1,55 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
-namespace X.Web.Sitemap
+namespace X.Web.Sitemap;
+
+[PublicAPI]
+internal interface IFileSystemWrapper
 {
-    [PublicAPI]
-    internal interface IFileSystemWrapper
-    {
-        FileInfo WriteFile(string xml, string path);
+    FileInfo WriteFile(string xml, string path);
         
-        Task<FileInfo> WriteFileAsync(string xml, string path);
-    }
+    Task<FileInfo> WriteFileAsync(string xml, string path);
+}
     
-    internal class FileSystemWrapper : IFileSystemWrapper
+internal class FileSystemWrapper : IFileSystemWrapper
+{
+    public FileInfo WriteFile(string xml, string path)
     {
-        public FileInfo WriteFile(string xml, string path)
+        var directory = Path.GetDirectoryName(path);
+            
+        EnsureDirectoryCreated(directory);
+            
+        using (var file = new FileStream(path, FileMode.Create))
+        using (var writer = new StreamWriter(file))
         {
-            var directory = Path.GetDirectoryName(path);
-            
-            EnsureDirectoryCreated(directory);
-            
-            using (var file = new FileStream(path, FileMode.Create))
-            using (var writer = new StreamWriter(file))
-            {
-                writer.Write(xml);
-            }
-            
-            return new FileInfo(path);
+            writer.Write(xml);
         }
+            
+        return new FileInfo(path);
+    }
 
-        public async Task<FileInfo> WriteFileAsync(string xml, string path)
+    public async Task<FileInfo> WriteFileAsync(string xml, string path)
+    {
+        var directory = Path.GetDirectoryName(path);
+            
+        EnsureDirectoryCreated(directory);
+            
+        using (var file = new FileStream(path, FileMode.Create))
+        using (var writer = new StreamWriter(file))
         {
-            var directory = Path.GetDirectoryName(path);
-            
-            EnsureDirectoryCreated(directory);
-            
-            using (var file = new FileStream(path, FileMode.Create))
-            using (var writer = new StreamWriter(file))
-            {
-                await writer.WriteAsync(xml);
-            }
-            
-            return new FileInfo(path);
+            await writer.WriteAsync(xml);
         }
+            
+        return new FileInfo(path);
+    }
 
-        private static void EnsureDirectoryCreated(string directory)
+    private static void EnsureDirectoryCreated(string directory)
+    {
+        if (!Directory.Exists(directory))
         {
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
+            Directory.CreateDirectory(directory);
         }
     }
 }
