@@ -73,43 +73,8 @@ public class Sitemap : List<Url>, ISitemap
     /// <returns></returns>
     public virtual bool SaveToDirectory(string directory)
     {
-        try
-        {
-            var parts = Count % MaxNumberOfUrlsPerSitemap == 0
-                ? Count / MaxNumberOfUrlsPerSitemap
-                : (Count / MaxNumberOfUrlsPerSitemap) + 1;
-                
-            var xmlDocument = new XmlDocument();
-                
-            xmlDocument.LoadXml(ToXml());
-                    
-            var all = xmlDocument.ChildNodes[1].ChildNodes.Cast<XmlNode>().ToList();
-
-            for (var i = 0; i < parts; i++)
-            {
-                var take = MaxNumberOfUrlsPerSitemap * i;
-                var top = all.Take(take).ToList();
-                var bottom = all.Skip(take + MaxNumberOfUrlsPerSitemap).Take(Count - take - MaxNumberOfUrlsPerSitemap).ToList();
-
-                var nodes = new List<XmlNode>();
-                    
-                nodes.AddRange(top);
-                nodes.AddRange(bottom);
-
-                foreach (var node in nodes)
-                {
-                    node.ParentNode.RemoveChild(node);
-                }
-
-                _fileSystemWrapper.WriteFile(xmlDocument.ToXmlString(), Path.Combine(directory, $"sitemap{i}.xml"));
-            }
-
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        var result = XSitemapSaveToDirectoryFixed.SaveToDirectory(this, directory);
+        return true;
     }
 
     public static Sitemap Parse(string xml)
