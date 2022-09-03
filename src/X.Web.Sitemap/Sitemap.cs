@@ -46,7 +46,8 @@ public class Sitemap : List<Url>, ISitemap
     {
         try
         {
-            return await _fileSystemWrapper.WriteFileAsync(ToXml(), path) != null;
+            var result = await _fileSystemWrapper.WriteFileAsync(ToXml(), path);
+            return result.Exists;
         }
         catch
         {
@@ -58,7 +59,8 @@ public class Sitemap : List<Url>, ISitemap
     {
         try
         {
-            return _fileSystemWrapper.WriteFile(ToXml(), path) != null;
+            var result = _fileSystemWrapper.WriteFile(ToXml(), path);
+            return result.Exists;
         }
         catch
         {
@@ -98,7 +100,10 @@ public class Sitemap : List<Url>, ISitemap
 
                 foreach (var node in nodes)
                 {
-                    node.ParentNode.RemoveChild(node);
+                    if (node.ParentNode != null)
+                    {
+                        node.ParentNode.RemoveChild(node);
+                    }
                 }
 
                 _fileSystemWrapper.WriteFile(xmlDocument.ToXmlString(), Path.Combine(directory, $"sitemap{i}.xml"));
@@ -117,11 +122,11 @@ public class Sitemap : List<Url>, ISitemap
         using (TextReader textReader = new StringReader(xml))
         {
             var serializer = new XmlSerializer(typeof(Sitemap));
-            return serializer.Deserialize(textReader) as Sitemap;
+            return (Sitemap)serializer.Deserialize(textReader);
         }
     }
 
-    public static bool TryParse(string xml, out Sitemap sitemap)
+    public static bool TryParse(string xml, out Sitemap? sitemap)
     {
         try
         {
