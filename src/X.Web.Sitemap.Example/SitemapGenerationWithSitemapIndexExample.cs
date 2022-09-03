@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace X.Web.Sitemap.Examples;
+﻿namespace X.Web.Sitemap.Example;
 
 public class SitemapGenerationWithSitemapIndexExample
 {
