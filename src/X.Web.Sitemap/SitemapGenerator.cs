@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace X.Web.Sitemap;
 
 public class SitemapGenerator : ISitemapGenerator
 {
     private readonly ISerializedXmlSaver<Sitemap> _serializedXmlSaver;
+
+    [PublicAPI]
+    public int MaxNumberOfUrlsPerSitemap { get; set; } = Sitemap.DefaultMaxNumberOfUrlsPerSitemap;
         
     public SitemapGenerator()
     {
@@ -23,14 +27,14 @@ public class SitemapGenerator : ISitemapGenerator
 
     public List<FileInfo> GenerateSitemaps(IEnumerable<Url> urls, DirectoryInfo targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap")
     {
-        var sitemaps = BuildSitemaps(urls.ToList());
+        var sitemaps = BuildSitemaps(urls.ToList(), MaxNumberOfUrlsPerSitemap);
 
         var sitemapFileInfos = SaveSitemaps(targetDirectory, sitemapBaseFileNameWithoutExtension, sitemaps);
 
         return sitemapFileInfos;
     }
 
-    private static List<Sitemap> BuildSitemaps(IReadOnlyList<Url> urls)
+    private static List<Sitemap> BuildSitemaps(IReadOnlyList<Url> urls, int maxNumberOfUrlsPerSitemap)
     {
         var sitemaps = new List<Sitemap>();
         var sitemap = new Sitemap();
@@ -38,7 +42,7 @@ public class SitemapGenerator : ISitemapGenerator
             
         for (var i = 0; i < numberOfUrls; i++)
         {
-            if (i % Sitemap.DefaultMaxNumberOfUrlsPerSitemap == 0)
+            if (i % maxNumberOfUrlsPerSitemap == 0)
             {
                 sitemap = new Sitemap();
                 sitemaps.Add(sitemap);
