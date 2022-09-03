@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -11,7 +12,8 @@ public interface ISitemap : IList<Url>
 
     Task<bool> SaveAsync(string path);
         
-    bool SaveToDirectory(string directory);
+    [Obsolete("This method will be removed in future version. Use SitemapGenerator instead")]
+    bool SaveToDirectory(string targetSitemapDirectory);
         
     string ToXml();
 }
