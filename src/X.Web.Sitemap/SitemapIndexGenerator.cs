@@ -17,6 +17,9 @@ public class SitemapIndexGenerator : ISitemapIndexGenerator
 		_serializedXmlSaver = serializedXmlSaver;
 	}
 
+	public SitemapIndex GenerateSitemapIndex(List<SitemapInfo> sitemaps, string targetDirectory, string targetSitemapFileName) => 
+		GenerateSitemapIndex(sitemaps, new DirectoryInfo(targetDirectory), targetSitemapFileName);
+
 	public SitemapIndex GenerateSitemapIndex(List<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapFileName)
 	{
 		var sitemapIndex = new SitemapIndex(sitemaps);

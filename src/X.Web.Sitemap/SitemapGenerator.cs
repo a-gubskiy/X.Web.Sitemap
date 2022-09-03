@@ -17,6 +17,9 @@ public class SitemapGenerator : ISitemapGenerator
         _serializedXmlSaver = serializedXmlSaver;
     }
 
+    public List<FileInfo> GenerateSitemaps(List<Url> urls, string targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap") => 
+        GenerateSitemaps(urls, new DirectoryInfo(targetDirectory), sitemapBaseFileNameWithoutExtension);
+
     public List<FileInfo> GenerateSitemaps(List<Url> urls, DirectoryInfo targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap")
     {
         var sitemaps = BuildSitemaps(urls);
@@ -45,7 +48,6 @@ public class SitemapGenerator : ISitemapGenerator
             
         return sitemaps;
     }
-
 
     private List<FileInfo> SaveSitemaps(DirectoryInfo targetDirectory, string sitemapBaseFileNameWithoutExtension, IReadOnlyList<Sitemap> sitemaps)
     {

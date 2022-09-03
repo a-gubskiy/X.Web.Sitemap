@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -73,13 +74,14 @@ public class Sitemap : List<Url>, ISitemap
     /// </summary>
     /// <param name="directory"></param>
     /// <returns></returns>
+    [Obsolete]
     public virtual bool SaveToDirectory(string directory)
     {
         try
         {
             var parts = Count % MaxNumberOfUrlsPerSitemap == 0
                 ? Count / MaxNumberOfUrlsPerSitemap
-                : (Count / MaxNumberOfUrlsPerSitemap) + 1;
+                : Count / MaxNumberOfUrlsPerSitemap + 1;
                 
             var xmlDocument = new XmlDocument();
                 
