@@ -6,10 +6,10 @@ namespace X.Web.Sitemap;
 [Serializable]
 public class SitemapInfo
 {
-    private readonly DateTime? _dateLastModified;
-
     private SitemapInfo()
     {
+        AbsolutePathToSitemap = "";
+        DateLastModified = "";
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class SitemapInfo
     public SitemapInfo(Uri absolutePathToSitemap, DateTime? dateSitemapLastModified = null)
     {
         AbsolutePathToSitemap = absolutePathToSitemap.ToString();
-        _dateLastModified = dateSitemapLastModified;
+        DateLastModified = dateSitemapLastModified?.ToString("yyyy-MM-dd") ?? string.Empty;
     }
 
     /// <summary>
@@ -40,9 +40,5 @@ public class SitemapInfo
     /// The date the sitemap was last modified/created. Serializes to the "lostmod" element.
     /// </summary>
     [XmlElement("lastmod")]
-    public string DateLastModified
-    {
-        get => _dateLastModified?.ToString("yyyy-MM-dd");
-        set { }
-    }
+    public string DateLastModified{ get; set; }
 }
