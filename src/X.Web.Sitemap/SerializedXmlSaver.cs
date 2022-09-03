@@ -15,7 +15,10 @@ internal class SerializedXmlSaver<T> : ISerializedXmlSaver<T>
 
     public FileInfo SerializeAndSave(T objectToSerialize, DirectoryInfo targetDirectory, string targetFileName)
     {
-        ValidateArgumentNotNull(objectToSerialize);
+        if (objectToSerialize == null)
+        {
+            throw new ArgumentNullException(nameof(objectToSerialize));
+        }
 
         var xmlSerializer = new XmlSerializer(typeof(T));
             
@@ -26,14 +29,6 @@ internal class SerializedXmlSaver<T> : ISerializedXmlSaver<T>
             var path = Path.Combine(targetDirectory.FullName, targetFileName);
                 
             return _fileSystemWrapper.WriteFile(xmlString, path);
-        }
-    }
-
-    private static void ValidateArgumentNotNull(T objectToSerialize)
-    {
-        if (objectToSerialize == null)
-        {
-            throw new ArgumentNullException(nameof(objectToSerialize));
         }
     }
 }

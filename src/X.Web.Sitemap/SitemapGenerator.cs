@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace X.Web.Sitemap;
 
@@ -17,12 +18,12 @@ public class SitemapGenerator : ISitemapGenerator
         _serializedXmlSaver = serializedXmlSaver;
     }
 
-    public List<FileInfo> GenerateSitemaps(List<Url> urls, string targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap") => 
+    public List<FileInfo> GenerateSitemaps(IEnumerable<Url> urls, string targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap") => 
         GenerateSitemaps(urls, new DirectoryInfo(targetDirectory), sitemapBaseFileNameWithoutExtension);
 
-    public List<FileInfo> GenerateSitemaps(List<Url> urls, DirectoryInfo targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap")
+    public List<FileInfo> GenerateSitemaps(IEnumerable<Url> urls, DirectoryInfo targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap")
     {
-        var sitemaps = BuildSitemaps(urls);
+        var sitemaps = BuildSitemaps(urls.ToList());
 
         var sitemapFileInfos = SaveSitemaps(targetDirectory, sitemapBaseFileNameWithoutExtension, sitemaps);
 

@@ -27,7 +27,7 @@ public interface ISitemapGenerator
     /// files with names like products-001.xml, products-002.xml, etc.
     /// </param>
     List<FileInfo> GenerateSitemaps(
-        List<Url> urls, 
-        DirectoryInfo targetDirectory, 
+        IEnumerable<Url> urls,
+        DirectoryInfo targetDirectory,
         string sitemapBaseFileNameWithoutExtension = "sitemap");
 }
