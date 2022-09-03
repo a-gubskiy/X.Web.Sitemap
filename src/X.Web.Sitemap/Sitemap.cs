@@ -82,8 +82,6 @@ public class Sitemap : List<Url>, ISitemap
         }
     }
 
-   
-
     public static Sitemap Parse(string xml)
     {
         using (TextReader textReader = new StringReader(xml))
