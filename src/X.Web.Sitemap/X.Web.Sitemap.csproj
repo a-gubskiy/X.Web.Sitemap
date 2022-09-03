@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>2.1.0</Version>
+    <Version>2.7.0</Version>
     <Description>This library allows you quickly and easily generate sitemap files.</Description>
     <Copyright>Andrew Gubskiy</Copyright>
     <PackageProjectUrl>https://github.com/ernado-x/X.Web.Sitemap</PackageProjectUrl>
@@ -12,12 +12,13 @@
     <PackageId>xsitemap</PackageId>
     <Authors>Andrew Gubskiy</Authors>
     <PackageTags>sitemap, web, asp.net, sitemap.xml</PackageTags>
-    <PackageVersion>2.1.0</PackageVersion>
+    <PackageVersion>2.7.0</PackageVersion>
     <Title>X.Sitemap</Title>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.1.0.0</FileVersion>
+    <AssemblyVersion>2.7.0.0</AssemblyVersion>
+    <FileVersion>2.7.0.0</FileVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>default</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -29,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
   </ItemGroup>

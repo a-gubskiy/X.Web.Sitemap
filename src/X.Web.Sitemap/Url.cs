@@ -35,12 +35,13 @@ public class Url
 
     public Url()
     {
+        Location = "";
     }
 
     public static Url CreateUrl(string location) => CreateUrl(location, DateTime.Now);
 
     public static Url CreateUrl(string url, DateTime timeStamp) =>
-        new Url
+        new()
         {
             Location = url,
             ChangeFrequency = ChangeFrequency.Daily,

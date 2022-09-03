@@ -17,7 +17,10 @@ public class SitemapIndexGenerator : ISitemapIndexGenerator
 		_serializedXmlSaver = serializedXmlSaver;
 	}
 
-	public SitemapIndex GenerateSitemapIndex(List<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapFileName)
+	public SitemapIndex GenerateSitemapIndex(IEnumerable<SitemapInfo> sitemaps, string targetDirectory, string targetSitemapFileName) => 
+		GenerateSitemapIndex(sitemaps, new DirectoryInfo(targetDirectory), targetSitemapFileName);
+
+	public SitemapIndex GenerateSitemapIndex(IEnumerable<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapFileName)
 	{
 		var sitemapIndex = new SitemapIndex(sitemaps);
 		_serializedXmlSaver.SerializeAndSave(sitemapIndex, targetDirectory, targetSitemapFileName);
