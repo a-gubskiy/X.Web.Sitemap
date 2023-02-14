@@ -12,7 +12,7 @@
     <PackageId>xsitemap</PackageId>
     <Authors>Andrew Gubskiy</Authors>
     <PackageTags>sitemap, web, asp.net, sitemap.xml</PackageTags>
-    <PackageVersion>2.7.1</PackageVersion>
+    <PackageVersion>2.7.1-beta</PackageVersion>
     <Title>X.Sitemap</Title>
     <AssemblyVersion>2.7.1.0</AssemblyVersion>
     <FileVersion>2.7.1.0</FileVersion>
