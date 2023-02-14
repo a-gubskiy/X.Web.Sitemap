@@ -1,4 +1,4 @@
-﻿namespace X.Web.Sitemap.Example;
+﻿namespace X.Web.Sitemap.Example.Examples;
 
 /// <summary>
 /// This is an example showing how you might take a large list of URLs of different kinds of resources and build
@@ -19,7 +19,7 @@ public class SitemapGenerationWithSitemapIndexExample : IExample
         var urlGenerator = new UrlGenerator();
 
         // Get list of website urls
-        var allUrls = urlGenerator.GetUrls("mywebsite.com"); 
+        var allUrls = urlGenerator.GetUrls("mywebsite.com", false); 
         
 
         // generate one or more sitemaps (depending on the number of URLs) in the designated location.
@@ -46,5 +46,7 @@ public class SitemapGenerationWithSitemapIndexExample : IExample
         // "Sitemap: https://www.mywebsite.com/sitemaps/sitemap-index.xml"
         // You could do this manually (since this may never change) or if you are ultra-fancy, you could dynamically update your robots.txt with the names of the sitemap index
         // file(s) you generated
+        
+        Console.WriteLine($"Sitemap stored at: `{targetSitemapDirectory}`");
     }
 }

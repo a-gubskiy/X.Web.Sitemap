@@ -1,4 +1,4 @@
-namespace X.Web.Sitemap.Example;
+namespace X.Web.Sitemap.Example.Examples;
 
 public class SimpleSitemapGenerationExample : IExample
 {
@@ -10,11 +10,13 @@ public class SimpleSitemapGenerationExample : IExample
         var urlGenerator = new UrlGenerator();
 
         // Get list of website urls
-        var allUrls = urlGenerator.GetUrls("mywebsite.com");
+        var allUrls = urlGenerator.GetUrls("mywebsite.com", false);
 
         var sitemap = new Sitemap(allUrls);
 
         sitemap.SaveToDirectory(directory);
+        
+        Console.WriteLine($"Sitemap stored at: `{directory}`");
     }
 
 }
