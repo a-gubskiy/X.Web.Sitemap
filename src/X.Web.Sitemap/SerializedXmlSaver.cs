@@ -22,9 +22,12 @@ internal class SerializedXmlSaver<T> : ISerializedXmlSaver<T>
 
         var xmlSerializer = new XmlSerializer(typeof(T));
             
+        var namespaces = new XmlSerializerNamespaces();
+        namespaces.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
+
         using (var textWriter = new StringWriterUtf8())
         {
-            xmlSerializer.Serialize(textWriter, objectToSerialize);
+            xmlSerializer.Serialize(textWriter, objectToSerialize, namespaces);
             var xmlString = textWriter.ToString();
             var path = Path.Combine(targetDirectory.FullName, targetFileName);
                 

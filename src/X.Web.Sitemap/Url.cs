@@ -6,12 +6,24 @@ namespace X.Web.Sitemap;
 
 [PublicAPI]
 [Serializable]
+[XmlRoot("image")]
+[XmlType("image")]
+public class Image
+{
+    [XmlElement(ElementName = "loc")]
+    public string Location { get; set; }
+}
+
+[PublicAPI]
+[Serializable]
 [XmlRoot("url")]
 [XmlType("url")]
 public class Url
 {
     [XmlElement("loc")]
     public string Location { get; set; }
+    
+    public Image[] Images { get; set; }
 
     [XmlIgnore]
     public DateTime TimeStamp { get; set; }
