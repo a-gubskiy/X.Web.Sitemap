@@ -16,9 +16,9 @@
     <Title>X.Sitemap</Title>
     <AssemblyVersion>2.7.1.0</AssemblyVersion>
     <FileVersion>2.7.1.0</FileVersion>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>default</LangVersion>
     <Nullable>enable</Nullable>
+    <TargetFrameworks>net6.0;net7.0;netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
