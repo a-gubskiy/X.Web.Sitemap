@@ -4,6 +4,11 @@ using System.Xml.Serialization;
 
 namespace X.Web.Sitemap;
 
+internal interface ISerializedXmlSaver<in T>
+{
+    FileInfo SerializeAndSave(T objectToSerialize, DirectoryInfo targetDirectory, string targetFileName);
+}
+
 internal class SerializedXmlSaver<T> : ISerializedXmlSaver<T>
 {
     private readonly IFileSystemWrapper _fileSystemWrapper;
