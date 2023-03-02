@@ -2,20 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace X.Web.Sitemap.Tests.UnitTests.SerializedXmlSaver;
 
 [TestFixture]
 public class SerializeAndSaveTests
 {
-	private SerializedXmlSaver<SitemapIndex> _serializer;
+	private Web.Sitemap.SitemapXmlSaver _serializer;
 	private IFileSystemWrapper _fileSystemWrapper;
 
 	[SetUp]
 	public void SetUp()
 	{
 		_fileSystemWrapper = new TestFileSystemWrapper();
-		_serializer = new SerializedXmlSaver<SitemapIndex>(_fileSystemWrapper);
+		_serializer = new Web.Sitemap.SitemapXmlSaver(_fileSystemWrapper);
 	}
 
 	[Test]
@@ -42,11 +43,19 @@ public class SerializeAndSaveTests
 			new SitemapInfo(new Uri("http://example.com/sitemap2.xml"), DateTime.UtcNow.AddDays(-1))
 		});
 
+		var serializer = new XmlSerializer(typeof(SitemapIndex));
+		var path = Path.Combine(directory.FullName, fileName);
+		var xml = "";
+		
+		using (var writer = new StringWriterUtf8())
+		{
+			serializer.Serialize(writer, sitemapIndex);
+			xml= writer.ToString();
+		}
+
 		//--act
-		var result = _serializer.SerializeAndSave(
-			sitemapIndex,
-			directory,
-			fileName);
+		var result = _fileSystemWrapper.WriteFile(xml, path);
+		
 
 		Assert.True(result.FullName.Contains("sitemapindex"));
 		Assert.AreEqual(directory.Name, result.Directory.Name);
@@ -59,12 +68,21 @@ public class SerializeAndSaveTests
 		//--arrange
 		var expectedFileInfo = new FileInfo("something/file.xml");
 
-		//--act
-		var result = _serializer.SerializeAndSave(
-			new SitemapIndex(new List<SitemapInfo>()),
-			new DirectoryInfo("something"),
-			"file.xml");
+		var sitemapIndex = new SitemapIndex(new List<SitemapInfo>());
+		var directory = new DirectoryInfo("something");
+		var fileName = "file.xml";
+		var serializer = new XmlSerializer(typeof(SitemapIndex));
+		var path = Path.Combine(directory.FullName, fileName);
+		var xml = "";
+		
+		using (var writer = new StringWriterUtf8())
+		{
+			serializer.Serialize(writer, sitemapIndex);
+			xml= writer.ToString();
+		}
 
+		//--act
+		var result = _fileSystemWrapper.WriteFile(xml, path);
 
 		Assert.AreEqual(expectedFileInfo.FullName, result.FullName);
 		Assert.AreEqual(expectedFileInfo.Directory, result.Directory);
