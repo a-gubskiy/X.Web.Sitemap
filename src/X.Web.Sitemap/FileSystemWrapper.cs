@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -43,8 +44,13 @@ internal class FileSystemWrapper : IFileSystemWrapper
         return new FileInfo(path);
     }
 
-    private static void EnsureDirectoryCreated(string directory)
+    private static void EnsureDirectoryCreated(string? directory)
     {
+        if (string.IsNullOrEmpty(directory))
+        {
+            throw new ArgumentException(nameof(directory));
+        }
+        
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
