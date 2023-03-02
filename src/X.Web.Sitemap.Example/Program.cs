@@ -1,4 +1,5 @@
 ﻿using X.Web.Sitemap.Example;
+using X.Web.Sitemap.Example.Examples;
 
 Console.WriteLine("OK");
 

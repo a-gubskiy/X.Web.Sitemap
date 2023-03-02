@@ -1,4 +1,4 @@
-namespace X.Web.Sitemap.Example;
+namespace X.Web.Sitemap.Example.Examples;
 
 public class SimpleSitemapGenerationExample : IExample
 {
