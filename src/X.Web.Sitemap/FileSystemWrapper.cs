@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 
 namespace X.Web.Sitemap;
 
-[PublicAPI]
 internal interface IFileSystemWrapper
 {
     FileInfo WriteFile(string xml, string path);
