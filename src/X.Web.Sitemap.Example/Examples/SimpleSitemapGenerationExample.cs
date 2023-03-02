@@ -15,8 +15,6 @@ public class SimpleSitemapGenerationExample : IExample
         var sitemap = new Sitemap(allUrls);
 
         sitemap.SaveToDirectory(directory);
-        
-        Console.WriteLine($"Sitemap stored at: `{directory}`");
     }
 
 }
