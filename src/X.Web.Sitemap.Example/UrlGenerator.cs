@@ -52,7 +52,7 @@ public class UrlGenerator
                     ChangeFrequency = ChangeFrequency.Daily,
                     TimeStamp = DateTime.UtcNow.AddMonths(-1),
                     Priority = .5,
-                    Images = new[]
+                    Images = new List<Image>
                     {
                         new Image { Location = x.img1 },
                         new Image { Location = x.img2 },
