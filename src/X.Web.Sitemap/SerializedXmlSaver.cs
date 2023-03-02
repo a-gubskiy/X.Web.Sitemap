@@ -1,8 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 
 namespace X.Web.Sitemap;
+
+[PublicAPI]
+internal interface ISerializedXmlSaver<in T>
+{
+    FileInfo SerializeAndSave(T objectToSerialize, DirectoryInfo targetDirectory, string targetFileName);
+}
 
 internal class SerializedXmlSaver<T> : ISerializedXmlSaver<T>
 {
