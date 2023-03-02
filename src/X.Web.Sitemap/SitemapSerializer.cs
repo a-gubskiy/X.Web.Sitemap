@@ -28,4 +28,13 @@ public class SitemapSerializer : ISitemapSerializer
             return writer.ToString();
         }
     }
+
+    public static Sitemap Deserialize(string xml)
+    {
+        using (TextReader textReader = new StringReader(xml))
+        {
+            var serializer = new XmlSerializer(typeof(Sitemap));
+            return (Sitemap)serializer.Deserialize(textReader);
+        }
+    }
 }
