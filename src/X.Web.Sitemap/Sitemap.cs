@@ -78,23 +78,20 @@ public class Sitemap : List<Url>, ISitemap
         }
     }
 
-    public static Sitemap Parse(string xml)
-    {
-        return SitemapSerializer.Deserialize(xml);
-    }
+    public static Sitemap Parse(string xml) => SitemapSerializer.Deserialize(xml);
 
     public static bool TryParse(string xml, out Sitemap? sitemap)
     {
         try
         {
             sitemap = Parse(xml);
-            return true;
         }
         catch
         {
             sitemap = null;
-            return false;
         }
+        
+        return sitemap != null;
     }
 }
 

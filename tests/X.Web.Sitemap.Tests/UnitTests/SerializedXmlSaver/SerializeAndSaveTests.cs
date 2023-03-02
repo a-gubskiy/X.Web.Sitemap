@@ -9,24 +9,12 @@ namespace X.Web.Sitemap.Tests.UnitTests.SerializedXmlSaver;
 [TestFixture]
 public class SerializeAndSaveTests
 {
-	private Web.Sitemap.SitemapXmlSaver _serializer;
 	private IFileSystemWrapper _fileSystemWrapper;
 
 	[SetUp]
 	public void SetUp()
 	{
 		_fileSystemWrapper = new TestFileSystemWrapper();
-		_serializer = new Web.Sitemap.SitemapXmlSaver(_fileSystemWrapper);
-	}
-
-	[Test]
-	public void It_Throws_An_ArgumentNullException_If_There_Are_No_Sitemaps_Passed_In()
-	{
-		//--arrange
-
-		//--act
-		Assert.Throws<ArgumentNullException>(
-			() => _serializer.SerializeAndSave(null, new DirectoryInfo("c:\\temp"), "filename.xml"));
 	}
 
 	//--this is a half-assed test as comparing the full XML string that is generated is a big pain.

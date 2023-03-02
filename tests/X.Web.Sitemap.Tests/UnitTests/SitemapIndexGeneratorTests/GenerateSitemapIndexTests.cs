@@ -9,15 +9,13 @@ namespace X.Web.Sitemap.Tests.UnitTests.SitemapIndexGeneratorTests;
 public class GenerateSitemapIndexTests
 {
 	private SitemapIndexGenerator _sitemapIndexGenerator;
-	private ISitemapXmlSaver _sitemapIndexSerializer;
 	private TestFileSystemWrapper _fileSystemWrapper;
 
 	[SetUp]
 	public void SetUp()
 	{
 		_fileSystemWrapper = new TestFileSystemWrapper();
-		_sitemapIndexSerializer = new Web.Sitemap.SitemapXmlSaver(_fileSystemWrapper);
-		_sitemapIndexGenerator = new SitemapIndexGenerator(_sitemapIndexSerializer, _fileSystemWrapper);
+		_sitemapIndexGenerator = new SitemapIndexGenerator(_fileSystemWrapper);
 	}
 
 	[Test]

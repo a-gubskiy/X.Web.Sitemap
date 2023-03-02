@@ -35,7 +35,7 @@ public class SitemapIndexGenerator : ISitemapIndexGenerator
 		_fileSystemWrapper = new FileSystemWrapper();
 	}
 
-	internal SitemapIndexGenerator(ISitemapXmlSaver sitemapXmlSaver, IFileSystemWrapper fileSystemWrapper)
+	internal SitemapIndexGenerator(IFileSystemWrapper fileSystemWrapper)
 	{
 		_fileSystemWrapper = fileSystemWrapper;
 	}
