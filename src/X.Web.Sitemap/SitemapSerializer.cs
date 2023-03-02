@@ -24,7 +24,7 @@ public class SitemapSerializer : ISitemapSerializer
 
         using (var writer = new StringWriterUtf8())
         {
-            serializer.Serialize(writer, this, namespaces);
+            serializer.Serialize(writer, sitemap, namespaces);
             return writer.ToString();
         }
     }
