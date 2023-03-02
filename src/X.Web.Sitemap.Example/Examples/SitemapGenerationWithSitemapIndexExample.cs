@@ -1,4 +1,4 @@
-﻿namespace X.Web.Sitemap.Example.Examples;
+﻿namespace X.Web.Sitemap.Example;
 
 /// <summary>
 /// This is an example showing how you might take a large list of URLs of different kinds of resources and build
