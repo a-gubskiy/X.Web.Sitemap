@@ -1,10 +1,8 @@
-using System.Collections.Immutable;
-
 namespace X.Web.Sitemap.Example;
 
 public class UrlGenerator
 {
-    public IReadOnlyCollection<Url> GetUrls(string domain, bool addImages, int? maxUrlCount = null)
+    public List<Url> GetUrls(string domain)
     {
         var productPageUrlStrings = GetHighPriorityProductPageUrls(domain);
 
@@ -40,40 +38,7 @@ public class UrlGenerator
         //--combine the urls into one big list. These could of course bet kept seperate and two different sitemap index files could be generated if we wanted
         allUrls.AddRange(miscellaneousLowPriorityUrls);
 
-        if (addImages)
-        {
-            var images = GetUrlWithImages(domain);
-
-            var urlsWithImages = images.Select(x =>
-            {
-                return new Url
-                {
-                    Location = x.url,
-                    ChangeFrequency = ChangeFrequency.Daily,
-                    TimeStamp = DateTime.UtcNow.AddMonths(-1),
-                    Priority = .5,
-                    Images = new List<Image>
-                    {
-                        new Image { Location = x.img1 },
-                        new Image { Location = x.img2 },
-                    }
-                };
-            }).ToList();
-
-
-            allUrls.AddRange(urlsWithImages);
-
-        }
-
-        //randomize urls
-        var result = allUrls.OrderBy(o => Guid.NewGuid()).ToImmutableArray();
-
-        if (maxUrlCount.HasValue)
-        {
-            result = result.Take(maxUrlCount.Value).ToImmutableArray();
-        }
-        
-        return result;
+        return allUrls;
     }
 
     private IReadOnlyCollection<string> GetMiscellaneousLowPriorityUrls(string domain)
@@ -95,22 +60,6 @@ public class UrlGenerator
         for (int i = 0; i < 10000; i++)
         {
             result.Add($"https://{domain}/priority-page/{i}.html");
-        }
-
-        return result;
-    }
-    
-    private IReadOnlyCollection<(string url, string img1, string img2)> GetUrlWithImages(string domain)
-    {
-        var result = new List<(string, string, string)>();
-        
-        for (int i = 0; i < 10000; i++)
-        {
-            result.Add((
-                $"https://{domain}/page-with-images/{i}.html",
-                $"https://{domain}/files/photo{i}.jpg",
-                $"https://{domain}/files/photo_{i}_small.jpg"
-            ));
         }
 
         return result;

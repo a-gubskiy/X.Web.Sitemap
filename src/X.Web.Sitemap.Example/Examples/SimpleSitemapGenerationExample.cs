@@ -10,7 +10,7 @@ public class SimpleSitemapGenerationExample : IExample
         var urlGenerator = new UrlGenerator();
 
         // Get list of website urls
-        var allUrls = urlGenerator.GetUrls("mywebsite.com", false);
+        var allUrls = urlGenerator.GetUrls("mywebsite.com");
 
         var sitemap = new Sitemap(allUrls);
 

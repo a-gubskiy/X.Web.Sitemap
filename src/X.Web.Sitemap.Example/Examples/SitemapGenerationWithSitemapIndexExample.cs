@@ -19,7 +19,7 @@ public class SitemapGenerationWithSitemapIndexExample : IExample
         var urlGenerator = new UrlGenerator();
 
         // Get list of website urls
-        var allUrls = urlGenerator.GetUrls("mywebsite.com", false); 
+        var allUrls = urlGenerator.GetUrls("mywebsite.com"); 
         
 
         // generate one or more sitemaps (depending on the number of URLs) in the designated location.
