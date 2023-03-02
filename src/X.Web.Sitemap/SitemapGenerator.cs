@@ -59,19 +59,19 @@ public interface ISitemapGenerator
 
 public class SitemapGenerator : ISitemapGenerator
 {
-    private readonly ISerializedXmlSaver<Sitemap> _serializedXmlSaver;
+    private readonly ISitemapXmlSaver _sitemapXmlSaver;
 
     [PublicAPI]
     public int MaxNumberOfUrlsPerSitemap { get; set; } = Sitemap.DefaultMaxNumberOfUrlsPerSitemap;
         
     public SitemapGenerator()
     {
-        _serializedXmlSaver = new SerializedXmlSaver<Sitemap>(new FileSystemWrapper());
+        _sitemapXmlSaver = new SitemapXmlSaver(new FileSystemWrapper());
     }
 
-    internal SitemapGenerator(ISerializedXmlSaver<Sitemap> serializedXmlSaver)
+    internal SitemapGenerator(ISitemapXmlSaver sitemapXmlSaver)
     {
-        _serializedXmlSaver = serializedXmlSaver;
+        _sitemapXmlSaver = sitemapXmlSaver;
     }
 
     public List<FileInfo> GenerateSitemaps(IEnumerable<Url> urls, string targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap") => 
@@ -113,7 +113,7 @@ public class SitemapGenerator : ISitemapGenerator
         for (var i = 0; i < sitemaps.Count; i++)
         {
             var fileName = $"{sitemapBaseFileNameWithoutExtension}-00{i + 1}.xml";
-            files.Add(_serializedXmlSaver.SerializeAndSave(sitemaps[i], targetDirectory, fileName));
+            files.Add(_sitemapXmlSaver.SerializeAndSave(sitemaps[i], targetDirectory, fileName));
         }
             
         return files;

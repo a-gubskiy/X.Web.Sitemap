@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
 using JetBrains.Annotations;
 
 namespace X.Web.Sitemap;
@@ -27,16 +28,16 @@ public interface ISitemapIndexGenerator
 [PublicAPI]
 public class SitemapIndexGenerator : ISitemapIndexGenerator
 {
-	private readonly ISerializedXmlSaver<SitemapIndex> _serializedXmlSaver;
+	private readonly IFileSystemWrapper _fileSystemWrapper;
 
 	public SitemapIndexGenerator()
 	{
-		_serializedXmlSaver = new SerializedXmlSaver<SitemapIndex>(new FileSystemWrapper());
+		_fileSystemWrapper = new FileSystemWrapper();
 	}
 
-	internal SitemapIndexGenerator(ISerializedXmlSaver<SitemapIndex> serializedXmlSaver)
+	internal SitemapIndexGenerator(ISitemapXmlSaver sitemapXmlSaver, IFileSystemWrapper fileSystemWrapper)
 	{
-		_serializedXmlSaver = serializedXmlSaver;
+		_fileSystemWrapper = fileSystemWrapper;
 	}
 
 	public SitemapIndex GenerateSitemapIndex(IEnumerable<SitemapInfo> sitemaps, string targetDirectory, string targetSitemapFileName) => 
@@ -45,7 +46,18 @@ public class SitemapIndexGenerator : ISitemapIndexGenerator
 	public SitemapIndex GenerateSitemapIndex(IEnumerable<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapFileName)
 	{
 		var sitemapIndex = new SitemapIndex(sitemaps);
-		_serializedXmlSaver.SerializeAndSave(sitemapIndex, targetDirectory, targetSitemapFileName);
+		var serializer = new XmlSerializer(typeof(SitemapIndex));
+
+		using (var textWriter = new StringWriterUtf8())
+		{
+			serializer.Serialize(textWriter, sitemapIndex);
+			
+			var xml = textWriter.ToString();
+			var path = Path.Combine(targetDirectory.FullName, targetSitemapFileName);
+                
+			_fileSystemWrapper.WriteFile(xml, path);
+		}
+		
 		return sitemapIndex;
 	}
 }
