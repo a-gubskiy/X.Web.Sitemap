@@ -46,7 +46,5 @@ public class SitemapGenerationWithSitemapIndexExample : IExample
         // "Sitemap: https://www.mywebsite.com/sitemaps/sitemap-index.xml"
         // You could do this manually (since this may never change) or if you are ultra-fancy, you could dynamically update your robots.txt with the names of the sitemap index
         // file(s) you generated
-        
-        Console.WriteLine($"Sitemap stored at: `{targetSitemapDirectory}`");
     }
 }
