@@ -48,10 +48,12 @@ public class Sitemap : List<Url>, ISitemap
     public virtual string ToXml()
     {
         var serializer = new XmlSerializer(typeof(Sitemap));
+        var namespaces = new XmlSerializerNamespaces();
+        namespaces.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
 
         using (var writer = new StringWriterUtf8())
         {
-            serializer.Serialize(writer, this);
+            serializer.Serialize(writer, this, namespaces);
             return writer.ToString();
         }
     }

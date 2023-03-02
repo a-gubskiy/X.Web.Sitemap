@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
 
@@ -6,11 +7,10 @@ namespace X.Web.Sitemap;
 
 [PublicAPI]
 [Serializable]
-[XmlRoot("image")]
-[XmlType("image")]
+[XmlRoot(ElementName = "image", Namespace = "http://www.google.com/schemas/sitemap-image/1.1")]
 public class Image
 {
-    [XmlElement(ElementName = "loc")]
+    [XmlElement(ElementName = "loc", Namespace = "http://www.google.com/schemas/sitemap-image/1.1")]
     public string Location { get; set; }
 }
 
@@ -23,7 +23,8 @@ public class Url
     [XmlElement("loc")]
     public string Location { get; set; }
     
-    public Image[] Images { get; set; }
+    [XmlElement(ElementName = "image", Namespace = "http://www.google.com/schemas/sitemap-image/1.1")]
+    public List<Image> Images { get; set; }
 
     [XmlIgnore]
     public DateTime TimeStamp { get; set; }
