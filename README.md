@@ -4,7 +4,7 @@
 
 # X.Web.Sitemap 
 
-Simple sitemap generator for .NET and .NET Core
+Simple sitemap generator for .NET
 You can download it from nuget.org at http://nuget.org/packages/xsitemap/
 
 ## Usage example
