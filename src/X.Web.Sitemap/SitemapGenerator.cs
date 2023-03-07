@@ -59,20 +59,16 @@ public interface ISitemapGenerator
 
 public class SitemapGenerator : ISitemapGenerator
 {
-    private readonly ISerializedXmlSaver<Sitemap> _serializedXmlSaver;
+    private readonly IFileSystemWrapper _fileSystemWrapper;
 
     [PublicAPI]
     public int MaxNumberOfUrlsPerSitemap { get; set; } = Sitemap.DefaultMaxNumberOfUrlsPerSitemap;
         
     public SitemapGenerator()
     {
-        _serializedXmlSaver = new SerializedXmlSaver<Sitemap>(new FileSystemWrapper());
+        _fileSystemWrapper = new FileSystemWrapper();
     }
 
-    internal SitemapGenerator(ISerializedXmlSaver<Sitemap> serializedXmlSaver)
-    {
-        _serializedXmlSaver = serializedXmlSaver;
-    }
 
     public List<FileInfo> GenerateSitemaps(IEnumerable<Url> urls, string targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap") => 
         GenerateSitemaps(urls, new DirectoryInfo(targetDirectory), sitemapBaseFileNameWithoutExtension);
@@ -109,13 +105,18 @@ public class SitemapGenerator : ISitemapGenerator
     private List<FileInfo> SaveSitemaps(DirectoryInfo targetDirectory, string sitemapBaseFileNameWithoutExtension, IReadOnlyList<Sitemap> sitemaps)
     {
         var files = new List<FileInfo>();
-            
+        var serializer = new SitemapSerializer();
+        
         for (var i = 0; i < sitemaps.Count; i++)
         {
             var fileName = $"{sitemapBaseFileNameWithoutExtension}-00{i + 1}.xml";
-            files.Add(_serializedXmlSaver.SerializeAndSave(sitemaps[i], targetDirectory, fileName));
+            var xml = serializer.Serialize(sitemaps[i]);
+            var path = Path.Combine(targetDirectory.FullName, fileName);
+            var file = _fileSystemWrapper.WriteFile(xml, path);
+
+            files.Add(file);
         }
-            
+
         return files;
     }
 }
