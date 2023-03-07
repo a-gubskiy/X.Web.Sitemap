@@ -60,6 +60,7 @@ public interface ISitemapGenerator
 public class SitemapGenerator : ISitemapGenerator
 {
     private readonly IFileSystemWrapper _fileSystemWrapper;
+    private readonly ISitemapSerializer _serializer;
 
     [PublicAPI]
     public int MaxNumberOfUrlsPerSitemap { get; set; } = Sitemap.DefaultMaxNumberOfUrlsPerSitemap;
@@ -67,6 +68,7 @@ public class SitemapGenerator : ISitemapGenerator
     public SitemapGenerator()
     {
         _fileSystemWrapper = new FileSystemWrapper();
+        _serializer = new SitemapSerializer();
     }
 
 
@@ -105,12 +107,11 @@ public class SitemapGenerator : ISitemapGenerator
     private List<FileInfo> SaveSitemaps(DirectoryInfo targetDirectory, string sitemapBaseFileNameWithoutExtension, IReadOnlyList<Sitemap> sitemaps)
     {
         var files = new List<FileInfo>();
-        var serializer = new SitemapSerializer();
         
         for (var i = 0; i < sitemaps.Count; i++)
         {
             var fileName = $"{sitemapBaseFileNameWithoutExtension}-{i + 1}.xml";
-            var xml = serializer.Serialize(sitemaps[i]);
+            var xml = _serializer.Serialize(sitemaps[i]);
             var path = Path.Combine(targetDirectory.FullName, fileName);
             var file = _fileSystemWrapper.WriteFile(xml, path);
 

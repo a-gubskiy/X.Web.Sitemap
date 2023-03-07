@@ -17,15 +17,18 @@ namespace X.Web.Sitemap;
 [XmlRoot(ElementName = "urlset", Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")]
 public class Sitemap : List<Url>, ISitemap
 {
-    private readonly IFileSystemWrapper _fileSystemWrapper;
-
     public static int DefaultMaxNumberOfUrlsPerSitemap = 5000;
-        
+    
+    private readonly IFileSystemWrapper _fileSystemWrapper;
+    private readonly ISitemapSerializer _serializer;
+
     public int MaxNumberOfUrlsPerSitemap { get; set; }
 
     public Sitemap()
     {
         _fileSystemWrapper = new FileSystemWrapper();
+        _serializer = new SitemapSerializer();
+        
         MaxNumberOfUrlsPerSitemap = DefaultMaxNumberOfUrlsPerSitemap;
     }
 
@@ -46,11 +49,7 @@ public class Sitemap : List<Url>, ISitemap
         return true;
     }
 
-    public virtual string ToXml()
-    {
-        var serializer = new SitemapSerializer();
-        return serializer.Serialize(this);
-    }
+    public virtual string ToXml() => _serializer.Serialize(this);
 
     public virtual async Task<bool> SaveAsync(string path)
     {
@@ -70,6 +69,7 @@ public class Sitemap : List<Url>, ISitemap
         try
         {
             var result = _fileSystemWrapper.WriteFile(ToXml(), path);
+            
             return result.Exists;
         }
         catch
@@ -78,7 +78,7 @@ public class Sitemap : List<Url>, ISitemap
         }
     }
 
-    public static Sitemap Parse(string xml) => SitemapSerializer.Deserialize(xml);
+    public static Sitemap Parse(string xml) => new SitemapSerializer().Deserialize(xml);
 
     public static bool TryParse(string xml, out Sitemap? sitemap)
     {
