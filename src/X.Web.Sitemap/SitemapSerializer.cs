@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace X.Web.Sitemap;
@@ -31,10 +32,22 @@ public class SitemapSerializer : ISitemapSerializer
 
     public static Sitemap Deserialize(string xml)
     {
+        if (string.IsNullOrWhiteSpace(xml))
+        {
+            throw new ArgumentException();
+        }
+        
         using (TextReader textReader = new StringReader(xml))
         {
             var serializer = new XmlSerializer(typeof(Sitemap));
-            return (Sitemap)serializer.Deserialize(textReader);
+            var obj = serializer.Deserialize(textReader);
+
+            if (obj is null)
+            {
+                throw new XmlException();
+            }
+
+            return (Sitemap)obj;
         }
     }
 }

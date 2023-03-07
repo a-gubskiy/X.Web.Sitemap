@@ -11,7 +11,7 @@ namespace X.Web.Sitemap;
 public class Image
 {
     [XmlElement(ElementName = "loc", Namespace = "http://www.google.com/schemas/sitemap-image/1.1")]
-    public string Location { get; set; }
+    public string Location { get; set; } = "";
 }
 
 [PublicAPI]
@@ -48,6 +48,8 @@ public class Url
 
     public Url()
     {
+        Location = "";
+        Images = new List<Image>();
         Location = "";
     }
 
