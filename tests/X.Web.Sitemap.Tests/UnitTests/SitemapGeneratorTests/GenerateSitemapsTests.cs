@@ -54,7 +54,7 @@ public class GenerateSitemapsTests
 
 		Assert.AreEqual(filesCount, result.Count);
 		Assert.True(result.All(o => o.Directory.Name == directory.Name));
-		Assert.True(result.Any(o => o.Name == "file-001.xml"));
-		Assert.True(result.Any(o => o.Name == "file-002.xml"));
+		Assert.True(result.Any(o => o.Name == "file-1.xml"));
+		Assert.True(result.Any(o => o.Name == "file-2.xml"));
 	}
 }
