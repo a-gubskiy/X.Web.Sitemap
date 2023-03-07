@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -47,13 +48,8 @@ public class Sitemap : List<Url>, ISitemap
 
     public virtual string ToXml()
     {
-        var serializer = new XmlSerializer(typeof(Sitemap));
-
-        using (var writer = new StringWriterUtf8())
-        {
-            serializer.Serialize(writer, this);
-            return writer.ToString();
-        }
+        var serializer = new SitemapSerializer();
+        return serializer.Serialize(this);
     }
 
     public virtual async Task<bool> SaveAsync(string path)
@@ -82,27 +78,20 @@ public class Sitemap : List<Url>, ISitemap
         }
     }
 
-    public static Sitemap Parse(string xml)
-    {
-        using (TextReader textReader = new StringReader(xml))
-        {
-            var serializer = new XmlSerializer(typeof(Sitemap));
-            return (Sitemap)serializer.Deserialize(textReader);
-        }
-    }
+    public static Sitemap Parse(string xml) => SitemapSerializer.Deserialize(xml);
 
     public static bool TryParse(string xml, out Sitemap? sitemap)
     {
         try
         {
             sitemap = Parse(xml);
-            return true;
         }
         catch
         {
             sitemap = null;
-            return false;
         }
+        
+        return sitemap != null;
     }
 }
 
