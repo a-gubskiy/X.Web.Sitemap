@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
+using X.Web.Sitemap.Extensions;
 
 [assembly: InternalsVisibleTo("X.Web.Sitemap.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
@@ -20,14 +21,12 @@ public class Sitemap : List<Url>, ISitemap
     public static int DefaultMaxNumberOfUrlsPerSitemap = 5000;
     
     private readonly IFileSystemWrapper _fileSystemWrapper;
-    private readonly ISitemapSerializer _serializer;
-
+    
     public int MaxNumberOfUrlsPerSitemap { get; set; }
 
     public Sitemap()
     {
         _fileSystemWrapper = new FileSystemWrapper();
-        _serializer = new SitemapSerializer();
         
         MaxNumberOfUrlsPerSitemap = DefaultMaxNumberOfUrlsPerSitemap;
     }
@@ -49,13 +48,19 @@ public class Sitemap : List<Url>, ISitemap
         return true;
     }
 
-    public virtual string ToXml() => _serializer.Serialize(this);
+    [Obsolete("Use extension method")]
+    public virtual string ToXml()
+    {
+        return SitemapExtension.ToXml(this);
+    }
 
     public virtual async Task<bool> SaveAsync(string path)
     {
         try
         {
-            var result = await _fileSystemWrapper.WriteFileAsync(ToXml(), path);
+            var xml = SitemapExtension.ToXml(this);
+            var result = await _fileSystemWrapper.WriteFileAsync(xml, path);
+            
             return result.Exists;
         }
         catch
@@ -68,7 +73,8 @@ public class Sitemap : List<Url>, ISitemap
     {
         try
         {
-            var result = _fileSystemWrapper.WriteFile(ToXml(), path);
+            var xml = SitemapExtension.ToXml(this);
+            var result = _fileSystemWrapper.WriteFile(xml, path);
             
             return result.Exists;
         }

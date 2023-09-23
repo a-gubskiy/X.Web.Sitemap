@@ -31,15 +31,9 @@ public class SerializeAndSaveTests
 			new SitemapInfo(new Uri("http://example.com/sitemap2.xml"), DateTime.UtcNow.AddDays(-1))
 		});
 
-		var serializer = new XmlSerializer(typeof(SitemapIndex));
 		var path = Path.Combine(directory.FullName, fileName);
-		var xml = "";
-		
-		using (var writer = new StringWriterUtf8())
-		{
-			serializer.Serialize(writer, sitemapIndex);
-			xml= writer.ToString();
-		}
+		var serializer = new SitemapIndexSerializer();
+		var xml = serializer.Serialize(sitemapIndex);
 
 		//--act
 		var result = _fileSystemWrapper.WriteFile(xml, path);
