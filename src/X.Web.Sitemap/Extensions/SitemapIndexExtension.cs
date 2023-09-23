@@ -28,8 +28,7 @@ public static class SitemapIndexExtension
     /// <returns>The Stream containing the XML.</returns>
     public static Stream ToStream(this SitemapIndex sitemapIndex)
     {
-        var serializer = new SitemapIndexSerializer();
-        var xml = serializer.Serialize(sitemapIndex);
+        var xml = ToXml(sitemapIndex);
         var bytes = System.Text.Encoding.UTF8.GetBytes(xml);
         var stream = new MemoryStream(bytes);
        
