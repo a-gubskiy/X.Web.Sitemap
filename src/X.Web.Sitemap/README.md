@@ -4,7 +4,7 @@
 
 Simple sitemap generator for .NET
 
-⚠️ **See breaking changes for [release 2.9.0](https://github.com/ernado-x/X.Web.Sitemap/releases/tag/v2.9.0)**
+⚠️ **See breaking changes for [release 2.9.2](https://github.com/ernado-x/X.Web.Sitemap/releases/tag/v2.9.2)**
 
 ## Usage example
 
