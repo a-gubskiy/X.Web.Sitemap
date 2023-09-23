@@ -24,6 +24,7 @@ public class GenerateSitemapsIntegrationTests
         var maxNumberOfUrlsForOneSitemap = Sitemap.DefaultMaxNumberOfUrlsPerSitemap;
         var urls = new List<Url>(maxNumberOfUrlsForOneSitemap);
         var now = DateTime.UtcNow;
+        
         for (var i = 0; i < maxNumberOfUrlsForOneSitemap; i++)
         {
             urls.Add(Url.CreateUrl("https://example.com/" + i, now));
@@ -43,6 +44,7 @@ public class GenerateSitemapsIntegrationTests
         var enoughUrlsForTwoSitemaps = Sitemap.DefaultMaxNumberOfUrlsPerSitemap + 1;
         var urls = new List<Url>(enoughUrlsForTwoSitemaps);
         var now = DateTime.UtcNow;
+        
         for (var i = 0; i < enoughUrlsForTwoSitemaps; i++)
         {
             urls.Add(Url.CreateUrl("https://example.com/" + i, now));
