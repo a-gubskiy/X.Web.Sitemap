@@ -18,65 +18,15 @@ namespace X.Web.Sitemap;
 public class Sitemap : List<Url>, ISitemap
 {
     public static int DefaultMaxNumberOfUrlsPerSitemap = 5000;
-    
-    private readonly IFileSystemWrapper _fileSystemWrapper;
-    private readonly ISitemapSerializer _serializer;
 
     public int MaxNumberOfUrlsPerSitemap { get; set; }
 
     public Sitemap()
     {
-        _fileSystemWrapper = new FileSystemWrapper();
-        _serializer = new SitemapSerializer();
-        
         MaxNumberOfUrlsPerSitemap = DefaultMaxNumberOfUrlsPerSitemap;
     }
 
     public Sitemap(IEnumerable<Url> urls) : this() => AddRange(urls);
-
-    /// <summary>
-    /// Generate multiple sitemap files
-    /// </summary>
-    /// <param name="targetSitemapDirectory"></param>
-    /// <returns></returns>
-    public virtual bool SaveToDirectory(string targetSitemapDirectory)
-    {
-        var sitemapGenerator = new SitemapGenerator();
-        
-        // generate one or more sitemaps (depending on the number of URLs) in the designated location.
-        sitemapGenerator.GenerateSitemaps(this, targetSitemapDirectory);
-        
-        return true;
-    }
-
-    public virtual string ToXml() => _serializer.Serialize(this);
-
-    public virtual async Task<bool> SaveAsync(string path)
-    {
-        try
-        {
-            var result = await _fileSystemWrapper.WriteFileAsync(ToXml(), path);
-            return result.Exists;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    public virtual bool Save(string path)
-    {
-        try
-        {
-            var result = _fileSystemWrapper.WriteFile(ToXml(), path);
-            
-            return result.Exists;
-        }
-        catch
-        {
-            return false;
-        }
-    }
 
     public static Sitemap Parse(string xml) => new SitemapSerializer().Deserialize(xml);
 
@@ -95,11 +45,3 @@ public class Sitemap : List<Url>, ISitemap
     }
 }
 
-/// <summary>
-/// Subclass the StringWriter class and override the default encoding.  
-/// This allows us to produce XML encoded as UTF-8. 
-/// </summary>
-public class StringWriterUtf8 : StringWriter
-{
-    public override Encoding Encoding => Encoding.UTF8;
-}
