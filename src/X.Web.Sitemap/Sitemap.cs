@@ -19,14 +19,11 @@ public class Sitemap : List<Url>, ISitemap
 {
     public static int DefaultMaxNumberOfUrlsPerSitemap = 5000;
 
-    public int MaxNumberOfUrlsPerSitemap { get; set; }
-
     public Sitemap()
     {
-        MaxNumberOfUrlsPerSitemap = DefaultMaxNumberOfUrlsPerSitemap;
     }
 
-    public Sitemap(IEnumerable<Url> urls) : this() => AddRange(urls);
+    public Sitemap(IEnumerable<Url> urls) => AddRange(urls);
 
     public static Sitemap Parse(string xml) => new SitemapSerializer().Deserialize(xml);
 
@@ -40,8 +37,7 @@ public class Sitemap : List<Url>, ISitemap
         {
             sitemap = null;
         }
-        
+
         return sitemap != null;
     }
 }
-
