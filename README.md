@@ -6,6 +6,8 @@
 
 Simple sitemap generator for .NET
 
+⚠️ **See breaking changes for [release 2.9.0](https://github.com/ernado-x/X.Web.Sitemap/releases/tag/v2.9.0)**
+
 You can download it from nuget.org at http://nuget.org/packages/xsitemap/
 
 ## Usage example
