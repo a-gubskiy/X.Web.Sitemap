@@ -22,23 +22,22 @@ public class SerializeAndSaveTests
 	public void It_Saves_The_XML_File_To_The_Correct_Directory_And_File_Name()
 	{
 		//--arrange
-		var directory = new DirectoryInfo("x");
-		var fileName = "sitemapindex.xml";
-
 		var sitemapIndex = new SitemapIndex(new List<SitemapInfo>
 		{
 			new SitemapInfo(new Uri("http://example.com/sitemap1.xml"), DateTime.UtcNow),
 			new SitemapInfo(new Uri("http://example.com/sitemap2.xml"), DateTime.UtcNow.AddDays(-1))
 		});
 
+		var fileName = "sitemapindex.xml";
+		var directory = new DirectoryInfo("x");
 		var path = Path.Combine(directory.FullName, fileName);
+		
 		var serializer = new SitemapIndexSerializer();
 		var xml = serializer.Serialize(sitemapIndex);
 
 		//--act
 		var result = _fileSystemWrapper.WriteFile(xml, path);
 		
-
 		Assert.True(result.FullName.Contains("sitemapindex"));
 		Assert.AreEqual(directory.Name, result.Directory.Name);
 		Assert.AreEqual(fileName, result.Name);
@@ -49,19 +48,14 @@ public class SerializeAndSaveTests
 	{
 		//--arrange
 		var expectedFileInfo = new FileInfo("something/file.xml");
-
 		var sitemapIndex = new SitemapIndex(new List<SitemapInfo>());
-		var directory = new DirectoryInfo("something");
-		var fileName = "file.xml";
-		var serializer = new XmlSerializer(typeof(SitemapIndex));
-		var path = Path.Combine(directory.FullName, fileName);
-		var xml = "";
+
+		var serializer = new SitemapIndexSerializer();
+		var xml = serializer.Serialize(sitemapIndex);
 		
-		using (var writer = new StringWriterUtf8())
-		{
-			serializer.Serialize(writer, sitemapIndex);
-			xml= writer.ToString();
-		}
+		var fileName = "file.xml";
+		var directory = new DirectoryInfo("something");
+		var path = Path.Combine(directory.FullName, fileName);
 
 		//--act
 		var result = _fileSystemWrapper.WriteFile(xml, path);
