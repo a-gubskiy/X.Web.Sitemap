@@ -33,12 +33,22 @@ public class SitemapSerializer : ISitemapSerializer
         var namespaces = new XmlSerializerNamespaces();
         namespaces.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
 
-        using (var writer = new StringWriterUtf8())
-        {
-            _serializer.Serialize(writer, sitemap, namespaces);
+        var settings = new XmlWriterSettings { Indent = true };
 
-            return writer.ToString();
+        using var writer = new StringWriterUtf8();
+        {
+            using (var xmlWriter = XmlWriter.Create(writer, settings))
+            {
+                _serializer.Serialize(xmlWriter, sitemap, namespaces);
+            }
         }
+
+        var xml = writer.ToString();
+
+        // Hack for #39. Should be fixed in 
+        xml = xml.Replace("<priority>1</priority>", "<priority>1.0</priority>");
+        
+        return xml;
     }
 
     public Sitemap Deserialize(string xml)
