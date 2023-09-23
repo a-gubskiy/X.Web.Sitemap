@@ -25,8 +25,10 @@ public class Sitemap : List<Url>, ISitemap
 
     public Sitemap(IEnumerable<Url> urls) => AddRange(urls);
 
+    [PublicAPI]
     public static Sitemap Parse(string xml) => new SitemapSerializer().Deserialize(xml);
 
+    [PublicAPI]
     public static bool TryParse(string xml, out Sitemap? sitemap)
     {
         try
