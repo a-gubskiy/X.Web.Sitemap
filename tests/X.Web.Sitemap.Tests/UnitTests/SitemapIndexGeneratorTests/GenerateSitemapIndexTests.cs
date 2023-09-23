@@ -27,6 +27,7 @@ public class GenerateSitemapIndexTests
 			new SitemapInfo(new Uri("https://example.com"), DateTime.UtcNow),
 			new SitemapInfo(new Uri("https://example2.com"), DateTime.UtcNow.AddDays(-1))
 		};
+		
 		var expectedDirectory = new DirectoryInfo(@"C:\temp\sitemaptests\");
 		var expectedFilename = "testSitemapIndex1.xml";
 

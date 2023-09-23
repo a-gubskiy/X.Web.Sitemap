@@ -128,6 +128,7 @@ Below is a more comprehensive example that demonstrates how to create many sitem
 
             var sitemapInfos = new List<SitemapInfo>();
             var dateSitemapWasUpdated = DateTime.UtcNow.Date;
+            
             foreach (var fileInfo in fileInfoForGeneratedSitemaps)
             {
                 //--it's up to you to figure out what the URI is to the sitemap you wrote to the file sytsem. In this case we are assuming that the directory above

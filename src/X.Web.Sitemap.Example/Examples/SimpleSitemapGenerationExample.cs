@@ -1,3 +1,5 @@
+using X.Web.Sitemap.Extensions;
+
 namespace X.Web.Sitemap.Example.Examples;
 
 public class SimpleSitemapGenerationExample : IExample
@@ -16,5 +18,4 @@ public class SimpleSitemapGenerationExample : IExample
 
         sitemap.SaveToDirectory(directory);
     }
-
 }

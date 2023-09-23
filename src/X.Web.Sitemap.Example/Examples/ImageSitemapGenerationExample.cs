@@ -1,3 +1,5 @@
+using X.Web.Sitemap.Extensions;
+
 namespace X.Web.Sitemap.Example.Examples;
 
 public class ImageSitemapGenerationExample : IExample

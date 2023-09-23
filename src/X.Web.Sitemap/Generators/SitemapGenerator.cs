@@ -71,7 +71,6 @@ public class SitemapGenerator : ISitemapGenerator
         _serializer = new SitemapSerializer();
     }
 
-
     public List<FileInfo> GenerateSitemaps(IEnumerable<Url> urls, string targetDirectory, string sitemapBaseFileNameWithoutExtension = "sitemap") => 
         GenerateSitemaps(urls, new DirectoryInfo(targetDirectory), sitemapBaseFileNameWithoutExtension);
 
