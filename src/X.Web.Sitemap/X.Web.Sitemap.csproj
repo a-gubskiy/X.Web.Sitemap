@@ -19,7 +19,9 @@
     <LangVersion>default</LangVersion>
     <Nullable>enable</Nullable>
     <TargetFrameworks>net6.0;net7.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
+
 
   <PropertyGroup>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -27,6 +29,7 @@
 
   <ItemGroup>
     <None Include="..\..\LICENSE.md" Pack="true" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup>
