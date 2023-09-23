@@ -15,7 +15,8 @@ public class SitemapIndex
     }
 
     /// <summary>
-    /// Creates a sitemap index which serializes to a sitemapindex element of a sitemap index file: https://www.sitemaps.org/protocol.html#index 
+    /// Creates a sitemap index which serializes to a sitemapindex element of a sitemap
+    /// index file: https://www.sitemaps.org/protocol.html#index 
     /// </summary>
     /// <param name="sitemaps">A list of sitemap metadata to include in the sitemap index.</param>
     public SitemapIndex(IEnumerable<SitemapInfo> sitemaps)
