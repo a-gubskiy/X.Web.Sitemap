@@ -14,7 +14,7 @@ namespace X.Web.Sitemap;
 [XmlRoot(ElementName = "urlset", Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")]
 public class Sitemap : List<Url>, ISitemap
 {
-    public static int DefaultMaxNumberOfUrlsPerSitemap = 50000;
+    public static int DefaultMaxNumberOfUrlsPerSitemap { get; set; } = 5000;
 
     public Sitemap()
     {
