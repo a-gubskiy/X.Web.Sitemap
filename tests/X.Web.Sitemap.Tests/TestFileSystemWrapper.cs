@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-
-namespace X.Web.Sitemap.Tests;
+﻿namespace X.Web.Sitemap.Tests;
 
 public class TestFileSystemWrapper : IFileSystemWrapper
 {
