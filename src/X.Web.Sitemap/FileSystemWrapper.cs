@@ -8,8 +8,20 @@ namespace X.Web.Sitemap;
 [PublicAPI]
 internal interface IFileSystemWrapper
 {
+    /// <summary>
+    /// Writes the specified XML to the specified path.
+    /// </summary>
+    /// <param name="xml"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
     FileInfo WriteFile(string xml, string path);
         
+    /// <summary>
+    /// Writes the specified XML to the specified path asynchronously.
+    /// </summary>
+    /// <param name="xml"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
     Task<FileInfo> WriteFileAsync(string xml, string path);
 }
 
