@@ -21,9 +21,9 @@ Below is an example of basic usage in a non-testable manner
 
             sitemap.Add(new Url
                 {
-                    ChangeFrequency = ChangeFrequency.Daily,
+                    ChangeFrequency = ChangeFrequency.Hourly,
                     Location = "http://www.example.com",
-                    Priority = 0.5,
+                    Priority = 0.8,
                     TimeStamp = DateTime.Now
                 });
 
