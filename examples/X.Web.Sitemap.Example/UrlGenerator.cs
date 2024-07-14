@@ -7,7 +7,7 @@ public class UrlGenerator
         var productPageUrlStrings = GetHighPriorityProductPageUrls(domain);
 
         //--build a list of X.Web.Sitemap.Url objects and determine what is the appropriate ChangeFrequency, TimeStamp (aka "LastMod" or date that the resource last had changes),
-        //  and the a priority for the page. If you can build in some logic to prioritize your pages then you are more sophisticated than most! :)
+        //  and the priority for the page. If you can build in some logic to prioritize your pages then you are more sophisticated than most! :)
         var allUrls = productPageUrlStrings.Select(url => new Url
         {
             //--assign the location of the HTTP request -- e.g.: https://www.somesite.com/some-resource
