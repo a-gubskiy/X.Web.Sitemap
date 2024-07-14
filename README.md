@@ -2,7 +2,6 @@
 
 [![NuGet Version](http://img.shields.io/nuget/v/xsitemap.svg?style=flat)](https://www.nuget.org/packages/xsitemap/)
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/andrew_gubskiy.svg?style=social&label=Follow%20me!)](https://twitter.com/intent/user?screen_name=andrew_gubskiy)
-[![Part of awesome .NET Core](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/thangchung/awesome-dotnet-core#tools)
 
 
 Simple sitemap generator for .NET
