@@ -78,9 +78,9 @@ public class SitemapGenerator : ISitemapGenerator
     {
         var sitemaps = BuildSitemaps(urls.ToList(), MaxNumberOfUrlsPerSitemap);
 
-        var sitemapFileInfos = SaveSitemaps(targetDirectory, sitemapBaseFileNameWithoutExtension, sitemaps);
+        var result = SaveSitemaps(targetDirectory, sitemapBaseFileNameWithoutExtension, sitemaps);
 
-        return sitemapFileInfos;
+        return result;
     }
 
     private static List<Sitemap> BuildSitemaps(IReadOnlyList<Url> urls, int maxNumberOfUrlsPerSitemap)

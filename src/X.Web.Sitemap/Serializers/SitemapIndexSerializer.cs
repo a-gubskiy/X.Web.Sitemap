@@ -16,7 +16,7 @@ public interface ISitemapIndexSerializer
 
 public class SitemapIndexSerializer : ISitemapIndexSerializer
 {
-    private readonly XmlSerializer _serializer = new XmlSerializer(typeof(SitemapIndex));
+    private readonly XmlSerializer _serializer = new(typeof(SitemapIndex));
 
     public string Serialize(SitemapIndex sitemapIndex)
     {
