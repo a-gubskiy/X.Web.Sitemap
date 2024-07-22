@@ -1,11 +1,10 @@
 # X.Web.Sitemap
 
-[![NuGet Version](http://img.shields.io/nuget/v/xsitemap.svg?style=flat)](https://www.nuget.org/packages/xsitemap/)
+[![NuGet Version](http://img.shields.io/nuget/v/X.Web.Sitemap.svg?style=flat)](https://www.nuget.org/packages/X.Web.Sitemap/)
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/andrew_gubskiy.svg?style=social&label=Follow%20me!)](https://twitter.com/intent/user?screen_name=andrew_gubskiy)
 
 
-Simple sitemap generator for .NET
-You can download it from nuget.org at http://nuget.org/packages/xsitemap
+X.Web.Sitemap is a library for generating and managing sitemaps in .NET applications.
 
 ## Usage example
 

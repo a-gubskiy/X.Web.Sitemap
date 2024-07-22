@@ -13,14 +13,14 @@
         <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
         <PackageProjectUrl>https://github.com/ernado-x/X.Web.Sitemap</PackageProjectUrl>
         <PackageTags>sitemap, web, asp.net, sitemap.xml</PackageTags>
-        <PackageVersion>2.10.0</PackageVersion>
+        <PackageVersion>2.10.1</PackageVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         
-        <Version>2.10.0</Version>
-        <AssemblyVersion>2.10.0.0</AssemblyVersion>
-        <FileVersion>2.10.0.0</FileVersion>
+        <Version>2.10.1</Version>
+        <AssemblyVersion>2.10.1.0</AssemblyVersion>
+        <FileVersion>2.10.1.0</FileVersion>
         <LangVersion>default</LangVersion>
         <Nullable>enable</Nullable>
         <TargetFrameworks>net6.0;net8.0;netstandard2.0;netstandard2.1</TargetFrameworks>

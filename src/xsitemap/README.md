@@ -7,6 +7,6 @@ X.Web.Sitemap is a library for generating and managing sitemaps in .NET applicat
 
 # Important Notice
 
-The location of the X.Web.Sitemap package has changed. It is now available at: [X.Web.Sitemap](https://www.nuget.org/packages/X.Web.Sitemap/2.10.0).
+The location of the X.Web.Sitemap package has changed. It is now available at: [X.Web.Sitemap](https://www.nuget.org/packages/X.Web.Sitemap).
 
 Please update your package references to use the new location.
