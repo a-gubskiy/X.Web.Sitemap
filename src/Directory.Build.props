@@ -1,0 +1,24 @@
+<Project>
+
+    <PropertyGroup>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
+
+        <Authors>Andrew Gubskiy</Authors>
+        <Copyright>Andrew Gubskiy © 2024</Copyright>
+        <Company>Ukrainian .NET Developer Community</Company>
+
+        <Version>2.10.2</Version>
+        <AssemblyVersion>2.10.2</AssemblyVersion>
+        <FileVersion>2.10.2</FileVersion>
+        <PackageVersion>2.10.2</PackageVersion>
+
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/ernado-x/X.Web.Sitemap.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/ernado-x/X.Web.Sitemap</PackageProjectUrl>
+    </PropertyGroup>
+
+</Project>

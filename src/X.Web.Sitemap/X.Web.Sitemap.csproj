@@ -2,28 +2,14 @@
 
     <PropertyGroup>
         <Title>X.Web.Sitemap</Title>
-        <Authors>Andrew Gubskiy</Authors>
-        <Company>Ukrainian .NET Developer Community</Company>
-        
         <Description>This library allows you quickly and easily generate sitemap files.</Description>
-        <Copyright>Andrew Gubskiy</Copyright>
-        <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/ernado-x/X.Web.Sitemap</RepositoryUrl>
 
-        <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
-        <PackageProjectUrl>https://github.com/ernado-x/X.Web.Sitemap</PackageProjectUrl>
-        <PackageTags>sitemap, web, asp.net, sitemap.xml</PackageTags>
-        <PackageVersion>2.10.1</PackageVersion>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        
-        <Version>2.10.1</Version>
-        <AssemblyVersion>2.10.1.0</AssemblyVersion>
-        <FileVersion>2.10.1.0</FileVersion>
         <LangVersion>default</LangVersion>
-        <Nullable>enable</Nullable>
         <TargetFrameworks>net6.0;net8.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+
+        <PackageTags>sitemap, web asp.net sitemap.xml</PackageTags>
+
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
