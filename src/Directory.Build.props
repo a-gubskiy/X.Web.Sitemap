@@ -11,10 +11,10 @@
         <Copyright>Andrew Gubskiy © 2024</Copyright>
         <Company>Ukrainian .NET Developer Community</Company>
 
-        <Version>2.10.3</Version>
-        <AssemblyVersion>2.10.3</AssemblyVersion>
-        <FileVersion>2.10.3</FileVersion>
-        <PackageVersion>2.10.3</PackageVersion>
+        <Version>2.10.5</Version>
+        <AssemblyVersion>2.10.5</AssemblyVersion>
+        <FileVersion>2.10.5</FileVersion>
+        <PackageVersion>2.10.5</PackageVersion>
 
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/ernado-x/X.Web.Sitemap.git</RepositoryUrl>
