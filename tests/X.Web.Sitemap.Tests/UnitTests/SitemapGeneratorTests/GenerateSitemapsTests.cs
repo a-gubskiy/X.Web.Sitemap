@@ -48,7 +48,7 @@ public class GenerateSitemapsTests
         var result = _sitemapGenerator.GenerateSitemaps(urls, directory, fileName);
 
         Assert.Equal(filesCount, result.Count);
-        Assert.All(result, o => Assert.Equal(directory.Name, o.Directory.Name));
+        Assert.All(result, o => Assert.Equal(directory.Name, o.Directory?.Name));
         Assert.Contains(result, o => o.Name == "file-1.xml");
         Assert.Contains(result, o => o.Name == "file-2.xml");
     }

@@ -32,8 +32,9 @@ public class SerializeAndSaveTests
         var result = _fileSystemWrapper.WriteFile(xml, path);
 
         //--assert
-        Assert.True(result.FullName.Contains("sitemapindex"));
-        Assert.Equal(directory.Name, result.Directory.Name);
+        Assert.Contains("sitemapindex", result.FullName);
+        
+        Assert.Equal(directory.Name, result.Directory?.Name);
         Assert.Equal(fileName, result.Name);
     }
 
@@ -56,6 +57,6 @@ public class SerializeAndSaveTests
 
         //--assert
         Assert.Equal(expectedFileInfo.FullName, result.FullName);
-        Assert.Equal(expectedFileInfo.Directory.Name, result.Directory.Name);
+        Assert.Equal(expectedFileInfo.Directory?.Name, result.Directory?.Name);
     }
 }
