@@ -8,7 +8,8 @@ X.Web.Sitemap is a library for generating and managing sitemaps in .NET applicat
 
 ## Usage example
 
-Below is an example of basic usage in a non-testable manner
+### Sitemap usage example 
+Below is an example of basic usage:
 
 ```cs
     class Program
@@ -20,7 +21,7 @@ Below is an example of basic usage in a non-testable manner
             sitemap.Add(new Url
                 {
                     ChangeFrequency = ChangeFrequency.Hourly,
-                    Location = "http://www.example.com",
+                    Location = "https://www.example.com",
                     Priority = 0.8,
                     TimeStamp = DateTime.Now
                 });
@@ -57,7 +58,8 @@ Below is an example of basic usage in a non-testable manner
     }
 ```
 
-Below is a more comprehensive example that demonstrates how to create many sitemaps and how to add them to a sitemap index file in a unit-testable fashion.
+### SitemapGenerator usage example
+Below is a more comprehensive example that demonstrates how to create multiple sitemaps and how to add them to a sitemap index file.
 
 ```cs
 	public class SitemapGenerationWithSitemapIndexExample
@@ -155,3 +157,11 @@ Below is a more comprehensive example that demonstrates how to create many sitem
         }
     }
 ```
+
+---
+
+## Contributing
+Contributions to the `X.Web.Sitemap` library are welcome. Please ensure to follow the contributing guidelines specified in the repository for submitting issues, feature requests, or pull requests.
+
+## License
+The `X.Web.Sitemap` library is released under [MIT license](https://raw.githubusercontent.com/a-gubskiy/X.Web.Sitemap/master/LICENSE.md).
