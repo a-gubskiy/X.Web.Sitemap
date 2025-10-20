@@ -1,12 +1,10 @@
 using System.IO;
-using JetBrains.Annotations;
 
 namespace X.Web.Sitemap.Extensions;
 
 /// <summary>
 /// Provides extension methods for SitemapIndex.
 /// </summary>
-[PublicAPI]
 public static class SitemapIndexExtension
 {
     /// <summary>

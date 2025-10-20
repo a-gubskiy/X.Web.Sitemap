@@ -18,8 +18,4 @@
         <None Include="../../x-web.png" Pack="True" PackagePath=""/>
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" PrivateAssets="All"/>
-    </ItemGroup>
-
 </Project>

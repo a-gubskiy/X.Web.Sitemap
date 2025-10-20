@@ -1,13 +1,11 @@
 using System.IO;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace X.Web.Sitemap.Extensions;
 
 /// <summary>
 /// Provides extension methods for ISitemap.
 /// </summary>
-[PublicAPI]
 public static class SitemapExtension
 {
     /// <summary>

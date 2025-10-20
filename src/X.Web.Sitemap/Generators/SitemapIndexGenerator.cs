@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using JetBrains.Annotations;
 
 namespace X.Web.Sitemap;
 
-[PublicAPI]
 public interface ISitemapIndexGenerator
 {
 	/// <summary>
@@ -25,7 +23,6 @@ public interface ISitemapIndexGenerator
 	SitemapIndex GenerateSitemapIndex(IEnumerable<SitemapInfo> sitemaps, string targetDirectory, string targetSitemapIndexFileName);
 }
 
-[PublicAPI]
 public class SitemapIndexGenerator : ISitemapIndexGenerator
 {
 	private readonly IFileSystemWrapper _fileSystemWrapper;

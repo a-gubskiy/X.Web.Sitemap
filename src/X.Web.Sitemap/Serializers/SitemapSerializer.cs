@@ -2,11 +2,9 @@
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using JetBrains.Annotations;
 
 namespace X.Web.Sitemap;
 
-[PublicAPI]
 public interface ISitemapSerializer
 {
     string Serialize(ISitemap sitemap);
