@@ -11,10 +11,10 @@
         <Copyright>Andrey Gubskiy © 2025</Copyright>
         <Company>Ukrainian .NET Developer Community</Company>
 
-        <Version>2.10.7</Version>
-        <AssemblyVersion>2.10.7</AssemblyVersion>
-        <FileVersion>2.10.7</FileVersion>
-        <PackageVersion>2.10.7</PackageVersion>
+        <Version>2.11.0</Version>
+        <AssemblyVersion>2.11.0</AssemblyVersion>
+        <FileVersion>2.11.0</FileVersion>
+        <PackageVersion>2.11.0</PackageVersion>
 
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/a.gubskiy/X.Web.Sitemap.git</RepositoryUrl>
