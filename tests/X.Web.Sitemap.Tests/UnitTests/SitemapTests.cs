@@ -1,42 +1,40 @@
 using Xunit;
 
-namespace X.Web.Sitemap.Tests.UnitTests
+namespace X.Web.Sitemap.Tests.UnitTests;
+
+public class SitemapTests
 {
-    public class SitemapTests
+    private static string ReadExampleXml()
     {
-        private static string ReadExampleXml()
+        var baseDir = AppContext.BaseDirectory;
+        var path = Path.Combine(baseDir, "Data", "example.xml");
+        if (!File.Exists(path))
         {
-            var baseDir = AppContext.BaseDirectory;
-            var path = Path.Combine(baseDir, "Data", "example.xml");
-            if (!File.Exists(path))
-            {
-                // Try relative path fallback
-                path = Path.Combine(Directory.GetCurrentDirectory(), "Data", "example.xml");
-            }
-
-            return File.ReadAllText(path);
+            // Try relative path fallback
+            path = Path.Combine(Directory.GetCurrentDirectory(), "Data", "example.xml");
         }
 
-        [Fact]
-        public void Parse_ExampleXml_ProducesSitemapWithItems()
-        {
-            var xml = ReadExampleXml();
-            var sitemap = Sitemap.Parse(xml);
+        return File.ReadAllText(path);
+    }
 
-            Assert.NotNull(sitemap);
-            Assert.True(sitemap.Count >= 1);
-            Assert.Contains(sitemap, u => u.Location.Contains("example.com"));
-        }
+    [Fact]
+    public void Parse_ExampleXml_ProducesSitemapWithItems()
+    {
+        var xml = ReadExampleXml();
+        var sitemap = Sitemap.Parse(xml);
 
-        [Fact]
-        public void TryParse_InvalidXml_ReturnsFalse()
-        {
-            var xml = "<notvalid></notvalid>";
-            var result = Sitemap.TryParse(xml, out var sitemap);
+        Assert.NotNull(sitemap);
+        Assert.True(sitemap.Count >= 1);
+        Assert.Contains(sitemap, u => u.Location.Contains("example.com"));
+    }
 
-            Assert.False(result);
-            Assert.Null(sitemap);
-        }
+    [Fact]
+    public void TryParse_InvalidXml_ReturnsFalse()
+    {
+        var xml = "<notvalid></notvalid>";
+        var result = Sitemap.TryParse(xml, out var sitemap);
+
+        Assert.False(result);
+        Assert.Null(sitemap);
     }
 }
-
