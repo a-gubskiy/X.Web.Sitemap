@@ -9,7 +9,7 @@ public class SitemapInfo
     private SitemapInfo()
     {
         AbsolutePathToSitemap = "";
-        DateLastModified = null;
+        DateLastModified = "";
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class SitemapInfo
     public SitemapInfo(Uri absolutePathToSitemap, DateTime? dateSitemapLastModified = null)
     {
         AbsolutePathToSitemap = absolutePathToSitemap.ToString();
-        DateLastModified = dateSitemapLastModified?.ToString("yyyy-MM-dd");
+        DateLastModified = dateSitemapLastModified?.ToString("yyyy-MM-dd") ?? "";
     }
 
     /// <summary>

@@ -34,7 +34,7 @@ public class Url
     [XmlElement("lastmod")]
     public string LastMod
     {
-        get => TimeStamp?.ToString("yyyy-MM-ddTHH:mm:sszzz");
+        get => TimeStamp?.ToString("yyyy-MM-ddTHH:mm:sszzz") ?? "";
         set => TimeStamp = string.IsNullOrWhiteSpace(value) ? null : DateTime.Parse(value);
     }
 
