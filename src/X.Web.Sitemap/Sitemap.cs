@@ -33,6 +33,6 @@ public class Sitemap : List<Url>, ISitemap
             sitemap = null;
         }
 
-        return sitemap != null;
+        return sitemap is not null;
     }
 }

@@ -18,7 +18,7 @@ public class SitemapIndexSerializer : ISitemapIndexSerializer
 
     public string Serialize(SitemapIndex sitemapIndex)
     {
-        if (sitemapIndex == null)
+        if (sitemapIndex is null)
         {
             throw new ArgumentNullException(nameof(sitemapIndex));
         }

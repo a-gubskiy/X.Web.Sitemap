@@ -23,7 +23,7 @@ public class SitemapSerializer : ISitemapSerializer
 
     public string Serialize(ISitemap sitemap)
     {
-        if (sitemap == null)
+        if (sitemap is null)
         {
             throw new ArgumentNullException(nameof(sitemap));
         }
