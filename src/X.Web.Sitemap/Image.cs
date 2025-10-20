@@ -1,11 +1,9 @@
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using JetBrains.Annotations;
 
 namespace X.Web.Sitemap;
 
-[PublicAPI]
 [Serializable]
 [Description("Encloses all information about a single image. Each URL (<loc> tag) can include up to 1,000 <image:image> tags.")]
 [XmlRoot(ElementName = "image", Namespace = "http://www.google.com/schemas/sitemap-image/1.1")]

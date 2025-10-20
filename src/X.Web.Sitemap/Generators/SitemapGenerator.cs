@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
 
 namespace X.Web.Sitemap;
 
-[PublicAPI]
 public interface ISitemapGenerator
 {
     /// <summary>
@@ -62,7 +60,6 @@ public class SitemapGenerator : ISitemapGenerator
     private readonly IFileSystemWrapper _fileSystemWrapper;
     private readonly ISitemapSerializer _serializer;
 
-    [PublicAPI]
     public int MaxNumberOfUrlsPerSitemap { get; set; } = Sitemap.DefaultMaxNumberOfUrlsPerSitemap;
         
     public SitemapGenerator()
