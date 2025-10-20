@@ -1,8 +1,4 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Xunit;
-using X.Web.Sitemap;
 using X.Web.Sitemap.Extensions;
 
 namespace X.Web.Sitemap.Tests.UnitTests
