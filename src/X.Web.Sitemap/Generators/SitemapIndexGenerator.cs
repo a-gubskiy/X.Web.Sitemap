@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace X.Web.Sitemap;
+namespace X.Web.Sitemap.Generators;
 
 public interface ISitemapIndexGenerator
 {

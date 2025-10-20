@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using X.Web.Sitemap.Serializers;
 
 namespace X.Web.Sitemap;
 

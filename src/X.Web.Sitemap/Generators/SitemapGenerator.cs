@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using X.Web.Sitemap.Serializers;
 
-namespace X.Web.Sitemap;
+namespace X.Web.Sitemap.Generators;
 
 public interface ISitemapGenerator
 {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace X.Web.Sitemap;
+namespace X.Web.Sitemap.Serializers;
 
 public interface ISitemapIndexSerializer
 {

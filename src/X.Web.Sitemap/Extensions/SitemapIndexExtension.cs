@@ -1,4 +1,5 @@
 using System.IO;
+using X.Web.Sitemap.Serializers;
 
 namespace X.Web.Sitemap.Extensions;
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
+using X.Web.Sitemap.Serializers;
 
 [assembly: InternalsVisibleTo("X.Web.Sitemap.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

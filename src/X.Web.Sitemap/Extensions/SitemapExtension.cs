@@ -1,5 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
+using X.Web.Sitemap.Generators;
+using X.Web.Sitemap.Serializers;
 
 namespace X.Web.Sitemap.Extensions;
 
