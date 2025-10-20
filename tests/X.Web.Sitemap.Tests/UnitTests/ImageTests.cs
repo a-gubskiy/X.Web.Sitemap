@@ -1,7 +1,5 @@
-using System.IO;
 using System.Xml.Serialization;
 using Xunit;
-using X.Web.Sitemap;
 
 namespace X.Web.Sitemap.Tests.UnitTests
 {

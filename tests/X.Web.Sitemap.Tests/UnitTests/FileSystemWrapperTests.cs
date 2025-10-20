@@ -1,8 +1,4 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Xunit;
-using X.Web.Sitemap;
 
 namespace X.Web.Sitemap.Tests.UnitTests
 {
