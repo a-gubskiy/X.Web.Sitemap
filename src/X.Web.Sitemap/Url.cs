@@ -27,7 +27,7 @@ public class Url
     /// Time of last modification.
     /// </summary>
     [XmlIgnore]
-    public DateTime TimeStamp { get; set; }
+    public DateTime? TimeStamp { get; set; }
 
     /// <summary>
     /// Please do not use this property to change last modification date.
@@ -36,15 +36,15 @@ public class Url
     [XmlElement("lastmod")]
     public string LastMod
     {
-        get => TimeStamp.ToString("yyyy-MM-ddTHH:mm:sszzz");
-        set => TimeStamp = DateTime.Parse(value);
+        get => TimeStamp?.ToString("yyyy-MM-ddTHH:mm:sszzz");
+        set => TimeStamp = string.IsNullOrWhiteSpace(value) ? null : DateTime.Parse(value);
     }
 
     /// <summary>
     /// Change frequency of the page.
     /// </summary>
     [XmlElement("changefreq")]
-    public ChangeFrequency ChangeFrequency { get; set; }
+    public ChangeFrequency? ChangeFrequency { get; set; }
 
     /// <summary>
     /// Priority of the URL relative to other URLs on the site.
@@ -83,7 +83,7 @@ public class Url
         new()
         {
             Location = url,
-            ChangeFrequency = ChangeFrequency.Daily,
+            ChangeFrequency = null,
             Priority = 0.5d,
             TimeStamp = timeStamp,
         };
