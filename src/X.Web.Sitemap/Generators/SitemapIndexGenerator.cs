@@ -37,8 +37,10 @@ public class SitemapIndexGenerator : ISitemapIndexGenerator
 		_fileSystemWrapper = fileSystemWrapper;
 	}
 
-	public SitemapIndex GenerateSitemapIndex(IEnumerable<SitemapInfo> sitemaps, string targetDirectory, string targetSitemapFileName) => 
-		GenerateSitemapIndex(sitemaps, new DirectoryInfo(targetDirectory), targetSitemapFileName);
+	public SitemapIndex GenerateSitemapIndex(IEnumerable<SitemapInfo> sitemaps, string targetDirectory, string targetSitemapFileName)
+	{
+		return GenerateSitemapIndex(sitemaps, new DirectoryInfo(targetDirectory), targetSitemapFileName);
+	}
 
 	public SitemapIndex GenerateSitemapIndex(IEnumerable<SitemapInfo> sitemaps, DirectoryInfo targetDirectory, string targetSitemapFileName)
 	{

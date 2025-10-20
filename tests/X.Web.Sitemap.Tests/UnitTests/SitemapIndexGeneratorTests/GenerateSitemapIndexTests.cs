@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace X.Web.Sitemap.Tests.UnitTests.SitemapIndexGeneratorTests;
+namespace X.Web.Sitemap.Tests.UnitTests;
 
 public class GenerateSitemapIndexTests
 {

@@ -97,4 +97,39 @@ public static class SitemapExtension
             return false;
         }
     }
+
+    // Internal overloads used for deterministic unit testing. Not part of public API.
+    internal static async Task<bool> SaveAsync(this ISitemap sitemap, string path, IFileSystemWrapper fileSystemWrapper)
+    {
+        try
+        {
+            var serializer = new SitemapSerializer();
+            var xml = serializer.Serialize(sitemap);
+
+            var result = await fileSystemWrapper.WriteFileAsync(xml, path);
+
+            return result.Exists;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    internal static bool Save(this ISitemap sitemap, string path, IFileSystemWrapper fileSystemWrapper)
+    {
+        try
+        {
+            var serializer = new SitemapSerializer();
+            var xml = serializer.Serialize(sitemap);
+
+            var result = fileSystemWrapper.WriteFile(xml, path);
+
+            return result.Exists;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }
