@@ -1,16 +1,17 @@
-﻿using Xunit;
+﻿using X.Web.Sitemap.Generators;
+using Xunit;
 
 namespace X.Web.Sitemap.Tests.UnitTests;
 
 public class GenerateSitemapIndexTests
 {
-    private SitemapIndexGenerator _sitemapIndexGenerator;
-    private TestFileSystemWrapper _fileSystemWrapper;
+    private readonly SitemapIndexGenerator _sitemapIndexGenerator;
 
     public GenerateSitemapIndexTests()
     {
-        _fileSystemWrapper = new TestFileSystemWrapper();
-        _sitemapIndexGenerator = new SitemapIndexGenerator(_fileSystemWrapper);
+        var fileSystemWrapper = new TestFileSystemWrapper();
+        
+        _sitemapIndexGenerator = new SitemapIndexGenerator(fileSystemWrapper);
     }
 
     [Fact]

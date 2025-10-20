@@ -1,10 +1,11 @@
-﻿using Xunit;
+﻿using X.Web.Sitemap.Serializers;
+using Xunit;
 
 namespace X.Web.Sitemap.Tests.UnitTests.SerializedXmlSaver;
 
 public class SerializeAndSaveTests
 {
-    private IFileSystemWrapper _fileSystemWrapper;
+    private readonly IFileSystemWrapper _fileSystemWrapper;
 
     public SerializeAndSaveTests()
     {

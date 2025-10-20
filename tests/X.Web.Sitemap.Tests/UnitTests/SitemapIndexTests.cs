@@ -1,5 +1,6 @@
 using Xunit;
 using X.Web.Sitemap.Extensions;
+using X.Web.Sitemap.Serializers;
 
 namespace X.Web.Sitemap.Tests.UnitTests;
 

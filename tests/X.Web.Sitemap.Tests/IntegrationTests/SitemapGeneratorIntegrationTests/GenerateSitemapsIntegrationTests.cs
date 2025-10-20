@@ -1,10 +1,11 @@
-﻿using Xunit;
+﻿using X.Web.Sitemap.Generators;
+using Xunit;
 
 namespace X.Web.Sitemap.Tests.IntegrationTests.SitemapGeneratorIntegrationTests;
 
 public class GenerateSitemapsIntegrationTests : IDisposable
 {
-    private SitemapGenerator _sitemapGenerator;
+    private readonly SitemapGenerator _sitemapGenerator;
     private readonly string _sitemapLocation = Path.GetTempPath();
 
     public GenerateSitemapsIntegrationTests()

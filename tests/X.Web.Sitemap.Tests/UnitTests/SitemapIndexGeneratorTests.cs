@@ -1,3 +1,4 @@
+using X.Web.Sitemap.Generators;
 using Xunit;
 
 namespace X.Web.Sitemap.Tests.UnitTests;

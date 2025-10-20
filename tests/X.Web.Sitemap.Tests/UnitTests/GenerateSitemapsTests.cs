@@ -1,10 +1,11 @@
-﻿using Xunit;
+﻿using X.Web.Sitemap.Generators;
+using Xunit;
 
-namespace X.Web.Sitemap.Tests.UnitTests.SitemapGeneratorTests;
+namespace X.Web.Sitemap.Tests.UnitTests;
 
 public class GenerateSitemapsTests
 {
-    private SitemapGenerator _sitemapGenerator;
+    private readonly SitemapGenerator _sitemapGenerator;
 
     public GenerateSitemapsTests()
     {
@@ -48,7 +49,7 @@ public class GenerateSitemapsTests
         var result = _sitemapGenerator.GenerateSitemaps(urls, directory, fileName);
 
         Assert.Equal(filesCount, result.Count);
-        Assert.All(result, o => Assert.Equal(directory.Name, o.Directory?.Name));
+        Assert.All(result, o => Assert.Equal(directory.Name, (string?)o.Directory?.Name));
         Assert.Contains(result, o => o.Name == "file-1.xml");
         Assert.Contains(result, o => o.Name == "file-2.xml");
     }
