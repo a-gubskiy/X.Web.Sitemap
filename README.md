@@ -1,8 +1,9 @@
 # X.Web.Sitemap
 
-[![NuGet Version](http://img.shields.io/nuget/v/X.Web.Sitemap.svg?style=flat)](https://www.nuget.org/packages/X.Web.Sitemap/)
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤-ff7f00)](https://github.com/sponsors/a-gubskiy)
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/andrew_gubskiy.svg?style=social&label=Follow%20me!)](https://twitter.com/intent/user?screen_name=andrew_gubskiy)
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor_on_GitHub-ff7f00?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/a-gubskiy)
+[![Subscribe on X](https://img.shields.io/badge/Subscribe_on_X-000000?logo=x&logoColor=white&style=for-the-badge)](https://x.com/andrew_gubskiy)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Web.Sitemap?style=for-the-badge&label=NuGet%20Downloads&color=004880&logo=nuget&logoColor=white)](https://www.nuget.org/packages/X.Web.Sitemap)
+
 
 X.Web.Sitemap is a library for generating and managing sitemaps in .NET applications.
 
