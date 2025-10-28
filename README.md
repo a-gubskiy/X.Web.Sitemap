@@ -4,7 +4,6 @@
 [![Subscribe on X](https://img.shields.io/badge/Subscribe_on_X-000000?logo=x&logoColor=white&style=for-the-badge)](https://x.com/andrew_gubskiy)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/X.Web.Sitemap?style=for-the-badge&label=NuGet%20Downloads&color=004880&logo=nuget&logoColor=white)](https://www.nuget.org/packages/X.Web.Sitemap)
 
-
 X.Web.Sitemap is a library for generating and managing sitemaps in .NET applications.
 
 ## Usage example
