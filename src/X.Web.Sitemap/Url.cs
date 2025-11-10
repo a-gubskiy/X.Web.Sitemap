@@ -78,10 +78,20 @@ public class Url
     /// </param>
     /// <returns></returns>
     public static Url CreateUrl(string url, DateTime timeStamp) =>
+        CreateUrl(url, timeStamp, changeFrequency: null);
+
+    /// <summary>
+    /// Creates a new URL object with the specified location, timestamp and optional change frequency.
+    /// </summary>
+    /// <param name="url">URL of the page.</param>
+    /// <param name="timeStamp">Time of last modification.</param>
+    /// <param name="changeFrequency">Optional change frequency hint for crawlers.</param>
+    /// <returns></returns>
+    public static Url CreateUrl(string url, DateTime timeStamp, ChangeFrequency? changeFrequency = null) =>
         new()
         {
             Location = url,
-            ChangeFrequency = null,
+            ChangeFrequency = changeFrequency,
             Priority = 0.5d,
             TimeStamp = timeStamp,
         };
