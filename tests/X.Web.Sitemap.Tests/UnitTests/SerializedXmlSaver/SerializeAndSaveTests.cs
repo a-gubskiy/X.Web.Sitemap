@@ -60,4 +60,44 @@ public class SerializeAndSaveTests
         Assert.Equal(expectedFileInfo.FullName, result.FullName);
         Assert.Equal(expectedFileInfo.Directory?.Name, result.Directory?.Name);
     }
+    
+    [Fact]
+    public void Serialize_ValidInput_Succeeds()
+    {
+        //--arrange
+        
+        const string root = "https://www.example.com/";
+        
+        var sitemap = new X.Web.Sitemap.Sitemap
+        {
+            CreateUrl(root),
+            CreateUrl($"{root}open-source", ChangeFrequency.Daily),
+            CreateUrl($"{root}communities"),
+            CreateUrl($"{root}contact-us"),
+            CreateUrl($"{root}privacy-policy"),
+            CreateUrl($"{root}code-of-conduct")
+        };
+
+        var serializer = new SitemapSerializer();
+
+        var expectedFileInfo = new FileInfo("something/sitemap.xml");
+        
+        var xml = serializer.Serialize(sitemap);
+
+        var fileName = "sitemap.xml";
+        var directory = new DirectoryInfo("something");
+        var path = Path.Combine(directory.FullName, fileName);
+
+        //--act
+        var result = _fileSystemWrapper.WriteFile(xml, path);
+
+        //--assert
+        Assert.Equal(expectedFileInfo.FullName, result.FullName);
+        Assert.Equal(expectedFileInfo.Directory?.Name, result.Directory?.Name);
+    }
+
+    private Url CreateUrl(string url, ChangeFrequency? changeFrequency = null)
+    {
+        return Url.CreateUrl(url, DateTime.UtcNow.Date, changeFrequency: changeFrequency);
+    }
 }
