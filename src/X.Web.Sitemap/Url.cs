@@ -68,31 +68,27 @@ public class Url
     public static Url CreateUrl(string location) => CreateUrl(location, DateTime.Now);
 
     /// <summary>
-    /// Creates a new URL object with the specified location and timestamp.
+    /// Creates a new URL object with the specified location, timestamp, change frequency, and priority.
     /// </summary>
-    /// <param name="url">
-    /// URL of the page.
-    /// </param>
-    /// <param name="timeStamp">
-    /// Time of last modification.
-    /// </param>
-    /// <returns></returns>
-    public static Url CreateUrl(string url, DateTime timeStamp) =>
-        CreateUrl(url, timeStamp, changeFrequency: null);
-
-    /// <summary>
-    /// Creates a new URL object with the specified location, timestamp and optional change frequency.
-    /// </summary>
-    /// <param name="url">URL of the page.</param>
-    /// <param name="timeStamp">Time of last modification.</param>
-    /// <param name="changeFrequency">Optional change frequency hint for crawlers.</param>
-    /// <returns></returns>
-    public static Url CreateUrl(string url, DateTime timeStamp, ChangeFrequency? changeFrequency = null) =>
+    /// <param name="url">The URL of the page. This will be set as the Location property.</param>
+    /// <param name="timeStamp">The time of last modification for the page.</param>
+    /// <param name="changeFrequency">Optional change frequency hint for crawlers indicating how often the page is likely to change. Defaults to null.</param>
+    /// <param name="priority">The priority of the URL relative to other URLs on the site, ranging from 0.0 to 1.0. Defaults to 0.5.</param>
+    /// <returns>A new <see cref="Url"/> instance initialized with the specified parameters.</returns>
+    /// <remarks>
+    /// This factory method provides a convenient way to create URL entries for XML sitemaps.
+    /// The priority value should be between 0.0 and 1.0, where higher values indicate higher priority.
+    /// </remarks>
+    public static Url CreateUrl(
+        string url,
+        DateTime timeStamp,
+        ChangeFrequency? changeFrequency = null,
+        double priority = 0.5d) =>
         new()
         {
             Location = url,
             ChangeFrequency = changeFrequency,
-            Priority = 0.5d,
+            Priority = priority,
             TimeStamp = timeStamp,
         };
 }
