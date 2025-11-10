@@ -149,7 +149,7 @@ public class SitemapSerializer : ISitemapSerializer
     {
         if (string.IsNullOrWhiteSpace(xml))
         {
-            throw new ArgumentException("XML string cannot be null or whitespace.", nameof(xml));
+            throw new ArgumentNullException(nameof(xml));
         }
 
         using TextReader textReader = new StringReader(xml);
