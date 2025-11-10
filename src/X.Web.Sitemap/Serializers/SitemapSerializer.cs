@@ -8,7 +8,7 @@ namespace X.Web.Sitemap.Serializers;
 public interface ISitemapSerializer
 {
     string Serialize(ISitemap sitemap);
-    
+
     Sitemap Deserialize(string xml);
 }
 
@@ -18,7 +18,12 @@ public class SitemapSerializer : ISitemapSerializer
 
     public SitemapSerializer()
     {
-        _serializer = new XmlSerializer(typeof(Sitemap));
+        _serializer = CreateSerializer();
+    }
+
+    private static XmlSerializer CreateSerializer()
+    {
+        return new XmlSerializer(typeof(Sitemap));
     }
 
     public string Serialize(ISitemap sitemap)
@@ -28,32 +33,63 @@ public class SitemapSerializer : ISitemapSerializer
             throw new ArgumentNullException(nameof(sitemap));
         }
 
-        var namespaces = new XmlSerializerNamespaces();
-        namespaces.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
+        var xml = string.Empty;
 
-        var settings = new XmlWriterSettings { Indent = true };
-
-        using var writer = new StringWriterUtf8();
+        using (var writer = new StringWriterUtf8())
         {
-            using (var xmlWriter = XmlWriter.Create(writer, settings))
-            {
-                _serializer.Serialize(xmlWriter, sitemap, namespaces);
-            }
+            _serializer.Serialize(writer, sitemap);
+            xml = writer.ToString();
         }
 
-        var xml = writer.ToString();
+        // Post-process generated XML to remove xsi:nil="true" for <changefreq> elements.
+        // This avoids changing the Url class while ensuring the output conforms to the
+        // Sitemaps protocol (no nil attributes for optional elements).
+        try
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(xml);
 
-        // Hack for #39. Should be fixed in 
-        xml = xml.Replace("<priority>1</priority>", "<priority>1.0</priority>");
-        
-        return xml;
+            var nodes = doc.GetElementsByTagName("changefreq");
+            var xsiNs = "http://www.w3.org/2001/XMLSchema-instance";
+
+            // Collect nodes first to avoid modifying the live XmlNodeList during iteration
+            var list = new System.Collections.Generic.List<XmlElement>();
+            foreach (XmlNode node in nodes)
+            {
+                if (node is XmlElement el)
+                {
+                    list.Add(el);
+                }
+            }
+
+            foreach (var el in list)
+            {
+                var attr = el.GetAttributeNode("nil", xsiNs);
+                
+                if (attr != null && string.Equals(attr.Value, "true", StringComparison.OrdinalIgnoreCase))
+                {
+                    // remove the entire element to avoid deserializing an empty value into the enum
+                    var parent = el.ParentNode;
+                    parent?.RemoveChild(el);
+                }
+            }
+
+            using var sw = new StringWriterUtf8();
+            doc.Save(sw);
+            return sw.ToString();
+        }
+        catch
+        {
+            // If anything goes wrong in post-processing, fall back to the original XML
+            return xml;
+        }
     }
 
     public Sitemap Deserialize(string xml)
     {
         if (string.IsNullOrWhiteSpace(xml))
         {
-            throw new ArgumentException();
+            throw new ArgumentException(nameof(xml));
         }
 
         using (TextReader textReader = new StringReader(xml))
