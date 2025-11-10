@@ -83,12 +83,19 @@ public class Url
         string url,
         DateTime timeStamp,
         ChangeFrequency? changeFrequency = null,
-        double priority = 0.5d) =>
-        new()
+        double priority = 0.5d)
+    {
+        if (priority < 0.0d || priority > 1.0d)
+        {
+            throw new ArgumentOutOfRangeException(nameof(priority), "Priority must be between 0.0 and 1.0.");
+        }
+
+        return new()
         {
             Location = url,
             ChangeFrequency = changeFrequency,
             Priority = priority,
             TimeStamp = timeStamp,
         };
+    }
 }
