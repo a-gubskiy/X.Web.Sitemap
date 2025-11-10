@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -33,14 +34,20 @@ public class SitemapSerializer : ISitemapSerializer
             throw new ArgumentNullException(nameof(sitemap));
         }
 
-        var xml = string.Empty;
+        string xml;
 
         using (var writer = new StringWriterUtf8())
         {
             _serializer.Serialize(writer, sitemap);
+            
             xml = writer.ToString();
         }
 
+        return XmlPostProcessing(xml);
+    }
+
+    private static string XmlPostProcessing(string xml)
+    {
         // Post-process generated XML to remove xsi:nil="true" for <changefreq> elements.
         // This avoids changing the Url class while ensuring the output conforms to the
         // Sitemaps protocol (no nil attributes for optional elements).
@@ -50,10 +57,40 @@ public class SitemapSerializer : ISitemapSerializer
             doc.LoadXml(xml);
 
             var nodes = doc.GetElementsByTagName("changefreq");
-            var xsiNs = "http://www.w3.org/2001/XMLSchema-instance";
+            
+            const string xsiNs = "http://www.w3.org/2001/XMLSchema-instance";
+
+            // Ensure root has the sitemap default namespace and remove only the xsi namespace
+            // declarations that are no longer needed (e.g. xmlns:xsi and xsi:schemaLocation).
+            var root = doc.DocumentElement;
+            
+            const string sitemapNs = "http://www.sitemaps.org/schemas/sitemap/0.9";
+
+            if (root is not null)
+            {
+                // Ensure default xmlns is present and correct
+                root.SetAttribute("xmlns", sitemapNs);
+
+                // Remove xmlns:xsi if present
+                var xmlnsXsi = root.GetAttributeNode("xmlns:xsi");
+                
+                if (xmlnsXsi is not null)
+                {
+                    root.RemoveAttributeNode(xmlnsXsi);
+                }
+
+                // Remove xsi:schemaLocation if present
+                var schemaLoc = root.GetAttributeNode("schemaLocation", xsiNs);
+                
+                if (schemaLoc is not null)
+                {
+                    root.RemoveAttributeNode(schemaLoc);
+                }
+            }
 
             // Collect nodes first to avoid modifying the live XmlNodeList during iteration
-            var list = new System.Collections.Generic.List<XmlElement>();
+            var list = new List<XmlElement>();
+            
             foreach (XmlNode node in nodes)
             {
                 if (node is XmlElement el)
@@ -65,18 +102,21 @@ public class SitemapSerializer : ISitemapSerializer
             foreach (var el in list)
             {
                 var attr = el.GetAttributeNode("nil", xsiNs);
-                
+
                 if (attr != null && string.Equals(attr.Value, "true", StringComparison.OrdinalIgnoreCase))
                 {
                     // remove the entire element to avoid deserializing an empty value into the enum
                     var parent = el.ParentNode;
+                    
                     parent?.RemoveChild(el);
                 }
             }
 
-            using var sw = new StringWriterUtf8();
-            doc.Save(sw);
-            return sw.ToString();
+            using var writer = new StringWriterUtf8();
+            
+            doc.Save(writer);
+            
+            return writer.ToString();
         }
         catch
         {
@@ -92,16 +132,15 @@ public class SitemapSerializer : ISitemapSerializer
             throw new ArgumentException(nameof(xml));
         }
 
-        using (TextReader textReader = new StringReader(xml))
+        using TextReader textReader = new StringReader(xml);
+        
+        var obj = _serializer.Deserialize(textReader);
+
+        if (obj is null)
         {
-            var obj = _serializer.Deserialize(textReader);
-
-            if (obj is null)
-            {
-                throw new XmlException();
-            }
-
-            return (Sitemap)obj;
+            throw new XmlException();
         }
+
+        return (Sitemap)obj;
     }
 }
