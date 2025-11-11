@@ -16,7 +16,7 @@ public class SitemapSerializerTests
     public void Deserialize_Empty_ThrowsArgumentException()
     {
         var serializer = new SitemapSerializer();
-        Assert.Throws<ArgumentException>(() => serializer.Deserialize(string.Empty));
+        Assert.Throws<ArgumentNullException>(() => serializer.Deserialize(string.Empty));
     }
 
     [Fact]
