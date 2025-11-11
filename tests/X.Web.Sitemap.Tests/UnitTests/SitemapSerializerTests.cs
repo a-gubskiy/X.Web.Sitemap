@@ -16,7 +16,7 @@ public class SitemapSerializerTests
     public void Deserialize_Empty_ThrowsArgumentException()
     {
         var serializer = new SitemapSerializer();
-        Assert.Throws<ArgumentException>(() => serializer.Deserialize(string.Empty));
+        Assert.Throws<ArgumentNullException>(() => serializer.Deserialize(string.Empty));
     }
 
     [Fact]
@@ -39,5 +39,17 @@ public class SitemapSerializerTests
         Assert.NotNull(deserialized);
         Assert.Single(deserialized);
         Assert.Equal("http://example.com/rt", deserialized[0].Location);
+    }
+
+    [Fact]
+    public void Serialize_RootHasDefaultSitemapNamespace()
+    {
+        var sitemap = new Sitemap { Url.CreateUrl("http://example.com/") };
+        var serializer = new SitemapSerializer();
+
+        var xml = serializer.Serialize(sitemap);
+
+        // The root should start with the urlset element and default sitemap namespace
+        Assert.Contains("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"", xml);
     }
 }

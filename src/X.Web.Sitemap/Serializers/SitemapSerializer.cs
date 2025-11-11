@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -8,7 +9,7 @@ namespace X.Web.Sitemap.Serializers;
 public interface ISitemapSerializer
 {
     string Serialize(ISitemap sitemap);
-    
+
     Sitemap Deserialize(string xml);
 }
 
@@ -27,45 +28,120 @@ public class SitemapSerializer : ISitemapSerializer
         {
             throw new ArgumentNullException(nameof(sitemap));
         }
+        
+        using var writer = new StringWriterUtf8();
+        using var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true });
 
         var namespaces = new XmlSerializerNamespaces();
-        namespaces.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
+        namespaces.Add(string.Empty, "http://www.sitemaps.org/schemas/sitemap/0.9");
 
-        var settings = new XmlWriterSettings { Indent = true };
+        _serializer.Serialize(xmlWriter, sitemap, namespaces);
 
-        using var writer = new StringWriterUtf8();
+        xmlWriter.Close();
+
+        return XmlPostProcessing(writer.ToString());
+    }
+
+    private static string XmlPostProcessing(string xml)
+    {
+        const string xsiNs = "http://www.w3.org/2001/XMLSchema-instance";
+        const string sitemapNs = "http://www.sitemaps.org/schemas/sitemap/0.9";
+
+        var doc = new XmlDocument();
+        doc.LoadXml(xml);
+
+        // Clean up root namespace declarations
+        if (doc.DocumentElement is not null)
         {
-            using (var xmlWriter = XmlWriter.Create(writer, settings))
-            {
-                _serializer.Serialize(xmlWriter, sitemap, namespaces);
-            }
+            doc.DocumentElement.SetAttribute("xmlns", sitemapNs);
+            doc.DocumentElement.RemoveAttribute("xmlns:xsi");
+            doc.DocumentElement.RemoveAttribute("schemaLocation", xsiNs);
         }
 
-        var xml = writer.ToString();
+        // Remove changefreq elements with xsi:nil="true"
+        RemoveNilElements(doc, "changefreq", xsiNs);
 
-        // Hack for #39. Should be fixed in 
-        xml = xml.Replace("<priority>1</priority>", "<priority>1.0</priority>");
-        
-        return xml;
+        // Normalize priority values (1 -> 1.0)
+        NormalizePriorityValues(doc);
+
+        using var writer = new StringWriterUtf8();
+        doc.Save(writer);
+        return writer.ToString();
+    }
+
+    private static void RemoveNilElements(XmlDocument doc, string tagName, string xsiNs)
+    {
+        var elementsToRemove = new List<XmlElement>();
+
+        var elements = doc.GetElementsByTagName(tagName);
+
+        foreach (XmlNode node in elements)
+        {
+            if (node is not XmlElement xmlElement)
+            {
+                continue;
+            }
+
+            var attributeNode = xmlElement.GetAttributeNode("nil", xsiNs);
+
+            if (attributeNode is null)
+            {
+                continue;
+            }
+
+            if (attributeNode.Value.Equals("true", StringComparison.OrdinalIgnoreCase) != true)
+            {
+                continue;
+            }
+
+            elementsToRemove.Add(xmlElement);
+        }
+
+        foreach (var element in elementsToRemove)
+        {
+            element.ParentNode?.RemoveChild(element);
+        }
+    }
+
+    private static void NormalizePriorityValues(XmlDocument doc)
+    {
+        foreach (XmlNode node in doc.GetElementsByTagName("priority"))
+        {
+            if (node is not XmlElement el)
+            {
+                continue;
+            }
+
+            var text = el.InnerText?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                continue;
+            }
+
+            if (!text.Contains(".") && double.TryParse(text, out _))
+            {
+                el.InnerText = text + ".0";
+            }
+        }
     }
 
     public Sitemap Deserialize(string xml)
     {
         if (string.IsNullOrWhiteSpace(xml))
         {
-            throw new ArgumentException();
+            throw new ArgumentNullException(nameof(xml));
         }
 
-        using (TextReader textReader = new StringReader(xml))
+        using TextReader textReader = new StringReader(xml);
+
+        var obj = _serializer.Deserialize(textReader);
+
+        if (obj is null)
         {
-            var obj = _serializer.Deserialize(textReader);
-
-            if (obj is null)
-            {
-                throw new XmlException();
-            }
-
-            return (Sitemap)obj;
+            throw new XmlException();
         }
+
+        return (Sitemap)obj;
     }
 }

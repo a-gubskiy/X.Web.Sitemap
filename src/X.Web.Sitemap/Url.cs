@@ -68,21 +68,34 @@ public class Url
     public static Url CreateUrl(string location) => CreateUrl(location, DateTime.Now);
 
     /// <summary>
-    /// Creates a new URL object with the specified location and timestamp.
+    /// Creates a new URL object with the specified location, timestamp, change frequency, and priority.
     /// </summary>
-    /// <param name="url">
-    /// URL of the page.
-    /// </param>
-    /// <param name="timeStamp">
-    /// Time of last modification.
-    /// </param>
-    /// <returns></returns>
-    public static Url CreateUrl(string url, DateTime timeStamp) =>
-        new()
+    /// <param name="url">The URL of the page. This will be set as the Location property.</param>
+    /// <param name="timeStamp">The time of last modification for the page.</param>
+    /// <param name="changeFrequency">Optional change frequency hint for crawlers indicating how often the page is likely to change. Defaults to null.</param>
+    /// <param name="priority">The priority of the URL relative to other URLs on the site, ranging from 0.0 to 1.0. Defaults to 0.5.</param>
+    /// <returns>A new <see cref="Url"/> instance initialized with the specified parameters.</returns>
+    /// <remarks>
+    /// This factory method provides a convenient way to create URL entries for XML sitemaps.
+    /// The priority value should be between 0.0 and 1.0, where higher values indicate higher priority.
+    /// </remarks>
+    public static Url CreateUrl(
+        string url,
+        DateTime timeStamp,
+        ChangeFrequency? changeFrequency = null,
+        double priority = 0.5d)
+    {
+        if (priority < 0.0d || priority > 1.0d)
+        {
+            throw new ArgumentOutOfRangeException(nameof(priority), "Priority must be between 0.0 and 1.0.");
+        }
+
+        return new()
         {
             Location = url,
-            ChangeFrequency = null,
-            Priority = 0.5d,
+            ChangeFrequency = changeFrequency,
+            Priority = priority,
             TimeStamp = timeStamp,
         };
+    }
 }
