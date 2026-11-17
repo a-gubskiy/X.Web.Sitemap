@@ -8,7 +8,7 @@
         <PackageIcon>x-web.png</PackageIcon>
 
         <Authors>Andrey Gubskiy</Authors>
-        <Copyright>Andrey Gubskiy © 2025</Copyright>
+        <Copyright>Andrey Gubskiy © 2026</Copyright>
         <Company>Ukrainian .NET Developer Community</Company>
 
         <Version>2.11.3</Version>
@@ -17,7 +17,7 @@
         <PackageVersion>2.11.3</PackageVersion>
 
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/a.gubskiy/X.Web.Sitemap.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/a-gubskiy/X.Web.Sitemap.git</RepositoryUrl>
         <PackageProjectUrl>https://andrew.gubskiy.com/open-source</PackageProjectUrl>
     </PropertyGroup>
 
