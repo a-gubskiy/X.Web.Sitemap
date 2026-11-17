@@ -1,0 +1,90 @@
+name: Build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  release:
+    types: [ published ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v7
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v6
+      with:
+        global-json-file: global.json
+
+    - name: Restore
+      run: dotnet restore X.Web.Sitemap.sln
+
+    - name: Build
+      run: dotnet build X.Web.Sitemap.sln --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test tests/X.Web.Sitemap.Tests --configuration Release --no-build
+
+    - name: Pack
+      run: dotnet pack src/X.Web.Sitemap --configuration Release --no-build --output artifacts
+
+    - name: Upload package
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget
+        path: artifacts/*.nupkg
+        if-no-files-found: error
+
+  publish:
+    name: Publish to NuGet
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+    - name: Checkout global.json
+      uses: actions/checkout@v7
+      with:
+        sparse-checkout: global.json
+        sparse-checkout-cone-mode: false
+
+    - name: Download package
+      uses: actions/download-artifact@v4
+      with:
+        name: nuget
+        path: artifacts
+
+    - name: Check package version matches release tag
+      run: |
+        expected="artifacts/X.Web.Sitemap.${GITHUB_REF_NAME#v}.nupkg"
+        if [ ! -f "$expected" ]; then
+          echo "::error::Release tag $GITHUB_REF_NAME does not match package version: $(ls artifacts)"
+          exit 1
+        fi
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v6
+      with:
+        global-json-file: global.json
+
+    - name: NuGet login
+      id: login
+      uses: NuGet/login@v1
+      with:
+        user: andrey-gubskiy
+
+    - name: Push to NuGet
+      run: dotnet nuget push "artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
